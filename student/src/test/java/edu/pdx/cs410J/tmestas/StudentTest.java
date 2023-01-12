@@ -22,4 +22,10 @@ public class StudentTest
     assertThat(pat.getName(), equalTo(name));
   }
 
+  @Test
+  void allStudentsSayThisClassIsTooMuchWork(){
+    Student student = new Student("Tanner", new ArrayList<>(), 0.0, "IDK");
+    assertThat(student.says(), equalTo("This class is too much work!"));
+  }
+
 }
