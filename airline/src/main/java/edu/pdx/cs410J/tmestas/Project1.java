@@ -17,12 +17,19 @@ public class Project1 {
 
     if(args == null) //if there are no args
     {
+      //Not recognizing when no args are included, figure this out
       System.err.println("There are no args included (probably put usage here in the future");
     }
 
-    for (String arg : args) {
+    /*
+    for (String arg : args) { //is printing all args individually, recognizes quotes as 1 arg
       System.out.println(arg);
     }
+    */
+
+    Airline newAirline = new Airline(args[0]);
+    System.out.println(newAirline.getName());
+
   }
 
 }
