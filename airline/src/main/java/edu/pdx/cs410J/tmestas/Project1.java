@@ -55,6 +55,8 @@ public class Project1 {
 
     if(print){flight.displayAll(); return;} //only for testing purposes
 
+    System.out.println(flight.toString());
+
     /*
     Airline newAirline = new Airline(args[0]);
     System.out.println(newAirline.getName()); //successfully adds name to newAirline object
