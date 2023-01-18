@@ -51,12 +51,12 @@ public class Project1 {
       return;
     }
 
-    Airline newAirline = new Airline(args[listSize]);
+    //Airline newAirline = new Airline(args[listSize]);
     Flight flight = new Flight(Integer.parseInt(args[listSize + 1]), args[listSize + 2], args[listSize + 3], args[listSize + 4], args[listSize + 5], args[listSize + 6], args[listSize + 7]); //create new flight object
 
     if(print){flight.displayAll(); return;} //only for testing purposes
 
-    newAirline.addFlight(flight);
+    //newAirline.addFlight(flight);
   }
 
 }

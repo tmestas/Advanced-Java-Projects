@@ -32,25 +32,25 @@ public class Flight extends AbstractFlight {
   @Override
   public int getNumber() {
 
-    //return this.FlightNumber;
+    return this.FlightNumber;
   }
 
   @Override
   public String getSource() {
-    //return this.Source;
+    return this.Source;
   }
 
   @Override
   public String getDepartureString() {
-    //return this.DepartureDate + " " +  this.DepartureTime;
+    return this.DepartureDate + " " +  this.DepartureTime;
   }
 
   @Override
-  public String getDestination() { //return this.Destination; }
+  public String getDestination() { return this.Destination; }
 
   @Override
-  public String getArrivalString() {
-    //return this.ArrivalDate + " " +  this.ArrivalTime;
+    public String getArrivalString() {
+    return this.ArrivalDate + " " +  this.ArrivalTime;
   }
 
   public void displayAll(){
