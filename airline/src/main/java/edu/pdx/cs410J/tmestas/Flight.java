@@ -43,6 +43,7 @@ public class Flight extends AbstractFlight {
   }
 
   public void displayAll(){
+    System.out.println();
     System.out.println("FLIGHT #" + FlightNumber + ": ");
     System.out.println();
     System.out.println("Source Airport: " + Source);
