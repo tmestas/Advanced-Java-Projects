@@ -1,7 +1,7 @@
 package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
-import java.util.*; //is this allowed?
+import java.util.*;
 import java.lang.Integer;
 
 /**
@@ -20,8 +20,6 @@ public class Project1 {
     boolean print = false;
     String readme = "README STUFF";
 
-    //Flight flight = new Flight();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-
     if(args == null) //if there are no args
     {
       //Not recognizing when no args are included, figure this out
@@ -30,23 +28,20 @@ public class Project1 {
 
     List<String> options = new LinkedList<String>();
 
-    for (String arg : args) {  //add option flags to a list
+    for (String arg : args) {
       if(arg.contains("-")){
         options.add(arg);
       }
-    }
+    } //add option flags to a list
 
     for(String option: options){
       if(option.equals("-README")){System.out.println(readme); return;}
       if(option.equals("-print")){print = true;}
-    }
+    } //check for flags
 
     int listSize = options.size(); //get the list size, so we know where to start looking for command line args
-    int arraySize = args.length;
-    System.out.println(arraySize);
 
     try {
-       //String test = args[listSize + 4];
       if(args.length != 9){
         throw new RuntimeException();
       }
@@ -56,7 +51,6 @@ public class Project1 {
               "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
       return;
     }
-
 
     Airline newAirline = new Airline(args[listSize]);
     Flight flight = new Flight(Integer.parseInt(args[listSize + 1]), args[listSize + 2], args[listSize + 3], args[listSize + 4], args[listSize + 5], args[listSize + 6], args[listSize + 7]); //create new flight object
