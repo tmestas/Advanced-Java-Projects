@@ -23,48 +23,25 @@ public class Project1 {
       System.err.println("There are no args included (probably put usage here in the future");
     }
 
-    //String[] options = new String[];
-    //List<String> options = new List<String>();
-
     List<String> options = new LinkedList<String>();
 
-    for (String arg : args) { //is printing all args individually, recognizes quotes as 1 arg
+    for (String arg : args) {  //add option flags to a list
       if(arg.contains("-")){
         options.add(arg);
       }
-      //System.out.println(arg);
     }
-    int listSize = options.size();
-/*
-    int flightNum = 0;
-    String source = null;
-    String departureString = null;
-    String destination = null;
-    String arrivalString = null;
 
-    int i = listSize;
+    int listSize = options.size(); //get the list size so we know where to start looking for command line args
 
-
-    while(i < args.length){
-      //if(i == listSize){flightNum = 99;}
-      if(i == listSize + 1){source = args[i];}
-      if(i == listSize + 2){departureString = args[i];}
-      if(i == listSize + 3){destination = args[i];}
-      if(i == options.size() + 4){arrivalString = args[i];}
-      ++i;
-    }
-    */
-
-
-    //int flightNum = args[listSize].to();
-    int flightNum = 99;
-    String source = args[listSize + 1];
+    int flightNum = 99; //hard coded cus dont know how to convert string->int rn
+    String source = args[listSize + 1]; //set them equal to where they should be located in command line output
     String departureString = args[listSize + 2];
     String destination = args[listSize + 3];
     String arrivalString = args[listSize + 4];
 
-    Flight flight = new Flight(flightNum, source, departureString, destination, arrivalString);
-    flight.displayAll();
+    Flight flight = new Flight(flightNum, source, departureString, destination, arrivalString); //create new flight object
+
+    flight.displayAll(); //only for testing purposes
 
     /*
     Airline newAirline = new Airline(args[0]);
