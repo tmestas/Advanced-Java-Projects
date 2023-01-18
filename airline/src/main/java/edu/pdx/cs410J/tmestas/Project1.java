@@ -2,6 +2,7 @@ package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
 import java.util.*; //is this allowed?
+import java.lang.Integer;
 
 /**
  * The main class for the CS410J airline Project
@@ -33,14 +34,15 @@ public class Project1 {
 
     int listSize = options.size(); //get the list size so we know where to start looking for command line args
 
-    int flightNum = 99; //hard coded cus dont know how to convert string->int rn
+    /*
+    int flightNum = Integer.parseInt(args[listSize]);
     String source = args[listSize + 1]; //set them equal to where they should be located in command line output
     String departureString = args[listSize + 2];
     String destination = args[listSize + 3];
     String arrivalString = args[listSize + 4];
+    */
 
-    Flight flight = new Flight(flightNum, source, departureString, destination, arrivalString); //create new flight object
-
+    Flight flight = new Flight(Integer.parseInt(args[listSize]), args[listSize + 1], args[listSize + 2], args[listSize + 3], args[listSize + 4]); //create new flight object
     flight.displayAll(); //only for testing purposes
 
     /*
