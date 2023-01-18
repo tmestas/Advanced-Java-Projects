@@ -51,5 +51,6 @@ public class Flight extends AbstractFlight {
     System.out.println("Depart Date and Time: " + DepartureString);
     System.out.println("Destination Airport: " + Destination);
     System.out.println("Arrival Date and Time: " + ArrivalString);
+    System.out.println();
   }
 }
