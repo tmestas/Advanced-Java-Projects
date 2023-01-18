@@ -21,7 +21,7 @@ public class Project1 {
     if(args == null) //if there are no args
     {
       //Not recognizing when no args are included, figure this out
-      System.err.println("There are no args included (probably put usage here in the future");
+      System.err.println("There are no args included (probably put usage here in the future)");
     }
 
     List<String> options = new LinkedList<String>();
@@ -34,13 +34,12 @@ public class Project1 {
 
     int listSize = options.size(); //get the list size so we know where to start looking for command line args
 
-    /*
-    int flightNum = Integer.parseInt(args[listSize]);
-    String source = args[listSize + 1]; //set them equal to where they should be located in command line output
-    String departureString = args[listSize + 2];
-    String destination = args[listSize + 3];
-    String arrivalString = args[listSize + 4];
-    */
+    try {
+       String test = args[listSize + 4];
+    }catch(Exception IntegerOutOfRangeException){
+      System.err.println("THERE ARE NOT ENOUGH THINGS PASSED BY COMMAND LINE");
+      return;
+    }
 
     Flight flight = new Flight(Integer.parseInt(args[listSize]), args[listSize + 1], args[listSize + 2], args[listSize + 3], args[listSize + 4]); //create new flight object
     flight.displayAll(); //only for testing purposes
