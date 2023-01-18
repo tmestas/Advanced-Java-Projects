@@ -34,7 +34,7 @@ public class Project1 {
       }
       //System.out.println(arg);
     }
-    int listSize = options.size() + 1;
+    int listSize = options.size();
 /*
     int flightNum = 0;
     String source = null;
