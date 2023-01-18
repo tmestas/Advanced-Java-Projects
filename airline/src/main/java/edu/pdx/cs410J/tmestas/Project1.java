@@ -41,9 +41,12 @@ public class Project1 {
     }
 
     int listSize = options.size(); //get the list size so we know where to start looking for command line args
+    int arraySize = args.length;
+    System.out.println(arraySize);
 
     try {
        String test = args[listSize + 4];
+
     }catch(Exception e){ //there are not enough arguments in the command line
       System.err.println("NOT ENOUGH ARGUMENTS INCLUDED\n" +
               "USAGE: java -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
@@ -51,7 +54,8 @@ public class Project1 {
       return;
     }
 
-    //Airline newAirline = new Airline(args[listSize]);
+
+    Airline newAirline = new Airline(args[listSize]);
     Flight flight = new Flight(Integer.parseInt(args[listSize + 1]), args[listSize + 2], args[listSize + 3], args[listSize + 4], args[listSize + 5], args[listSize + 6], args[listSize + 7]); //create new flight object
 
     if(print){flight.displayAll(); return;} //only for testing purposes
