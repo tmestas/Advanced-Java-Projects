@@ -47,7 +47,7 @@ public class Project1 {
       }
     }catch(Exception e){ //there are not enough arguments in the command line
       System.err.println("\nNOT ENOUGH ARGUMENTS INCLUDED\n\n" +
-              "\nUSAGE:\n java -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
+              "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
               "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
       return;
     }
