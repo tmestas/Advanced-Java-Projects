@@ -32,25 +32,25 @@ public class Flight extends AbstractFlight {
   @Override
   public int getNumber() {
 
-    return this.FlightNumber;
+    return 42;
   }
 
   @Override
   public String getSource() {
-    return this.Source;
+    throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
   @Override
   public String getDepartureString() {
-    return this.DepartureDate + " " +  this.DepartureTime;
+    throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
   @Override
-  public String getDestination() { return this.Destination; }
+  public String getDestination() { throw new UnsupportedOperationException("This method is not implemented yet"); }
 
   @Override
     public String getArrivalString() {
-    return this.ArrivalDate + " " +  this.ArrivalTime;
+    throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
   public void displayAll(){
