@@ -36,8 +36,10 @@ public class Project1 {
 
     try {
        String test = args[listSize + 4];
-    }catch(Exception IntegerOutOfRangeException){
-      System.err.println("THERE ARE NOT ENOUGH THINGS PASSED BY COMMAND LINE");
+    }catch(Exception e){ //there are not enough arguments in the command line
+      System.err.println("NOT ENOUGH ARGUMENTS INCLUDED\n" +
+              "USAGE: java -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
+              "FlightNumber Source \"Departure Time and Date\" Destination \"Arrival Time and Date\"");
       return;
     }
 
