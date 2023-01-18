@@ -9,6 +9,7 @@ import java.lang.Integer;
  */
 public class Project1 {
 
+
   @VisibleForTesting
   static boolean isValidDateAndTime(String dateAndTime) {
     return true;
@@ -40,13 +41,15 @@ public class Project1 {
       if(option.equals("-print")){print = true;}
     }
 
-    int listSize = options.size(); //get the list size so we know where to start looking for command line args
+    int listSize = options.size(); //get the list size, so we know where to start looking for command line args
     int arraySize = args.length;
     System.out.println(arraySize);
 
     try {
-       String test = args[listSize + 4];
-
+       //String test = args[listSize + 4];
+      if(args.length != 9){
+        throw new RuntimeException();
+      }
     }catch(Exception e){ //there are not enough arguments in the command line
       System.err.println("NOT ENOUGH ARGUMENTS INCLUDED\n" +
               "USAGE: java -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
