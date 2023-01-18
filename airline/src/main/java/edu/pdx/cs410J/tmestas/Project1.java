@@ -16,6 +16,9 @@ public class Project1 {
 
   public static void main(String[] args) {
 
+    boolean print = false;
+    String readme = "README STUFF";
+
     //Flight flight = new Flight();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
 
     if(args == null) //if there are no args
@@ -32,6 +35,11 @@ public class Project1 {
       }
     }
 
+    for(String option: options){
+      if(option.equals("-README")){System.out.println(readme); return;}
+      if(option.equals("-print")){print = true;}
+    }
+
     int listSize = options.size(); //get the list size so we know where to start looking for command line args
 
     try {
@@ -44,7 +52,8 @@ public class Project1 {
     }
 
     Flight flight = new Flight(Integer.parseInt(args[listSize]), args[listSize + 1], args[listSize + 2], args[listSize + 3], args[listSize + 4]); //create new flight object
-    flight.displayAll(); //only for testing purposes
+
+    if(print){flight.displayAll(); return;} //only for testing purposes
 
     /*
     Airline newAirline = new Airline(args[0]);
