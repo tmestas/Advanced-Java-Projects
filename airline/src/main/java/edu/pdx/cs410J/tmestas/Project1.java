@@ -47,22 +47,16 @@ public class Project1 {
     }catch(Exception e){ //there are not enough arguments in the command line
       System.err.println("NOT ENOUGH ARGUMENTS INCLUDED\n" +
               "USAGE: java -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
-              "FlightNumber Source \"Departure Time and Date\" Destination \"Arrival Time and Date\"");
+              "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
       return;
     }
 
-    Flight flight = new Flight(Integer.parseInt(args[listSize]), args[listSize + 1], args[listSize + 2], args[listSize + 3], args[listSize + 4]); //create new flight object
+    Airline newAirline = new Airline(args[listSize]);
+    Flight flight = new Flight(Integer.parseInt(args[listSize + 1]), args[listSize + 2], args[listSize + 3], args[listSize + 4], args[listSize + 5], args[listSize + 6], args[listSize + 7]); //create new flight object
 
     if(print){flight.displayAll(); return;} //only for testing purposes
 
-    System.out.println(flight.toString());
-
-    /*
-    Airline newAirline = new Airline(args[0]);
-    System.out.println(newAirline.getName()); //successfully adds name to newAirline object
-    */
-
-
+    newAirline.addFlight(flight);
   }
 
 }
