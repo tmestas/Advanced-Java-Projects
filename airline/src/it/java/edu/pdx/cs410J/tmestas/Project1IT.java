@@ -24,7 +24,9 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void testNoCommandLineArguments() {
     MainMethodResult result = invokeMain();
-    assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
+    assertThat(result.getTextWrittenToStandardError(), containsString("\nNOT ENOUGH ARGUMENTS INCLUDED\n\n" +
+            "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
+            "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate"));
   }
 
 }
