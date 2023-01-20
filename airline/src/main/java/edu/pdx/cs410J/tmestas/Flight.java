@@ -8,12 +8,9 @@ import java.sql.Time;
 public class Flight extends AbstractFlight {
   private int FlightNumber;
   private String Source;
-  //private String DepartureString; //date and time
-
   private String DepartureTime;
   private String DepartureDate;
   private String Destination;
-  //private String ArrivalString;   //date and time
   private String ArrivalTime;
   private String ArrivalDate;
 
