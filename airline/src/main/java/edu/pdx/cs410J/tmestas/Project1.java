@@ -52,14 +52,12 @@ public class Project1 {
       return;
     }
 
-
     //Error check times and dates?
 
 
-
-
-    Airline newAirline = new Airline(args[listSize]);
     Flight flight = new Flight(Integer.parseInt(args[listSize + 1]), args[listSize + 2], args[listSize + 3], args[listSize + 4], args[listSize + 5], args[listSize + 6], args[listSize + 7]); //create new flight object
+    Airline newAirline = new Airline(args[listSize]);
+    newAirline.addFlight(flight);
 
     //Flight Number = args[listSize + 1]
     //Departure Airport Code = args[listSize + 2]
@@ -69,10 +67,8 @@ public class Project1 {
     //Arrival time = args[listSize + 6]
     //Arrival date = args[listSize + 7]
 
-
-
-    if(print){flight.displayAll(); return;} //only for testing purposes
-    System.out.println();
+    if(print){newAirline.getFlight().displayAll(); return;} //only for testing purposes
+    //System.out.println();
     //newAirline.addFlight(flight);
   }
 

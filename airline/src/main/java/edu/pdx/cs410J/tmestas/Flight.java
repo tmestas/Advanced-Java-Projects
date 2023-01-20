@@ -28,7 +28,6 @@ public class Flight extends AbstractFlight {
   }
   @Override
   public int getNumber() {
-
     return 42;
   }
 

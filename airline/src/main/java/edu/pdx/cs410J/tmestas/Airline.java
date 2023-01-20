@@ -7,6 +7,8 @@ import java.util.Collection;
 public class Airline extends AbstractAirline<Flight> {
   private final String name;
 
+  private Flight NewFlight;
+
   public Airline(String name) {
     this.name = name;
   }
@@ -18,11 +20,15 @@ public class Airline extends AbstractAirline<Flight> {
 
   @Override
   public void addFlight(Flight flight) {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    this.NewFlight = flight;
   }
 
   @Override
   public Collection<Flight> getFlights() {
     throw new UnsupportedOperationException("This method is not implemented yet");
+  }
+
+  public Flight getFlight(){
+    return NewFlight;
   }
 }
