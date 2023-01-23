@@ -1,8 +1,11 @@
 package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
+
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.lang.Integer;
+import java.time.*;
 
 /**
  * The main class for the CS410J airline Project
@@ -12,6 +15,22 @@ public class Project1 {
 
   @VisibleForTesting
   static boolean isValidDateAndTime(String dateAndTime) {
+    return true;
+  }
+  @VisibleForTesting
+  static boolean isValidTime(String Time){
+    try{
+      LocalTime.parse(Time);
+    }
+    catch(DateTimeParseException | NullPointerException e){
+      return false;
+    }
+
+    return true;
+
+  }
+  @VisibleForTesting
+  static boolean isValidDate(String Date){
     return true;
   }
 
@@ -50,9 +69,27 @@ public class Project1 {
               "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
               "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
       return;
+    } //check if there are enough arguments
+
+    //Error check times and dates
+    String departTime = args[listSize + 3];
+    String departDate = args[listSize + 4];
+    String arrivalTime = args[listSize + 6];
+    String arrivalDate = args[listSize + 7];
+
+    boolean test1 = isValidTime(departTime);
+    boolean test2 = isValidTime(arrivalTime);
+
+
+    if(!test1){
+      System.out.println("departure time invalid");
     }
 
-    //Error check times and dates?
+    if(!test2){
+      System.out.println("arrival time invalid");
+    }
+
+
 
 
     Flight flight = new Flight(Integer.parseInt(args[listSize + 1]), args[listSize + 2], args[listSize + 3], args[listSize + 4], args[listSize + 5], args[listSize + 6], args[listSize + 7]); //create new flight object
