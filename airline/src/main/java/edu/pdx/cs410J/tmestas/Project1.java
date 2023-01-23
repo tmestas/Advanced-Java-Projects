@@ -99,10 +99,10 @@ public class Project1 {
     }
 
     if(!date1){
-      System.out.println("arrival time invalid");
+      System.out.println("depart date invalid");
     }
     if(!date2){
-      System.out.println("arrival time invalid");
+      System.out.println("arrival date invalid");
     }
 
 
