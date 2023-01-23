@@ -89,12 +89,12 @@ public class Project1 {
     String arrivalDate = args[listSize + 7];
 
     if(!isValidTime(departTime) || !isValidTime(arrivalTime)){
-      System.out.println("Invalid Time Format\nValid Format: mm/dd/yyyy");
+      System.out.println("Invalid Time Format\nValid Format: hh:mm\n");
       return;
     }
 
     if(!isValidDate(departDate) || !isValidDate(arrivalDate)){
-      System.out.println("Invalid Date Format\nValid Format: hh:mm");
+      System.out.println("Invalid Date Format\nValid Format: mm/dd/yyyy\n");
       return;
     }
 
