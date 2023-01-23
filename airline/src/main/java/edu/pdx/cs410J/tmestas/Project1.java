@@ -110,7 +110,7 @@ public class Project1 {
       Integer.parseInt(args[listSize + 1]);
     } //make sure flight num is an integer
     catch(Exception e){
-      System.out.println("Flight Number is not valid, please enter an integer value");
+      System.out.println("\nFlight Number is not valid, please enter an integer value\n");
       return;
     }
 
