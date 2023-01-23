@@ -106,13 +106,6 @@ public class Project1 {
     Airline newAirline = new Airline(airlineName);
     newAirline.addFlight(flight);
 
-    //Flight Number = args[listSize + 1]
-    //Departure Airport Code = args[listSize + 2]
-    //Depart time = args[listSize + 3]
-    //Depart date = args[listSize + 4]
-    //Arrival Airport Code = args[listSize + 5]
-    //Arrival time = args[listSize + 6]
-    //Arrival date = args[listSize + 7]
 
     if(print){newAirline.getFlight().displayAll(); return;} //only for testing purposes
     //System.out.println();

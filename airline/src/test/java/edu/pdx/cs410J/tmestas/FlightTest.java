@@ -28,9 +28,9 @@ public class FlightTest {
    * your project.
    */
   @Test
-  void initiallyAllFlightsHaveTheSameNumber() {
-    Flight flight = new Flight();
-    assertThat(flight.getNumber(), equalTo(42));
+  void testGetFlightNumber() {
+    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    assertThat(flight.getNumber(), equalTo(123));
   }
 
   @Test

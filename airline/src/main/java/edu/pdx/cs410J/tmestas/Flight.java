@@ -28,7 +28,7 @@ public class Flight extends AbstractFlight {
   }
   @Override
   public int getNumber() {
-    return 42;
+    return this.FlightNumber;
   }
 
   @Override
@@ -45,9 +45,11 @@ public class Flight extends AbstractFlight {
   public String getDestination() { throw new UnsupportedOperationException("This method is not implemented yet"); }
 
   @Override
-    public String getArrivalString() {
+  public String getArrivalString() {
     throw new UnsupportedOperationException("This method is not implemented yet");
   }
+
+  //implement toString method
 
   public void displayAll(){
     System.out.println();
