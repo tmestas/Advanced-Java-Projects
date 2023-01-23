@@ -33,22 +33,8 @@ public class Project1 {
       return false;
     }
   }
-
   @VisibleForTesting
   static boolean isValidAirportCode(String airportCode){
-
-    /*
-    //Pattern p = Pattern.compile("\\d+");
-    Matcher m = p.matcher(airportCode);
-    boolean hasNumber = m.find();
-
-    if(!hasNumber || airportCode.length() > 3){
-      return false;
-    }
-    else{
-      return true;
-    }
-    */
     boolean hasNonLetter = false;
     char [] array = airportCode.toCharArray();
 
@@ -64,8 +50,29 @@ public class Project1 {
     else{
       return true;
     }
+  }
 
+  static boolean checkValidInput(Integer flightNum, String departAirport, String departTime, String departDate,
+                                 String arrivalAirport, String arrivalTime, String arrivalDate)
+  {
+    boolean value = true;
 
+    if(!isValidTime(departTime) || !isValidTime(arrivalTime)){
+      System.out.println("\nInvalid Time Format\nValid Format: hh:mm\n");
+      value = false;
+    }
+
+    if(!isValidDate(departDate) || !isValidDate(arrivalDate)){
+      System.out.println("\nInvalid Date Format\nValid Format: mm/dd/yyyy\n");
+      value = false;
+    }
+
+    if(!isValidAirportCode(departAirport) || !isValidAirportCode(arrivalAirport)){
+      System.out.println("\nInvalid Airport Code \nAirport Code must be 3 letters and no other characters\n");
+      value = false;
+    }
+
+    return value;
   }
 
   public static void main(String[] args) {
@@ -101,7 +108,7 @@ public class Project1 {
 
     //Error check times and dates
     String airlineName = args[listSize];
-    Integer flightNum = Integer.parseInt(args[listSize + 1]);
+    Integer flightNum = Integer.parseInt(args[listSize + 1]); //must catch exception if this is not valid
     String departAirport = args[listSize + 2];
     String departTime = args[listSize + 3];
     String departDate = args[listSize + 4];
@@ -110,23 +117,7 @@ public class Project1 {
     String arrivalDate = args[listSize + 7];
 
     //Error check times and dates
-    if(!isValidTime(departTime) || !isValidTime(arrivalTime)){
-      System.out.println("Invalid Time Format\nValid Format: hh:mm\n");
-      return;
-    }
-
-    if(!isValidDate(departDate) || !isValidDate(arrivalDate)){
-      System.out.println("Invalid Date Format\nValid Format: mm/dd/yyyy\n");
-      return;
-    }
-
-    if(!isValidAirportCode(departAirport)){
-      System.out.println("Invalid Depart Airport Code Format\nValid Format: PDX\n");
-    }
-
-    if(!isValidAirportCode(arrivalAirport)){
-      System.out.println("Invalid Arrival Airport Code Format\nValid Format: PDX\n");
-    }
+    if(!checkValidInput(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate)){return;}
 
     Flight flight = new Flight(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate); //create new flight object
     Airline newAirline = new Airline(airlineName);
