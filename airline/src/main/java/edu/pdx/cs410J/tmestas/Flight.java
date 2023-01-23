@@ -1,9 +1,6 @@
 package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.AbstractFlight;
-import java.util.*;
-import java.sql.Time;
-
 
 public class Flight extends AbstractFlight {
   private int FlightNumber;
