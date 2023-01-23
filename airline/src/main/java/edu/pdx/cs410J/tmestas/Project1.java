@@ -95,11 +95,11 @@ public class Project1 {
       return;
     }
 
-    if(!isValidAirportCode(departAirport)){
+    if(isValidAirportCode(departAirport)){
       System.out.println("Invalid Depart Airport Code Format\nValid Format: PDX\n");
     }
 
-    if(!isValidAirportCode(arrivalAirport)){
+    if(isValidAirportCode(arrivalAirport)){
       System.out.println("Invalid Arrival Airport Code Format\nValid Format: PDX\n");
     }
 
