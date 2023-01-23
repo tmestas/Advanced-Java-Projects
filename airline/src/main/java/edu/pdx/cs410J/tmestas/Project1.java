@@ -37,11 +37,12 @@ public class Project1 {
   @VisibleForTesting
   static boolean isValidAirportCode(String airportCode){
 
-    Pattern p = Pattern.compile("\\d+");
+    //Pattern p = Pattern.compile("\\d+");
+    Pattern p = Pattern.compile("[a-zA-Z]+");
     Matcher m = p.matcher(airportCode);
     boolean hasNumber = m.find();
 
-    if(hasNumber || airportCode.length() > 3){
+    if(!hasNumber || airportCode.length() > 3){
       return false;
     }
     else{
