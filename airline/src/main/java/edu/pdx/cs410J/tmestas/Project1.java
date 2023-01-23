@@ -82,11 +82,15 @@ public class Project1 {
     } //check if there are enough arguments
 
     //Error check times and dates
-
+    String airlineName = args[listSize];
+    Integer flightNum = Integer.parseInt(args[listSize + 1]);
+    String departAirport = args[listSize + 2];
     String departTime = args[listSize + 3];
     String departDate = args[listSize + 4];
+    String arrivalAirport = args[listSize + 5];
     String arrivalTime = args[listSize + 6];
     String arrivalDate = args[listSize + 7];
+
 
     if(!isValidTime(departTime) || !isValidTime(arrivalTime)){
       System.out.println("Invalid Time Format\nValid Format: hh:mm\n");
@@ -98,8 +102,8 @@ public class Project1 {
       return;
     }
 
-    Flight flight = new Flight(Integer.parseInt(args[listSize + 1]), args[listSize + 2], args[listSize + 3], args[listSize + 4], args[listSize + 5], args[listSize + 6], args[listSize + 7]); //create new flight object
-    Airline newAirline = new Airline(args[listSize]);
+    Flight flight = new Flight(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate); //create new flight object
+    Airline newAirline = new Airline(airlineName);
     newAirline.addFlight(flight);
 
     //Flight Number = args[listSize + 1]
