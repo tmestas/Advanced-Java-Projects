@@ -2,10 +2,14 @@ package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.time.*;
+import java.text.SimpleDateFormat;
 
 /**
  * The main class for the CS410J airline Project
@@ -19,18 +23,6 @@ public class Project1 {
   }
   @VisibleForTesting
   static boolean isValidTime(String Time){
-
-    /*
-    try{
-      LocalTime.parse(Time);
-    }
-    catch(DateTimeParseException | NullPointerException e){
-      return false;
-    }
-
-    return true;
-    */
-
     try {
       String[] time = Time.split(":");
       return  Integer.parseInt(time[0]) < 24 && Integer.parseInt(time[1]) < 60;
@@ -41,7 +33,13 @@ public class Project1 {
   }
   @VisibleForTesting
   static boolean isValidDate(String Date){
-    return true;
+    try {
+      SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+      format.parse(Date);
+      return true;
+    } catch (ParseException e) {
+      return false;
+    }
   }
 
   public static void main(String[] args) {
@@ -89,13 +87,21 @@ public class Project1 {
 
     boolean test1 = isValidTime(departTime);
     boolean test2 = isValidTime(arrivalTime);
-
+    boolean date1 = isValidTime(departDate);
+    boolean date2 = isValidTime(arrivalDate);
 
     if(!test1){
       System.out.println("departure time invalid");
     }
 
     if(!test2){
+      System.out.println("arrival time invalid");
+    }
+
+    if(!date1){
+      System.out.println("arrival time invalid");
+    }
+    if(!date2){
       System.out.println("arrival time invalid");
     }
 
