@@ -108,7 +108,7 @@ public class Project1 {
 
 
     //if(print){newAirline.getFlight().displayAll(); return;} //only for testing purposes
-    if(print){newAirline.getFlight().toString(); return;}
+    if(print){System.out.println(newAirline.getFlight().toString()); return;}
     //System.out.println();
     //newAirline.addFlight(flight);
   }
