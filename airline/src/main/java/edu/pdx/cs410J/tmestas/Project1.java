@@ -35,8 +35,8 @@ public class Project1 {
   @VisibleForTesting
   static boolean isValidDate(String Date){
     try {
-      SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-      format.setLenient(true);
+      SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+      format.setLenient(false);
       format.parse(Date);
       return true;
     } catch (ParseException e) {
