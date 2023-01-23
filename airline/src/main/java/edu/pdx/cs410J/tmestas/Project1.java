@@ -19,6 +19,8 @@ public class Project1 {
   }
   @VisibleForTesting
   static boolean isValidTime(String Time){
+
+    /*
     try{
       LocalTime.parse(Time);
     }
@@ -27,6 +29,14 @@ public class Project1 {
     }
 
     return true;
+    */
+
+    try {
+      String[] time = Time.split(":");
+      return  Integer.parseInt(time[0]) < 24 && Integer.parseInt(time[1]) < 60;
+    } catch (Exception e) {
+      return false;
+    }
 
   }
   @VisibleForTesting
