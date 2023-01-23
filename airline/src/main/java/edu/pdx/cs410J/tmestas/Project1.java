@@ -58,12 +58,12 @@ public class Project1 {
     boolean value = true;
 
     if(!isValidTime(departTime) || !isValidTime(arrivalTime)){
-      System.out.println("\nInvalid Time Format\nValid Format: hh:mm\n");
+      System.out.println("\nInvalid Time\nValid Format: hh:mm\n");
       value = false;
     }
 
     if(!isValidDate(departDate) || !isValidDate(arrivalDate)){
-      System.out.println("\nInvalid Date Format\nValid Format: mm/dd/yyyy\n");
+      System.out.println("\nInvalid Date\nValid Format: mm/dd/yyyy\n");
       value = false;
     }
 
@@ -106,9 +106,16 @@ public class Project1 {
       return;
     } //check if there are enough arguments
 
-    //Error check times and dates
+
     String airlineName = args[listSize];
-    Integer flightNum = Integer.parseInt(args[listSize + 1]); //must catch exception if this is not valid
+    Integer flightNum; //must catch exception if this is not valid
+    try{
+      flightNum = Integer.parseInt(args[listSize + 1]);
+    }
+    catch(Exception e){
+      System.out.println("Flight Number is not valid, please enter an integer value");
+      return;
+    }
     String departAirport = args[listSize + 2];
     String departTime = args[listSize + 3];
     String departDate = args[listSize + 4];
