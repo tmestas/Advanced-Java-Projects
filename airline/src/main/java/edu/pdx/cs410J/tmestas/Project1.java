@@ -21,7 +21,7 @@ public class Project1 {
   @VisibleForTesting
   static boolean isValidDateAndTime(String dateAndTime) {
     return true;
-  }
+  } //not using
   @VisibleForTesting
   static boolean isValidTime(String Time){
     try {
@@ -88,30 +88,14 @@ public class Project1 {
     String arrivalTime = args[listSize + 6];
     String arrivalDate = args[listSize + 7];
 
-
-    //String departDateTime = args[listSize + 3] + " " + args[listSize + 4];
-    //String arrivalDateTime = args[listSize + 6] + " " + args[listSize + 7];
-
-    //boolean test1 = isValidDateAndTime(departDateTime);
-    //boolean test2 = isValidDateAndTime(arrivalDateTime);
-
-    boolean test1 = isValidDate(departDate);
-    boolean test2 = isValidDate(arrivalDate);
-
-
-    /*boolean test1 = isValidTime(departTime);
-    boolean test2 = isValidTime(arrivalTime);
-    boolean date1 = isValidTime(departDate);
-    boolean date2 = isValidTime(arrivalDate);
-    */
-
-
-    if(!test1){
-      System.out.println("departure date format invalid");
+    if(!isValidTime(departTime) || !isValidTime(arrivalTime)){
+      System.out.println("Invalid Time Format\nValid Format: mm/dd/yyyy");
+      return;
     }
 
-    if(!test2){
-      System.out.println("arrival date format invalid");
+    if(!isValidDate(departDate) || !isValidDate(arrivalDate)){
+      System.out.println("Invalid Date Format\nValid Format: hh:mm");
+      return;
     }
 
     Flight flight = new Flight(Integer.parseInt(args[listSize + 1]), args[listSize + 2], args[listSize + 3], args[listSize + 4], args[listSize + 5], args[listSize + 6], args[listSize + 7]); //create new flight object
