@@ -58,7 +58,7 @@ public class Project1 {
       }
     }
 
-    if(!hasNonLetter || airportCode.length() != 3){
+    if(hasNonLetter || airportCode.length() != 3){
       return false;
     }
     else{
