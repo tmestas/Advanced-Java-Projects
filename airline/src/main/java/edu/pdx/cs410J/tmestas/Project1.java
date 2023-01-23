@@ -1,27 +1,16 @@
 package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
-
 import java.text.ParseException;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.lang.Integer;
-import java.time.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * The main class for the CS410J airline Project
  */
 public class Project1 {
 
-
-  @VisibleForTesting
-  static boolean isValidDateAndTime(String dateAndTime) {
-    return true;
-  } //not using
   @VisibleForTesting
   static boolean isValidTime(String Time){
     try {
@@ -106,11 +95,7 @@ public class Project1 {
     Airline newAirline = new Airline(airlineName);
     newAirline.addFlight(flight);
 
-
-    //if(print){newAirline.getFlight().displayAll(); return;} //only for testing purposes
-    if(print){System.out.println(newAirline.getFlight().toString()); return;}
-    //System.out.println();
-    //newAirline.addFlight(flight);
+    if(print){System.out.println("\n" + newAirline.getFlight().toString() + "\n"); return;}
   }
 
 }

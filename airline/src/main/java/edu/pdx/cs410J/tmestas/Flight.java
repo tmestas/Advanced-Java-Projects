@@ -30,17 +30,14 @@ public class Flight extends AbstractFlight {
   public int getNumber() {
     return this.FlightNumber;
   }
-
   @Override
   public String getSource() {
     return Source;
   }
-
   @Override
   public String getDepartureString() {
     return DepartureTime + " " + DepartureDate;
   }
-
   @Override
   public String getDestination() { return Destination; }
 
@@ -49,16 +46,4 @@ public class Flight extends AbstractFlight {
     return ArrivalTime + " " + ArrivalDate;
   }
 
-  public void displayAll(){
-    System.out.println();
-    System.out.println("FLIGHT #" + FlightNumber + ": ");
-    System.out.println();
-    System.out.println("Source Airport: " + Source);
-    System.out.println("Depart Date: " + this.DepartureDate);
-    System.out.println("Depart Time: " + this.DepartureTime);
-    System.out.println("Destination Airport: " + Destination);
-    System.out.println("Arrival Date: " + this.ArrivalDate);
-    System.out.println("Arrival Time: " + this.ArrivalTime);
-    System.out.println();
-  }
 }
