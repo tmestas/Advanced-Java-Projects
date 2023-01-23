@@ -37,8 +37,8 @@ public class Project1 {
   @VisibleForTesting
   static boolean isValidAirportCode(String airportCode){
 
+    /*
     //Pattern p = Pattern.compile("\\d+");
-    Pattern p = Pattern.compile("[a-zA-Z]+");
     Matcher m = p.matcher(airportCode);
     boolean hasNumber = m.find();
 
@@ -48,6 +48,24 @@ public class Project1 {
     else{
       return true;
     }
+    */
+    boolean hasNonLetter = false;
+    char [] array = airportCode.toCharArray();
+
+    for(char c: array){
+      if(!Character.isLetter(c)){
+        hasNonLetter = true;
+      }
+    }
+
+    if(!hasNonLetter || airportCode.length() != 3){
+      return false;
+    }
+    else{
+      return true;
+    }
+
+
   }
 
   public static void main(String[] args) {
