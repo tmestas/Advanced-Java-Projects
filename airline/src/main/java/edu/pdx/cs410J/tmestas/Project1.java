@@ -39,8 +39,14 @@ public class Project1 {
 
     Pattern p = Pattern.compile("\\d+");
     Matcher m = p.matcher(airportCode);
-    return m.find();
+    boolean hasNumber = m.find();
 
+    if(hasNumber || airportCode.length() > 3){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 
   public static void main(String[] args) {
@@ -95,11 +101,11 @@ public class Project1 {
       return;
     }
 
-    if(isValidAirportCode(departAirport)){
+    if(!isValidAirportCode(departAirport)){
       System.out.println("Invalid Depart Airport Code Format\nValid Format: PDX\n");
     }
 
-    if(isValidAirportCode(arrivalAirport)){
+    if(!isValidAirportCode(arrivalAirport)){
       System.out.println("Invalid Arrival Airport Code Format\nValid Format: PDX\n");
     }
 
