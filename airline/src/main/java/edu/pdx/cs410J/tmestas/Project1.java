@@ -1,10 +1,18 @@
 package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * The main class for the CS410J airline Project
@@ -77,7 +85,7 @@ public class Project1 {
   public static void main(String[] args) {
 
     boolean print = false;
-    String readme = "README STUFF";
+
 
     List<String> options = new LinkedList<String>();
 
@@ -88,7 +96,19 @@ public class Project1 {
     } //add option flags to a list
 
     for(String option: options){
-      if(option.equals("-README")){System.out.println(readme); return;}
+      if(option.equals("-README")){
+        try (InputStream readme = Project1.class.getResourceAsStream("README.txt"))
+        {
+          BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
+          String line = reader.readLine();
+        }
+        catch(Exception e)
+        {
+          System.out.println("Could not find readme");
+        }
+
+        return;
+      }
       if(option.equals("-print")){print = true;}
     } //check for flags
 
