@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
-import java.util.regex.*;
 
 /**
  * The main class for the CS410J airline Project
@@ -51,7 +50,7 @@ public class Project1 {
       return true;
     }
   }
-
+  @VisibleForTesting
   static boolean checkValidInput(Integer flightNum, String departAirport, String departTime, String departDate,
                                  String arrivalAirport, String arrivalTime, String arrivalDate)
   {
@@ -130,7 +129,7 @@ public class Project1 {
     Airline newAirline = new Airline(airlineName);
     newAirline.addFlight(flight);
 
-    if(print){System.out.println("\n" + newAirline.getFlight().toString() + "\n"); return;}
+    if(print){System.out.println("\n" + newAirline.getFlight().toString() + "\n");}
   }
 
 }
