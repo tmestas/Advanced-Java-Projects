@@ -106,16 +106,16 @@ public class Project1 {
       return;
     } //check if there are enough arguments
 
-
-    String airlineName = args[listSize];
-    Integer flightNum; //must catch exception if this is not valid
     try{
-      flightNum = Integer.parseInt(args[listSize + 1]);
-    }
+      Integer.parseInt(args[listSize + 1]);
+    } //make sure flight num is an integer
     catch(Exception e){
       System.out.println("Flight Number is not valid, please enter an integer value");
       return;
     }
+
+    String airlineName = args[listSize];
+    Integer flightNum = Integer.parseInt(args[listSize + 1]);
     String departAirport = args[listSize + 2];
     String departTime = args[listSize + 3];
     String departDate = args[listSize + 4];
