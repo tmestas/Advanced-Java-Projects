@@ -13,26 +13,32 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public class FlightTest {
 
-  /**
-   * This unit test will need to be modified (likely deleted) as you implement
-   * your project.
-   */
+  @Test
+  void getDepartureStringNeedsToBeImplemented(){
+    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    assertThat(flight.getDepartureString(), equalTo("10:40 11/22/2022"));
+  }
   @Test
   void getArrivalStringNeedsToBeImplemented() {
-    Flight flight = new Flight();
-    assertThrows(UnsupportedOperationException.class, flight::getArrivalString);
+    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    assertThat(flight.getArrivalString(), equalTo("10:45 11/22/2022"));
   }
-
-  /**
-   * This unit test will need to be modified (likely deleted) as you implement
-   * your project.
-   */
   @Test
-  void testGetFlightNumber() {
+  void testGetNumber() {
     Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
     assertThat(flight.getNumber(), equalTo(123));
   }
 
+  @Test
+  void testGetDestination(){
+    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    assertThat(flight.getDestination(), equalTo("BOI"));
+  }
+  @Test
+  void testGetSource(){
+    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    assertThat(flight.getSource(), equalTo("PDX"));
+  }
   @Test
   void forProject1ItIsOkayIfGetDepartureTimeReturnsNull() {
     Flight flight = new Flight();
