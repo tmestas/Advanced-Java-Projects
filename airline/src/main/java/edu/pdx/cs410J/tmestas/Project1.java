@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
+import java.util.regex.*;
 
 /**
  * The main class for the CS410J airline Project
@@ -33,16 +34,19 @@ public class Project1 {
     }
   }
 
+  @VisibleForTesting
+  static boolean isValidAirportCode(String airportCode){
+
+    Pattern p = Pattern.compile("\\d+");
+    Matcher m = p.matcher(airportCode);
+    return m.find();
+
+  }
+
   public static void main(String[] args) {
 
     boolean print = false;
     String readme = "README STUFF";
-
-    if(args == null) //if there are no args
-    {
-      //Not recognizing when no args are included, figure this out
-      System.err.println("There are no args included (probably put usage here in the future)");
-    }
 
     List<String> options = new LinkedList<String>();
 
@@ -80,7 +84,7 @@ public class Project1 {
     String arrivalTime = args[listSize + 6];
     String arrivalDate = args[listSize + 7];
 
-
+    //Error check times and dates
     if(!isValidTime(departTime) || !isValidTime(arrivalTime)){
       System.out.println("Invalid Time Format\nValid Format: hh:mm\n");
       return;
@@ -89,6 +93,14 @@ public class Project1 {
     if(!isValidDate(departDate) || !isValidDate(arrivalDate)){
       System.out.println("Invalid Date Format\nValid Format: mm/dd/yyyy\n");
       return;
+    }
+
+    if(!isValidAirportCode(departAirport)){
+      System.out.println("Invalid Depart Airport Code Format\nValid Format: PDX\n");
+    }
+
+    if(!isValidAirportCode(arrivalAirport)){
+      System.out.println("Invalid Arrival Airport Code Format\nValid Format: PDX\n");
     }
 
     Flight flight = new Flight(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate); //create new flight object
