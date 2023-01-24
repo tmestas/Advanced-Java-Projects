@@ -80,6 +80,13 @@ class Project1Test {
   }
 
   @Test
+  void testIsValidAirportCodeWithBadInput2(){
+    Project1 test = new Project1();
+    boolean value = test.isValidAirportCode("");
+    assertThat(value, equalTo(false));
+  }
+
+  @Test
   void testCheckValidInputWithGoodInput(){
     Project1 test = new Project1();
     boolean value = test.checkValidInput(1234, "PDX", "10:20", "10/22/2022",
