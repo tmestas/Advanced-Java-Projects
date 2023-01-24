@@ -2,6 +2,9 @@ package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.AbstractFlight;
 
+/**
+ * Stores information about a flight
+ */
 public class Flight extends AbstractFlight {
   private int FlightNumber;
   private String Source;
@@ -11,9 +14,10 @@ public class Flight extends AbstractFlight {
   private String ArrivalTime;
   private String ArrivalDate;
 
-  public Flight(){
-
-  }
+  /**
+   * Constructs a default object flight
+   */
+  public Flight(){}
 
   /**
    * This constructs a flight with a specified flight number, source airport, departure time, departure date,

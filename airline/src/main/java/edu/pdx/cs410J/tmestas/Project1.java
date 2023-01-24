@@ -16,6 +16,11 @@ import java.text.SimpleDateFormat;
  */
 public class Project1 {
 
+  /**
+   * A method to check if the user entered time is in valid format
+   * @param Time string containing the users input
+   * @return a boolean signifying if the passed in time is valid
+   */
   @VisibleForTesting
   static boolean isValidTime(String Time){
     try {
@@ -26,6 +31,12 @@ public class Project1 {
     }
 
   }
+
+  /**
+   * A method to check if the user entered date is in valid format
+   * @param Date a string containing the user input for date
+   * @return a boolean signifying if the user entered date is in valid format
+   */
   @VisibleForTesting
   static boolean isValidDate(String Date){
     try {
@@ -37,6 +48,12 @@ public class Project1 {
       return false;
     }
   }
+
+  /**
+   * A method to check if the user entered airport code is in valid format
+   * @param airportCode a string containing the user entered airport code
+   * @return a boolean signifying if the user entered airport code is in valid format
+   */
   @VisibleForTesting
   static boolean isValidAirportCode(String airportCode){
     boolean hasNonLetter = false;
@@ -55,6 +72,19 @@ public class Project1 {
       return true;
     }
   }
+
+  /**
+   * A method to run all input check functions
+   * @param flightNum user entered flight number
+   * @param departAirport user entered departure airport code
+   * @param departTime user entered departure time
+   * @param departDate user entered departure date
+   * @param arrivalAirport user entered arrival airport code
+   * @param arrivalTime user entered arrival time
+   * @param arrivalDate user entered arrival date
+   * @return a boolean signifying whether the program should continue, or if there was an error
+   * parsing the input
+   */
   @VisibleForTesting
   static boolean checkValidInput(Integer flightNum, String departAirport, String departTime, String departDate,
                                  String arrivalAirport, String arrivalTime, String arrivalDate)
@@ -79,6 +109,10 @@ public class Project1 {
     return value;
   }
 
+  /**
+   * main method for the program
+   * @param args command line arguments
+   */
   public static void main(String[] args) {
 
     boolean print = false;
