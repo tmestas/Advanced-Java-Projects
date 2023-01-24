@@ -2,7 +2,10 @@ package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.AbstractAirline;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Stores information about an airline
@@ -10,6 +13,7 @@ import java.util.Collection;
 public class Airline extends AbstractAirline<Flight> {
   private final String name;
 
+  private List<Flight> flightList;
   private Flight NewFlight;
 
   /**
@@ -18,6 +22,7 @@ public class Airline extends AbstractAirline<Flight> {
    */
   public Airline(String name) {
     this.name = name;
+    flightList = new ArrayList<Flight>();
   }
 
   /**
@@ -35,24 +40,17 @@ public class Airline extends AbstractAirline<Flight> {
    */
   @Override
   public void addFlight(Flight flight) {
-    this.NewFlight = flight;
+    flightList.add(flight);
   }
 
   /**
-   * Not implemented yet
-   * @return Throws an exception
+   * Returns a list of flights for the airline
+   * @return list of flights
    */
 
   @Override
   public Collection<Flight> getFlights() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return flightList;
   }
 
-  /**
-   * Gets the flight object for the calling method
-   * @return a flight object
-   */
-  public Flight getFlight(){
-    return NewFlight;
-  }
 }

@@ -183,7 +183,12 @@ public class Project1 {
     Airline newAirline = new Airline(airlineName);
     newAirline.addFlight(flight);
 
-    if(print){System.out.println("\n" + newAirline.getFlight().toString() + "\n");}
+    Flight temp = new Flight();
+    for(Flight f: newAirline.getFlights()){
+      temp = f;
+    }
+
+    if(print){System.out.println("\n" + temp.toString() + "\n");}
   }
 
 }
