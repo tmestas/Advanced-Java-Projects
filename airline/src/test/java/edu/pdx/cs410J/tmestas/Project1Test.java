@@ -31,24 +31,52 @@ class Project1Test {
   }
 
   @Test
-  void testIsValidTime(){
+  void testIsValidTimeWithGoodInput1(){
     Project1 test = new Project1();
     boolean value = test.isValidTime("1:30");
     assertThat(value, equalTo(true));
   }
 
   @Test
-  void testIsValidDate(){
+  void testIsValidTimeWithGoodInput2(){
+    Project1 test = new Project1();
+    boolean value = test.isValidTime("10:30");
+    assertThat(value, equalTo(true));
+  }
+
+  @Test
+  void testIsValidTimeWithBadInput(){
+    Project1 test = new Project1();
+    boolean value = test.isValidTime("030");
+    assertThat(value, equalTo(false));
+  }
+
+  @Test
+  void testIsValidDateWithGoodInput(){
     Project1 test = new Project1();
     boolean value = test.isValidDate("10/22/2022");
     assertThat(value, equalTo(true));
   }
 
   @Test
-  void testIsValidAirportCode(){
+  void testIsValidDateWithBadInput(){
+    Project1 test = new Project1();
+    boolean value = test.isValidDate("100/22/2022");
+    assertThat(value, equalTo(false));
+  }
+
+  @Test
+  void testIsValidAirportCodeWithGoodInput(){
     Project1 test = new Project1();
     boolean value = test.isValidAirportCode("PDX");
     assertThat(value, equalTo(true));
+  }
+
+  @Test
+  void testIsValidAirportCodeWithBadInput(){
+    Project1 test = new Project1();
+    boolean value = test.isValidAirportCode("PD1");
+    assertThat(value, equalTo(false));
   }
 
   @Test
