@@ -45,4 +45,10 @@ class Project1IT extends InvokeMainTestCase {
               "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate"));
   }
 
+  @Test
+  void testReadMe(){
+      MainMethodResult result = invokeMain("-README");
+      assertThat(result.getTextWrittenToStandardError(), containsString(""));
+  }
+
 }

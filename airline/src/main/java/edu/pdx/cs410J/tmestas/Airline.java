@@ -38,6 +38,11 @@ public class Airline extends AbstractAirline<Flight> {
     this.NewFlight = flight;
   }
 
+  /**
+   * Not implemented yet
+   * @return Throws an exception
+   */
+
   @Override
   public Collection<Flight> getFlights() {
     throw new UnsupportedOperationException("This method is not implemented yet");

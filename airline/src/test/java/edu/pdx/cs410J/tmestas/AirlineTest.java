@@ -38,4 +38,6 @@ public class AirlineTest {
         Airline airline = new Airline("Alaska Airlines");
         assertThrows(UnsupportedOperationException.class, airline::getFlights);
     }
+
+
 }
