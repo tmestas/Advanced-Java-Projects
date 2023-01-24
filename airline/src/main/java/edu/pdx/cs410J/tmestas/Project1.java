@@ -135,11 +135,10 @@ public class Project1 {
           while((line=reader.readLine())!=null){
             System.out.println(line);
           }
-
         }
         catch(Exception e)
         {
-          System.out.println("Could not find readme");
+          return;
         }
 
         return;

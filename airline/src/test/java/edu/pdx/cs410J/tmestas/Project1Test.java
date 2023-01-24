@@ -31,14 +31,14 @@ class Project1Test {
   }
 
   @Test
-  void testIsValidTimeWithGoodInput1(){
+  void testIsValidTimeWithGoodInput1Digit(){
     Project1 test = new Project1();
     boolean value = test.isValidTime("1:30");
     assertThat(value, equalTo(true));
   }
 
   @Test
-  void testIsValidTimeWithGoodInput2(){
+  void testIsValidTimeWithGoodInput2Digits(){
     Project1 test = new Project1();
     boolean value = test.isValidTime("10:30");
     assertThat(value, equalTo(true));

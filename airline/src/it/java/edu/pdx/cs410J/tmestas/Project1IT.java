@@ -18,6 +18,7 @@ class Project1IT extends InvokeMainTestCase {
         return invokeMain( Project1.class, args);
     }
 
+
   /**
    * Tests that invoking the main method with no arguments issues an error
    */
@@ -48,6 +49,12 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void testReadMe(){
       MainMethodResult result = invokeMain("-README");
+      assertThat(result.getTextWrittenToStandardError(), containsString(""));
+  }
+
+  @Test
+  void testFlightNum(){
+      MainMethodResult result = invokeMain("-print", "\"Alaska Airlines\"", "Hello", "PDX", "10:40", "11/22/2022", "BOI", "10:45", "112/22/2022");
       assertThat(result.getTextWrittenToStandardError(), containsString(""));
   }
 
