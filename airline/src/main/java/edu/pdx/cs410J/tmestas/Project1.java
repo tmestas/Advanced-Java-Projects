@@ -101,7 +101,7 @@ public class Project1 {
         {
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line = reader.readLine();
-          System.out.println(line);
+          System.out.print(line);
         }
         catch(Exception e)
         {
