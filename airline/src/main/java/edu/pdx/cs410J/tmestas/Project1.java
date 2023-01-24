@@ -100,8 +100,11 @@ public class Project1 {
         try (InputStream readme = Project1.class.getResourceAsStream("README.txt"))
         {
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
-          String line = reader.readLine();
-          System.out.print(line);
+          String line;
+          while((line=reader.readLine())!=null){
+            System.out.println(line);
+          }
+
         }
         catch(Exception e)
         {
