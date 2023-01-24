@@ -9,8 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for the {@link Airline} class.
- *
- * You'll need to update these unit tests as you build out you program.
  */
 public class AirlineTest {
     @Test

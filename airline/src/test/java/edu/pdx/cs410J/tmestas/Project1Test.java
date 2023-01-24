@@ -30,25 +30,33 @@ class Project1Test {
     }
   }
 
-
-
   @Test
   void testIsValidTime(){
-
+    Project1 test = new Project1();
+    boolean value = test.isValidTime("1:30");
+    assertThat(value, equalTo(true));
   }
 
   @Test
   void testIsValidDate(){
-
+    Project1 test = new Project1();
+    boolean value = test.isValidDate("10/22/2022");
+    assertThat(value, equalTo(true));
   }
 
   @Test
   void testIsValidAirportCode(){
-
+    Project1 test = new Project1();
+    boolean value = test.isValidAirportCode("PDX");
+    assertThat(value, equalTo(true));
   }
 
   @Test
-  void testIsValidInput(){
-
+  void testCheckValidInput(){
+    Project1 test = new Project1();
+    boolean value = test.checkValidInput(1234, "PDX", "10:20", "10/22/2022",
+            "BOI", "10:24", "10/22/2022");
+    assertThat(value, equalTo(true));
   }
+
 }
