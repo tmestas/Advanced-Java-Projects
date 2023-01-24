@@ -32,36 +32,32 @@ class Project1IT extends InvokeMainTestCase {
 
   @Test
   void testWrongTimeFormat() {
-      MainMethodResult result = invokeMain("-print \"Alaska Airlines\" 123 PDX 10:40 11/22/2022 BOI 234:45 11/22/2022");
-      assertThat(result.getTextWrittenToStandardError(), containsString("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
-              "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
-              "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate"));
+      MainMethodResult result = invokeMain("-print", "\"Alaska Airlines\"", "123", "PDX", "1024:40", "11/22/2022", "BOI", "10:45", "112/22/2022");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Invalid Time"));
   }
 
   @Test
   void testWrongDateFormat(){
-      MainMethodResult result = invokeMain("-print \"Alaska Airlines\" 123 PDX 10:40 11/22/2022 BOI 10:45 112/22/2022");
-      assertThat(result.getTextWrittenToStandardError(), containsString("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
-              "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
-              "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate"));
+      MainMethodResult result = invokeMain("-print", "\"Alaska Airlines\"", "123", "PDX", "10:40", "11/22/2022", "BOI", "10:45", "112/22/2022");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Invalid Date"));
   }
 
   @Test
   void testReadMe(){
       MainMethodResult result = invokeMain("-README");
-      assertThat(result.getTextWrittenToStandardError(), containsString(""));
+      assertThat(result.getTextWrittenToStandardOut(), containsString(""));
   }
 
   @Test
   void testFlightNum(){
       MainMethodResult result = invokeMain("-print", "\"Alaska Airlines\"", "Hello", "PDX", "10:40", "11/22/2022", "BOI", "10:45", "112/22/2022");
-      assertThat(result.getTextWrittenToStandardError(), containsString(""));
+      assertThat(result.getTextWrittenToStandardOut(), containsString("\nFlight Number is not valid, please enter an integer value\n"));
   }
 
   @Test
   void testAirportCode(){
-      MainMethodResult result = invokeMain("-print", "\"Alaska Airlines\"", "123", "PD1", "10:40", "11/22/2022", "BOI", "10:45", "112/22/2022");
-      assertThat(result.getTextWrittenToStandardError(), containsString(""));
+      MainMethodResult result = invokeMain("-print", "\"Alaska Airlines\"", "123", "PD1", "10:40", "11/22/2022", "BOI", "10:45", "12/22/2022");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Invalid Airport Code"));
   }
 
 }
