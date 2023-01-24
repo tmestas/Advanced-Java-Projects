@@ -58,4 +58,10 @@ class Project1IT extends InvokeMainTestCase {
       assertThat(result.getTextWrittenToStandardError(), containsString(""));
   }
 
+  @Test
+  void testAirportCode(){
+      MainMethodResult result = invokeMain("-print", "\"Alaska Airlines\"", "123", "PD1", "10:40", "11/22/2022", "BOI", "10:45", "112/22/2022");
+      assertThat(result.getTextWrittenToStandardError(), containsString(""));
+  }
+
 }
