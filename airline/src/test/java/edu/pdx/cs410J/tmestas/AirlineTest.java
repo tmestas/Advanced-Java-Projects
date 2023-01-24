@@ -32,4 +32,10 @@ public class AirlineTest {
         airline.addFlight(flight);
         assertThat(airline.getFlight(), equalTo(flight));
     }
+
+    @Test
+    void testGetFlights(){
+        Airline airline = new Airline("Alaska Airlines");
+        assertThrows(UnsupportedOperationException.class, airline::getFlights);
+    }
 }
