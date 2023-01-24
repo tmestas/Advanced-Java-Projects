@@ -29,4 +29,12 @@ class Project1IT extends InvokeMainTestCase {
             "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate"));
   }
 
+  @Test
+  void testWrongTimeFormat(){
+      MainMethodResult result = invokeMain("-print Alaska Airlines 123 PDX 10:40 11/22/2022 BOI 10:45 11/22/2022");
+      assertThat(result.getTextWrittenToStandardError(), containsString("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
+              "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
+              "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate"));
+  }
+
 }
