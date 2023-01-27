@@ -61,8 +61,16 @@ public class Project1 {
 
     for(char c: array){
       if(!Character.isLetter(c)){
+        System.out.println("\nNon letter found in airport code");
         hasNonLetter = true;
       }
+    }
+
+    if(airportCode.length() > 3){
+      System.out.println("\nAirport code too long");
+    }
+    else if(airportCode.length() < 3){
+      System.out.println("\nAirport code too short");
     }
 
     if(hasNonLetter || airportCode.length() != 3){
@@ -91,18 +99,28 @@ public class Project1 {
   {
     boolean value = true;
 
-    if(!isValidTime(departTime) || !isValidTime(arrivalTime)){
-      System.out.println("\nInvalid Time\nValid Format: hh:mm\n");
+    if(!isValidTime(departTime)){
+      System.out.println("\n" + departTime+" is not a valid departure time.\nValid Format: hh:mm\n");
       value = false;
     }
 
-    if(!isValidDate(departDate) || !isValidDate(arrivalDate)){
-      System.out.println("\nInvalid Date\nValid Format: mm/dd/yyyy\n");
+    if(!isValidTime(arrivalTime)){
+      System.out.println("\n" + arrivalTime+" is not a valid arrival time.\nValid Format: hh:mm\n");
       value = false;
+    }
+
+    if(!isValidDate(departDate)){
+      System.out.println("\n" + departDate +" is not a valid departure date.\nValid Format: mm/dd/yyyy\n");
+      value = false;
+    }
+
+    if(!isValidDate(arrivalDate)){
+    System.out.println("\n" +arrivalDate +" is not a valid arrival date.\nValid Format: mm/dd/yyyy\n");
+    value = false;
     }
 
     if(!isValidAirportCode(departAirport) || !isValidAirportCode(arrivalAirport)){
-      System.out.println("\nInvalid Airport Code \nAirport Code must be 3 letters and no other characters\n");
+      System.out.println("\nAirport Code must be 3 letters and no other characters\n");
       value = false;
     }
 
@@ -143,21 +161,28 @@ public class Project1 {
 
         return;
       }
-      if(option.equals("-print")){print = true;}
+      else if(option.equals("-print")){print = true;}
+      else{
+        System.out.println("\nUnrecognized command line option.");
+        return;
+      }
     } //check for flags
 
     int listSize = options.size(); //get the list size, so we know where to start looking for command line args
 
-    try {
-      if(args.length != 9){
-        throw new RuntimeException();
-      }
-    }catch(Exception e){ //there are not enough arguments in the command line
+    if((args.length < 8 && listSize == 0) || (args.length < 9 && listSize == 1))
+    {
       System.err.println("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
+                "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
+                "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
+      return;
+    }
+    else if((args.length > 8 && listSize == 0) || (args.length > 9 && listSize == 1)){
+      System.err.println("\n\nTOO MANY ARGUMENTS INCLUDED\n" +
               "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
               "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
       return;
-    } //check if there are enough arguments
+    }
 
     try{
       Integer.parseInt(args[listSize + 1]);
@@ -167,14 +192,23 @@ public class Project1 {
       return;
     }
 
+    String arrivalTime = new String();
+    try{
+      arrivalTime = args[listSize + 7];
+    }
+    catch(Exception e){
+      System.out.println("No arrival time included");
+      return;
+    }
+
     String airlineName = args[listSize];
     Integer flightNum = Integer.parseInt(args[listSize + 1]);
     String departAirport = args[listSize + 2];
-    String departTime = args[listSize + 3];
-    String departDate = args[listSize + 4];
+    String departTime = args[listSize + 4];
+    String departDate = args[listSize + 3];
     String arrivalAirport = args[listSize + 5];
-    String arrivalTime = args[listSize + 6];
-    String arrivalDate = args[listSize + 7];
+    arrivalTime = args[listSize + 7];
+    String arrivalDate = args[listSize + 6];
 
     //Error check times and dates
     if(!checkValidInput(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate)){return;}
