@@ -89,9 +89,15 @@ public class Project1 {
    * @return
    */
   @VisibleForTesting
-  static List<String> seperateArguments(String args[], int startingIndex){
-    List<String> newArgs = new String[9];
+  static List<String> separateArguments(String args[], int startingIndex){
+    List<String> newArgs = new LinkedList<String>();
+    int size = args.length;
 
+    for(int i = startingIndex; i < size; ++i){
+      newArgs.add(args[i]);
+    }
+
+    return newArgs;
   }
 
   /**
@@ -150,6 +156,7 @@ public class Project1 {
     boolean textFile = false;
 
 
+
     List<String> options = new LinkedList<String>();
 
     for (String arg : args) {
@@ -185,14 +192,15 @@ public class Project1 {
 
     int listSize = options.size(); //get the list size, so we know where to start looking for command line args
 
-    if((args.length < 8 && listSize == 0) || (args.length < 9 && listSize == 1))
-    {
+    List<String> newArgs = separateArguments(args, listSize); //needs a test
+
+    if(newArgs.size() < 8){
       System.err.println("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
-                "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
-                "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
+              "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
+              "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
       return;
     }
-    else if((args.length > 8 && listSize == 0) || (args.length > 9 && listSize == 1)){
+    else if(newArgs.size() > 8){
       System.err.println("\n\nTOO MANY ARGUMENTS INCLUDED\n" +
               "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
               "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
