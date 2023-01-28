@@ -11,6 +11,7 @@ import java.lang.Integer;
 import java.text.SimpleDateFormat;
 
 
+
 /**
  * The main class for the CS410J airline Project
  */
@@ -81,6 +82,18 @@ public class Project1 {
     }
   }
 
+  /** A method to seperate command line options from arguments, and check their validity
+   *
+   * @param args
+   * @param startingIndex
+   * @return
+   */
+  @VisibleForTesting
+  static List<String> seperateArguments(String args[], int startingIndex){
+    List<String> newArgs = new String[9];
+
+  }
+
   /**
    * A method to run all input check functions
    * @param flightNum user entered flight number
@@ -134,6 +147,7 @@ public class Project1 {
   public static void main(String[] args) {
 
     boolean print = false;
+    boolean textFile = false;
 
 
     List<String> options = new LinkedList<String>();
@@ -162,7 +176,8 @@ public class Project1 {
         return;
       }
       else if(option.equals("-print")){print = true;}
-      else{
+      else if (option.equals("-textFile")) {textFile = true;}
+      else {
         System.out.println("\nUnrecognized command line option.");
         return;
       }
