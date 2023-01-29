@@ -262,6 +262,7 @@ public class Project1 {
 
     if(textFile){
 
+      /*
       Airline tempAirline = new Airline("");
 
       try{
@@ -274,6 +275,8 @@ public class Project1 {
       catch(Exception e){
         System.out.println("Error parsing");
       }
+      */
+
 
       try {
         FileWriter f = new FileWriter(filePath, true);
@@ -283,13 +286,13 @@ public class Project1 {
         //I think the point of the file parser is to make sure that the airline is
         //already in the file, so that function would likely need to be called here.
 
-        if(tempAirline.getName() != newAirline.getName()){
+        //if(tempAirline.getName() != newAirline.getName()){
           //write function to add flight to existing airline
-        }
-        else
-        {
+        //}
+       // else
+        //{
           test.dump(newAirline); //add new airline and flights
-        }
+       // }
 
 
       }
