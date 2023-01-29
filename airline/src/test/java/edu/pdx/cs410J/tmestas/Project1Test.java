@@ -139,5 +139,30 @@ class Project1Test {
     assertThat(value.size(), equalTo(9));
   }
 
+  @Test
+  void testGetFilePath(){
+    Project1 test = new Project1();
+    String[] args = new String[9];
+
+    args[0] = "Alaska Airlines";
+    args[1] = "1234";
+    args[2] = "PDX";
+    args[3] = "10/22/2022";
+    args[4] = "10:20";
+    args[5] = "BOI";
+    args[6] = "10/22/2022";
+    args[7] = "-textFile";
+    args[8] = "here/directory/seipp.txt";
+
+    String value = test.getFilePath(args);
+    assertThat(value, equalTo("here/directory/seipp.txt"));
+  }
+
+  @Test
+  void testIsValidFilePath(){
+    Project1 test = new Project1();
+    boolean value = test.isValidFilePath("here/directory/seipp.txt");
+    assertThat(value, equalTo(true));
+  }
 
 }

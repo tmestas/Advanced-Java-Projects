@@ -2,9 +2,7 @@ package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
@@ -174,8 +172,6 @@ public class Project1 {
     boolean textFile = false;
     String filePath = new String();
 
-
-
     List<String> options = new LinkedList<String>();
 
     for (String arg : args) {
@@ -257,11 +253,27 @@ public class Project1 {
     Airline newAirline = new Airline(airlineName);
     newAirline.addFlight(flight);
 
+
     Flight temp = new Flight();
     for(Flight f: newAirline.getFlights()){
       temp = f;
     }
 
+    if(textFile){
+
+      try {
+        FileWriter f = new FileWriter(filePath, true);
+        BufferedWriter b = new BufferedWriter(f);
+        PrintWriter writer = new PrintWriter(b);
+        TextDumper test = new TextDumper(writer);
+        //I think the point of the file parser is to make sure that the airline is
+        //already in the file, so that function would likely need to be called here.
+        test.dump(newAirline);
+      }
+      catch(Exception e){
+        System.out.println("Error opening the file");
+      }
+    }
     if(print){System.out.println("\n" + temp.toString() + "\n");}
   }
 
