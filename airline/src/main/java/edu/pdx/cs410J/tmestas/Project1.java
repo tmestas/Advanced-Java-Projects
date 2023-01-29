@@ -2,13 +2,13 @@ package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import javax.sound.sampled.spi.AudioFileReader;
+import java.io.*;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
+
 
 
 /**
@@ -81,6 +81,42 @@ public class Project1 {
     }
   }
 
+  /** A method to seperate command line options from arguments, and check their validity
+   *
+   * @param args
+   * @param startingIndex
+   * @return
+   */
+  @VisibleForTesting
+  static List<String> separateArguments(String args[], int startingIndex){
+    List<String> newArgs = new LinkedList<String>();
+    int size = args.length;
+
+    for(int i = startingIndex; i < size; ++i){
+      newArgs.add(args[i]);
+    }
+
+    return newArgs;
+  }
+
+  @VisibleForTesting //no test
+  static String getFilePath(String args[]){
+    String filePath = new String();
+    for(int i = 0; i < args.length; ++i){
+      if(args[i].equals("-textFile")){
+        filePath = (args[i+1]);
+      }
+    }
+    return filePath;
+  }
+
+  @VisibleForTesting //no test
+  static boolean isValidFilePath(String filePath){
+    if(filePath.contains("\\") || filePath.contains("/") ){return true;}
+
+    return false;
+  }
+
   /**
    * A method to run all input check functions
    * @param flightNum user entered flight number
@@ -134,7 +170,8 @@ public class Project1 {
   public static void main(String[] args) {
 
     boolean print = false;
-
+    boolean textFile = false;
+    String filePath = new String();
 
     List<String> options = new LinkedList<String>();
 
@@ -162,22 +199,31 @@ public class Project1 {
         return;
       }
       else if(option.equals("-print")){print = true;}
-      else{
+      else if (option.equals("-textFile")) {textFile = true;}
+      else {
         System.out.println("\nUnrecognized command line option.");
         return;
       }
     } //check for flags
 
-    int listSize = options.size(); //get the list size, so we know where to start looking for command line args
+    if(textFile){
+      filePath = getFilePath(args);
+    } //get textFile path
 
-    if((args.length < 8 && listSize == 0) || (args.length < 9 && listSize == 1))
-    {
+    System.out.println(filePath);
+
+    int listSize = options.size(); //get the list size, so we know where to start looking for command line args
+    if(isValidFilePath(filePath)){++listSize;} //must account for the extra arg if valid filepath was included
+
+    List<String> newArgs = separateArguments(args, listSize); //needs a test
+
+    if(newArgs.size() < 8){
       System.err.println("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
-                "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
-                "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
+              "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
+              "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
       return;
     }
-    else if((args.length > 8 && listSize == 0) || (args.length > 9 && listSize == 1)){
+    else if(newArgs.size() > 8){
       System.err.println("\n\nTOO MANY ARGUMENTS INCLUDED\n" +
               "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
               "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
@@ -192,22 +238,13 @@ public class Project1 {
       return;
     }
 
-    String arrivalTime = new String();
-    try{
-      arrivalTime = args[listSize + 7];
-    }
-    catch(Exception e){
-      System.out.println("No arrival time included");
-      return;
-    }
-
     String airlineName = args[listSize];
     Integer flightNum = Integer.parseInt(args[listSize + 1]);
     String departAirport = args[listSize + 2];
     String departTime = args[listSize + 4];
     String departDate = args[listSize + 3];
     String arrivalAirport = args[listSize + 5];
-    arrivalTime = args[listSize + 7];
+    String arrivalTime = args[listSize + 7];
     String arrivalDate = args[listSize + 6];
 
     //Error check times and dates
@@ -217,11 +254,49 @@ public class Project1 {
     Airline newAirline = new Airline(airlineName);
     newAirline.addFlight(flight);
 
+
     Flight temp = new Flight();
     for(Flight f: newAirline.getFlights()){
       temp = f;
     }
 
+    if(textFile){
+
+      Airline tempAirline = new Airline("");
+
+      try{
+        FileReader f = new FileReader(filePath);
+        BufferedReader b = new BufferedReader(f);
+        TextParser test = new TextParser(b);
+        tempAirline = test.parse();
+        //System.out.print(tempAirline.getName());
+      }
+      catch(Exception e){
+        System.out.println("Error parsing");
+      }
+
+      try {
+        FileWriter f = new FileWriter(filePath, true);
+        BufferedWriter b = new BufferedWriter(f);
+        PrintWriter writer = new PrintWriter(b);
+        TextDumper test = new TextDumper(writer);
+        //I think the point of the file parser is to make sure that the airline is
+        //already in the file, so that function would likely need to be called here.
+
+        if(tempAirline.getName() != newAirline.getName()){
+          //write function to add flight to existing airline
+        }
+        else
+        {
+          test.dump(newAirline); //add new airline and flights
+        }
+
+
+      }
+      catch(Exception e){
+        System.out.println("Error opening the file");
+      }
+    }
     if(print){System.out.println("\n" + temp.toString() + "\n");}
   }
 

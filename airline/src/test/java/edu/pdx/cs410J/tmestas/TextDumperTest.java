@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.ParserException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -14,7 +15,7 @@ public class TextDumperTest {
 
   @Test
   void airlineNameIsDumpedInTextFormat() {
-    String airlineName = "Test Airline";
+    String airlineName = "START AIRLINE";
     Airline airline = new Airline(airlineName);
 
     StringWriter sw = new StringWriter();
@@ -27,7 +28,7 @@ public class TextDumperTest {
 
   @Test
   void canParseTextWrittenByTextDumper(@TempDir File tempDir) throws IOException, ParserException {
-    String airlineName = "Test Airline";
+    String airlineName = "START AIRLINE";
     Airline airline = new Airline(airlineName);
 
     File textFile = new File(tempDir, "airline.txt");

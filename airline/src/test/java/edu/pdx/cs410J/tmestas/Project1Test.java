@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -100,6 +102,67 @@ class Project1Test {
     boolean value = test.checkValidInput(1234, "PDX", "10:20", "10/22/2022",
             "BOI", "10:242", "10/22/2022");
     assertThat(value, equalTo(false));
+  }
+
+  @Test
+  void testSeparateArgumentsTooFew(){
+    Project1 test = new Project1();
+    String[] args = new String[7];
+
+    args[0] = "Alaska Airlines";
+    args[1] = "1234";
+    args[2] = "PDX";
+    args[3] = "10/22/2022";
+    args[4] = "10:20";
+    args[5] = "BOI";
+    args[6] = "10/22/2022";
+
+    List<String> value = test.separateArguments(args, 0);
+    assertThat(value.size(), equalTo(7));
+  }
+  @Test
+  void testSeparateArgumentsTooMany(){
+    Project1 test = new Project1();
+    String[] args = new String[9];
+
+    args[0] = "Alaska Airlines";
+    args[1] = "1234";
+    args[2] = "PDX";
+    args[3] = "10/22/2022";
+    args[4] = "10:20";
+    args[5] = "BOI";
+    args[6] = "10/22/2022";
+    args[7] = "10:24";
+    args[8] = "seipp";
+
+    List<String> value = test.separateArguments(args, 0);
+    assertThat(value.size(), equalTo(9));
+  }
+
+  @Test
+  void testGetFilePath(){
+    Project1 test = new Project1();
+    String[] args = new String[9];
+
+    args[0] = "Alaska Airlines";
+    args[1] = "1234";
+    args[2] = "PDX";
+    args[3] = "10/22/2022";
+    args[4] = "10:20";
+    args[5] = "BOI";
+    args[6] = "10/22/2022";
+    args[7] = "-textFile";
+    args[8] = "here/directory/seipp.txt";
+
+    String value = test.getFilePath(args);
+    assertThat(value, equalTo("here/directory/seipp.txt"));
+  }
+
+  @Test
+  void testIsValidFilePath(){
+    Project1 test = new Project1();
+    boolean value = test.isValidFilePath("here/directory/seipp.txt");
+    assertThat(value, equalTo(true));
   }
 
 }
