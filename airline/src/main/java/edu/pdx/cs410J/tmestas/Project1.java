@@ -100,6 +100,24 @@ public class Project1 {
     return newArgs;
   }
 
+  @VisibleForTesting //no test
+  static String getFilePath(String args[]){
+    String filePath = new String();
+    for(int i = 0; i < args.length; ++i){
+      if(args[i].equals("-textFile")){
+        filePath = (args[i+1]);
+      }
+    }
+    return filePath;
+  }
+
+  @VisibleForTesting //no test
+  static boolean isValidFilePath(String filePath){
+    if(filePath.contains("\\") || filePath.contains("/") ){return true;}
+
+    return false;
+  }
+
   /**
    * A method to run all input check functions
    * @param flightNum user entered flight number
@@ -154,6 +172,7 @@ public class Project1 {
 
     boolean print = false;
     boolean textFile = false;
+    String filePath = new String();
 
 
 
@@ -190,7 +209,14 @@ public class Project1 {
       }
     } //check for flags
 
+    if(textFile){
+      filePath = getFilePath(args);
+    } //get textFile path
+
+    System.out.println(filePath);
+
     int listSize = options.size(); //get the list size, so we know where to start looking for command line args
+    if(isValidFilePath(filePath)){++listSize;} //must account for the extra arg if valid filepath was included
 
     List<String> newArgs = separateArguments(args, listSize); //needs a test
 
@@ -215,22 +241,13 @@ public class Project1 {
       return;
     }
 
-    String arrivalTime = new String();
-    try{
-      arrivalTime = args[listSize + 7];
-    }
-    catch(Exception e){
-      System.out.println("No arrival time included");
-      return;
-    }
-
     String airlineName = args[listSize];
     Integer flightNum = Integer.parseInt(args[listSize + 1]);
     String departAirport = args[listSize + 2];
     String departTime = args[listSize + 4];
     String departDate = args[listSize + 3];
     String arrivalAirport = args[listSize + 5];
-    arrivalTime = args[listSize + 7];
+    String arrivalTime = args[listSize + 7];
     String arrivalDate = args[listSize + 6];
 
     //Error check times and dates
