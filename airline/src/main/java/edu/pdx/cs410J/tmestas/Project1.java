@@ -2,6 +2,7 @@ package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import javax.sound.sampled.spi.AudioFileReader;
 import java.io.*;
 import java.text.ParseException;
 import java.util.*;
@@ -261,6 +262,19 @@ public class Project1 {
 
     if(textFile){
 
+      Airline tempAirline = new Airline("");
+
+      try{
+        FileReader f = new FileReader(filePath);
+        BufferedReader b = new BufferedReader(f);
+        TextParser test = new TextParser(b);
+        tempAirline = test.parse();
+        //System.out.print(tempAirline.getName());
+      }
+      catch(Exception e){
+        System.out.println("Error parsing");
+      }
+
       try {
         FileWriter f = new FileWriter(filePath, true);
         BufferedWriter b = new BufferedWriter(f);
@@ -268,7 +282,16 @@ public class Project1 {
         TextDumper test = new TextDumper(writer);
         //I think the point of the file parser is to make sure that the airline is
         //already in the file, so that function would likely need to be called here.
-        test.dump(newAirline);
+
+        if(tempAirline.getName() != newAirline.getName()){
+          //write function to add flight to existing airline
+        }
+        else
+        {
+          test.dump(newAirline); //add new airline and flights
+        }
+
+
       }
       catch(Exception e){
         System.out.println("Error opening the file");

@@ -22,7 +22,7 @@ public class TextDumper implements AirlineDumper<Airline> {
     try (
       PrintWriter pw = new PrintWriter(this.writer)
       ) {
-      pw.println("START AIRLINE");
+      //pw.println("START AIRLINE");
       pw.println(airline.getName());
 
       for(Flight f: airline.getFlights()) {
@@ -34,7 +34,7 @@ public class TextDumper implements AirlineDumper<Airline> {
         pw.println(f.getArrivalString());
         pw.println("END FLIGHT\n");
       }
-      pw.println("END AIRLINE");
+      pw.println("END AIRLINE\n");
       pw.flush();
     }
     catch(Exception e){
