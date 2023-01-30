@@ -23,52 +23,52 @@ public class AboutPrimitives {
 
     @Koan
     public void integersHaveAFairlyLargeRange() {
-        assertEquals(Integer.MIN_VALUE, __);
-        assertEquals(Integer.MAX_VALUE, __);
+        assertEquals(Integer.MIN_VALUE, -2147483648);
+        assertEquals(Integer.MAX_VALUE, 2147483647);
     }
 
     @Koan
     public void integerSize() {
-        assertEquals(Integer.SIZE, __);  // This is the amount of bits used to store an int
+        assertEquals(Integer.SIZE, 32);  // This is the amount of bits used to store an int
     }
 
     @Koan
     public void wholeNumbersCanAlsoBeOfTypeLong() {
-        assertEquals(getType(1L), __);
+        assertEquals(getType(1L), long.class);
     }
 
     @Koan
     public void primitivesOfTypeLongHaveAnObjectTypeLong() {
         Object number = 1L;
-        assertEquals(getType(number), __);
+        assertEquals(getType(number), number.getClass());
     }
 
     @Koan
     public void longsHaveALargerRangeThanInts() {
-        assertEquals(Long.MIN_VALUE, __);
-        assertEquals(Long.MAX_VALUE, __);
+        assertEquals(Long.MIN_VALUE, -9223372036854775808L);
+        assertEquals(Long.MAX_VALUE, 9223372036854775807L);
     }
 
     @Koan
     public void longSize() {
-        assertEquals(Long.SIZE, __);
+        assertEquals(Long.SIZE, 64);
     }
 
     @Koan
     public void wholeNumbersCanAlsoBeOfTypeShort() {
-        assertEquals(getType((short) 1), __); // The '(short)' is called an explicit cast - to type 'short'
+        assertEquals(getType((short) 1), short.class); // The '(short)' is called an explicit cast - to type 'short'
     }
 
     @Koan
     public void primitivesOfTypeShortHaveAnObjectTypeShort() {
         Object number = (short) 1;
-        assertEquals(getType(number), __);
+        assertEquals(getType(number), number.getClass());
     }
 
     @Koan
     public void shortsHaveASmallerRangeThanInts() {
-        assertEquals(Short.MIN_VALUE, __);  // hint: You'll need an explicit cast
-        assertEquals(Short.MAX_VALUE, __);
+        assertEquals(Short.MIN_VALUE, Short.MIN_VALUE);  // hint: You'll need an explicit cast
+        assertEquals(Short.MAX_VALUE, Short.MAX_VALUE);
     }
 
     @Koan
