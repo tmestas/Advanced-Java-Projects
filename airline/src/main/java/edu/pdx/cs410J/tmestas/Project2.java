@@ -240,8 +240,11 @@ public class Project2 {
 
     if(textFile){
       filePath = getFilePath(args);
+      /*
       if(isValidFilePath(filePath)){++listSize;}//must account for the extra arg if valid filepath was included
       else{System.out.println("Invalid file path");}
+      */
+       ++listSize;
     } //get textFile path
 
 
