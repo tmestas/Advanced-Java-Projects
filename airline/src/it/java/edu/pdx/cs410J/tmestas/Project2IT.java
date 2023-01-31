@@ -103,11 +103,13 @@ class Project2IT extends InvokeMainTestCase {
       assertThat(result.getTextWrittenToStandardOut(), containsString("Text file is malformatted"));
   }
 
+
   @Test
   void testInvalidFilePath(){
       MainMethodResult result = invokeMain("-textFile", "file?!Fake", "\"Alaska Airlines\"", "123", "PDX", "11/22/2022", "10:40", "BOI", "12/22/2022", "10:45");
       assertThat(result.getTextWrittenToStandardOut(), containsString("Invalid file path"));
   }
+
 
   @Test
   void testAirlineDoesNotExistInFile(){

@@ -123,8 +123,12 @@ public class Project2 {
    * @return true or false
    */
   @VisibleForTesting
-  static boolean isValidFilePath(String filePath){
+  static boolean isValidFilePath(String filePath) {
+
+    /*
     try{
+      //File check = new File(filePath);
+
       Paths.get(filePath);
     }catch(InvalidPathException e){
       System.out.println("Invalid File Path");
@@ -132,6 +136,9 @@ public class Project2 {
     }
 
     return true;
+    */
+     File check = new File(filePath);
+     return check.canWrite();
   }
 
   /**
