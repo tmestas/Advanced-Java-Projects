@@ -89,6 +89,8 @@ class Project2IT extends InvokeMainTestCase {
       assertThat(result.getTextWrittenToStandardOut(), containsString("Airport code too long"));
   }
 
+
+  /*
   @Test
   @Disabled
   void testFileDoesNotExist(){
@@ -98,6 +100,8 @@ class Project2IT extends InvokeMainTestCase {
       file.delete(); //so the test won't fail after running
   }
 
+   */
+
   @Test
   void testMalformedTextFile(){
       MainMethodResult result = invokeMain("-textFile", "src/test/resources/edu/pdx/cs410J/tmestas/malformed.txt", "\"Alaska Airlines\"", "123", "PDX", "11/22/2022", "10:40", "BOI", "12/22/2022", "10:45");
@@ -105,12 +109,15 @@ class Project2IT extends InvokeMainTestCase {
   }
 
 
+  /*
   @Test
   @Disabled
   void testInvalidFilePath(){
       MainMethodResult result = invokeMain("-textFile", "file?!Fake", "\"Alaska Airlines\"", "123", "PDX", "11/22/2022", "10:40", "BOI", "12/22/2022", "10:45");
       assertThat(result.getTextWrittenToStandardOut(), containsString("Invalid file path"));
   }
+
+   */
 
 
   @Test
@@ -119,6 +126,7 @@ class Project2IT extends InvokeMainTestCase {
       assertThat(result.getTextWrittenToStandardOut(), containsString("Airline name did not match text file, information not added"));
   }
 
+  /*
   @Test
   @Disabled
   void testAirlineIsFound(){
@@ -131,4 +139,6 @@ class Project2IT extends InvokeMainTestCase {
       MainMethodResult result = invokeMain("-print", "-textFile", "src/fake/directory/test.txt", "\"Seipp Airlines\"", "123", "PDX", "11/22/2022", "10:40", "BOI", "12/22/2022", "10:45");
       assertThat(result.getTextWrittenToStandardOut(), containsString("Could not access directory"));
   }
+
+   */
 }
