@@ -3,7 +3,6 @@ package edu.pdx.cs410J.tmestas;
 import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.ParserException;
 
-import javax.sound.sampled.spi.AudioFileReader;
 import java.io.*;
 import java.text.ParseException;
 import java.util.*;
@@ -15,7 +14,7 @@ import java.text.SimpleDateFormat;
 /**
  * The main class for the CS410J airline Project
  */
-public class Project1 {
+public class Project2 {
 
   /**
    * A method to check if the user entered time is in valid format
@@ -184,7 +183,7 @@ public class Project1 {
 
     for(String option: options){
       if(option.equals("-README")){
-        try (InputStream readme = Project1.class.getResourceAsStream("README.txt"))
+        try (InputStream readme = Project2.class.getResourceAsStream("README.txt"))
         {
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line;
@@ -270,8 +269,8 @@ public class Project1 {
       try{
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
-        TextParser test = new TextParser(b);
-        tempAirline = test.parse();
+        TextParser parser = new TextParser(b);
+        tempAirline = parser.parse();
         tempAirline.addFlight(flight); //append new airline to one read from file
       }
       catch(FileNotFoundException e){
@@ -295,6 +294,7 @@ public class Project1 {
           PrintWriter writer = new PrintWriter(b);
           TextDumper dumper = new TextDumper(writer);
           dumper.dump(tempAirline); //use tempAirline
+          System.out.println("ADDED TEMP");
         }
         catch (Exception e) {
           System.out.println("Error opening the file");
@@ -312,6 +312,12 @@ public class Project1 {
           PrintWriter writer = new PrintWriter(b);
           TextDumper dumper = new TextDumper(writer);
           dumper.dump(newAirline);
+          for(Flight p: newAirline.getFlights()){
+            System.out.println("Date: " + p.getArrivalDate() + "Time: "+ p.getArrivalTime());
+            //why the fuck are they flipped???????
+          }
+
+          System.out.println("ADDED NEW");
         }
         catch (Exception e) {
           System.out.println("Error opening the file");
