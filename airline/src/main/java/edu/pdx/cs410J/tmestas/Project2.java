@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 
 
 
+
 /**
  * The main class for the CS410J airline Project
  */
@@ -125,6 +126,7 @@ public class Project2 {
   @VisibleForTesting
   static boolean isValidFilePath(String filePath) {
 
+
     /*
     try{
       //File check = new File(filePath);
@@ -137,8 +139,12 @@ public class Project2 {
 
     return true;
     */
+
      File check = new File(filePath);
-     return check.canWrite();
+
+     return check.exists();
+
+
   }
 
   /**
