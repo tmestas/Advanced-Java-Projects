@@ -1,10 +1,18 @@
 package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
+import edu.pdx.cs410J.ParserException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.io.File;
 
 /**
  * An integration test for the {@link Project2} main class.
@@ -25,9 +33,7 @@ class Project2IT extends InvokeMainTestCase {
   @Test
   void testNoCommandLineArguments() {
     MainMethodResult result = invokeMain();
-    assertThat(result.getTextWrittenToStandardError(), containsString("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
-            "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
-            "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate"));
+    assertThat(result.getTextWrittenToStandardError(), containsString("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n"));
   }
 
   @Test
@@ -83,4 +89,41 @@ class Project2IT extends InvokeMainTestCase {
       assertThat(result.getTextWrittenToStandardOut(), containsString("Airport code too long"));
   }
 
+  @Test
+  void testFileDoesNotExist(){
+      MainMethodResult result = invokeMain("-textFile", "src/test/resources/edu/pdx/cs410J/tmestas/new.txt", "\"Alaska Airlines\"", "123", "PDX", "11/22/2022", "10:40", "BOI", "12/22/2022", "10:45");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("File does not exist"));
+      File file = new File("src/test/resources/edu/pdx/cs410J/tmestas/new.txt");
+      file.delete(); //so the test won't fail after running
+  }
+
+  @Test
+  void testMalformedTextFile(){
+      MainMethodResult result = invokeMain("-textFile", "src/test/resources/edu/pdx/cs410J/tmestas/malformed.txt", "\"Alaska Airlines\"", "123", "PDX", "11/22/2022", "10:40", "BOI", "12/22/2022", "10:45");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Text file is malformed"));
+  }
+
+  @Test
+  void testInvalidFilePath(){
+      MainMethodResult result = invokeMain("-textFile", "file?Fake", "\"Alaska Airlines\"", "123", "PDX", "11/22/2022", "10:40", "BOI", "12/22/2022", "10:45");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Invalid file path"));
+  }
+
+  @Test
+  void testAirlineDoesNotExistInFile(){
+      MainMethodResult result = invokeMain("-print", "-textFile", "src/test/resources/edu/pdx/cs410J/tmestas/valid-airline.txt", "\"Seipp Airlines\"", "123", "PDX", "11/22/2022", "10:40", "BOI", "12/22/2022", "10:45");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Airline name did not match text file, information not added"));
+  }
+
+  @Test
+  @Disabled
+  void testAirlineIsFound(){
+
+  }
+
+  @Test
+  void directoryDoesNotExist(){
+      MainMethodResult result = invokeMain("-print", "-textFile", "src/fake/directory/test.txt", "\"Seipp Airlines\"", "123", "PDX", "11/22/2022", "10:40", "BOI", "12/22/2022", "10:45");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Could not access directory"));
+  }
 }

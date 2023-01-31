@@ -4,10 +4,12 @@ import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
+import java.nio.file.InvalidPathException;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
+import java.nio.file.Paths;
 
 
 
@@ -99,22 +101,39 @@ public class Project2 {
     return newArgs;
   }
 
+  /**
+   * To get the provided file path if the user used the -textFile flag
+   * @param args args to look for the filepath in
+   * @return string with filepath
+   */
   @VisibleForTesting //no test
   static String getFilePath(String args[]){
     String filePath = new String();
     for(int i = 0; i < args.length; ++i){
       if(args[i].equals("-textFile")){
-        filePath = (args[i+1]);
+
+          filePath = (args[i + 1]);
+
       }
     }
     return filePath;
   }
 
-  @VisibleForTesting //no test
+  /**
+   * To check if the provided filepath is valid
+   * @param filePath provided filepath from the command line
+   * @return true or false
+   */
+  @VisibleForTesting
   static boolean isValidFilePath(String filePath){
-    if(filePath.contains("\\") || filePath.contains("/") ){return true;}
+    try{
+      Paths.get(filePath);
+    }catch(InvalidPathException e){
+      System.out.println("Invalid File Path");
+      return false;
+    }
 
-    return false;
+    return true;
   }
 
   /**
@@ -176,7 +195,7 @@ public class Project2 {
     List<String> options = new LinkedList<String>();
 
     for (String arg : args) {
-      if(arg.contains("-")){
+      if(arg.contains("-print") || arg.contains("-README") || arg.contains("-textFile")){
         options.add(arg);
       }
     } //add option flags to a list
@@ -206,27 +225,27 @@ public class Project2 {
       }
     } //check for flags
 
+    int listSize = options.size(); //get the list size, so we know where to start looking for command line args
+
     if(textFile){
       filePath = getFilePath(args);
+      System.out.println(filePath);
+
+      if(isValidFilePath(filePath)){++listSize;}//must account for the extra arg if valid filepath was included
+      else{System.out.println("Invalid file path");}
     } //get textFile path
 
-    System.out.println(filePath);
-
-    int listSize = options.size(); //get the list size, so we know where to start looking for command line args
-    if(isValidFilePath(filePath)){++listSize;} //must account for the extra arg if valid filepath was included
 
     List<String> newArgs = separateArguments(args, listSize); //needs a test
 
     if(newArgs.size() < 8){
       System.err.println("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
-              "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
-              "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
+              "Run with -README for instructions");
       return;
     }
     else if(newArgs.size() > 8){
       System.err.println("\n\nTOO MANY ARGUMENTS INCLUDED\n" +
-              "\nUSAGE:\njava -jar target/airline-2023.0.0.jar [options] \"Airline Name\" " +
-              "FlightNumber Source DepartureTime DepartureDate Destination ArrivalTime ArrivalDate");
+              "Run with -README for instructions");
       return;
     }
 
@@ -294,7 +313,7 @@ public class Project2 {
           PrintWriter writer = new PrintWriter(b);
           TextDumper dumper = new TextDumper(writer);
           dumper.dump(tempAirline); //use tempAirline
-          System.out.println("ADDED TEMP");
+          //System.out.println("ADDED TEMP");
         }
         catch (Exception e) {
           System.out.println("Error opening the file");
@@ -317,10 +336,10 @@ public class Project2 {
             //why the fuck are they flipped???????
           }
 
-          System.out.println("ADDED NEW");
+          //System.out.println("ADDED NEW");
         }
         catch (Exception e) {
-          System.out.println("Error opening the file");
+          System.out.println("Could not access directory");
         }
       }
     }
