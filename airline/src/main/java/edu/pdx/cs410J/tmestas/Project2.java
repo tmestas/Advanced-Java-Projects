@@ -111,9 +111,7 @@ public class Project2 {
     String filePath = new String();
     for(int i = 0; i < args.length; ++i){
       if(args[i].equals("-textFile")){
-
           filePath = (args[i + 1]);
-
       }
     }
     return filePath;
@@ -229,10 +227,8 @@ public class Project2 {
 
     if(textFile){
       filePath = getFilePath(args);
-      System.out.println(filePath);
-
       if(isValidFilePath(filePath)){++listSize;}//must account for the extra arg if valid filepath was included
-      else{System.out.println("Invalid file path");}
+      else{System.out.println("Invalid file path"); return;}
     } //get textFile path
 
 
@@ -297,12 +293,12 @@ public class Project2 {
         fileHasContent = false;
       }
       catch(ParserException e){
-        System.out.println("Text file is malformed");
+        System.out.println("Text file is malformatted");
         return;
         //fileHasContent = false;
       }
       catch(NumberFormatException e){
-        System.out.println("Text file is malformed");
+        System.out.println("Text file is malformatted");
         return;
       }
 
@@ -331,12 +327,6 @@ public class Project2 {
           PrintWriter writer = new PrintWriter(b);
           TextDumper dumper = new TextDumper(writer);
           dumper.dump(newAirline);
-          for(Flight p: newAirline.getFlights()){
-            System.out.println("Date: " + p.getArrivalDate() + "Time: "+ p.getArrivalTime());
-            //why the fuck are they flipped???????
-          }
-
-          //System.out.println("ADDED NEW");
         }
         catch (Exception e) {
           System.out.println("Could not access directory");
