@@ -15,7 +15,7 @@ public class TextDumperTest {
 
   @Test
   void airlineNameIsDumpedInTextFormat() {
-    String airlineName = "START AIRLINE";
+    String airlineName = "Test Airline";
     Airline airline = new Airline(airlineName);
 
     StringWriter sw = new StringWriter();
@@ -28,7 +28,7 @@ public class TextDumperTest {
 
   @Test
   void canParseTextWrittenByTextDumper(@TempDir File tempDir) throws IOException, ParserException {
-    String airlineName = "START AIRLINE";
+    String airlineName = "Test Airline";
     Airline airline = new Airline(airlineName);
 
     File textFile = new File(tempDir, "airline.txt");

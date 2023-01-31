@@ -20,8 +20,9 @@ public class TextParserTest {
 
     TextParser parser = new TextParser(new InputStreamReader(resource));
     Airline airline = parser.parse();
-    assertThat(airline.getName(), equalTo("Test Airline"));
+    assertThat(airline.getName(), equalTo("Alaska Airlines"));
   }
+
 
   @Test
   void invalidTextFileThrowsParserException() {
@@ -31,4 +32,5 @@ public class TextParserTest {
     TextParser parser = new TextParser(new InputStreamReader(resource));
     assertThrows(ParserException.class, parser::parse);
   }
+
 }

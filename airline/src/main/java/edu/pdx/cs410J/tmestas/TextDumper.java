@@ -22,20 +22,23 @@ public class TextDumper implements AirlineDumper<Airline> {
     try (
       PrintWriter pw = new PrintWriter(this.writer)
       ) {
-      //pw.println("START AIRLINE");
+
       pw.println(airline.getName());
 
       for(Flight f: airline.getFlights()) {
         pw.println();
         pw.println(f.getNumber());
         pw.println(f.getSource());
-        pw.println(f.getDepartureString());
+        pw.println(f.getDepartureDate());
+        pw.println(f.getDepartureTime());
         pw.println(f.getDestination());
-        pw.println(f.getArrivalString());
-        pw.println("END FLIGHT\n");
+        pw.println(f.getArrivalDate());
+        pw.println(f.getArrivalTime());
+        pw.println();
       }
-      pw.println("END AIRLINE\n");
+      pw.println("END AIRLINE");
       pw.flush();
+
     }
     catch(Exception e){
       System.out.println("Error writing to the file");

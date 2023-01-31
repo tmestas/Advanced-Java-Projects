@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.ParserException;
 
 import javax.sound.sampled.spi.AudioFileReader;
 import java.io.*;
@@ -262,7 +263,8 @@ public class Project1 {
 
     if(textFile){
 
-      /*
+      boolean fileHasContent = true;
+      //get an airline and all its flights from the file
       Airline tempAirline = new Airline("");
 
       try{
@@ -270,36 +272,30 @@ public class Project1 {
         BufferedReader b = new BufferedReader(f);
         TextParser test = new TextParser(b);
         tempAirline = test.parse();
-        //System.out.print(tempAirline.getName());
+        tempAirline.addFlight(flight); //append new airline to one read from file
       }
-      catch(Exception e){
-        System.out.println("Error parsing");
+      catch(FileNotFoundException e){
+        System.out.println("File does not exist, creating file and adding information");
+        fileHasContent = false;
       }
-      */
-
+      catch(ParserException e){
+        System.out.println("File is malformed, overriding ");
+        fileHasContent = false;
+      }
 
       try {
-        FileWriter f = new FileWriter(filePath, true);
+        FileWriter f = new FileWriter(filePath, false);
         BufferedWriter b = new BufferedWriter(f);
         PrintWriter writer = new PrintWriter(b);
         TextDumper test = new TextDumper(writer);
-        //I think the point of the file parser is to make sure that the airline is
-        //already in the file, so that function would likely need to be called here.
-
-        //if(tempAirline.getName() != newAirline.getName()){
-          //write function to add flight to existing airline
-        //}
-       // else
-        //{
-          test.dump(newAirline); //add new airline and flights
-       // }
-
-
+        if(fileHasContent){test.dump(tempAirline);}//use tempAirline
+        else{test.dump(newAirline);}               //use newAirline
       }
-      catch(Exception e){
-        System.out.println("Error opening the file");
+      catch (Exception e) {
+          System.out.println("Error opening the file");
       }
     }
+
     if(print){System.out.println("\n" + temp.toString() + "\n");}
   }
 

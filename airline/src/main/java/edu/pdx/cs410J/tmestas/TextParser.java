@@ -26,13 +26,37 @@ public class TextParser implements AirlineParser<Airline> {
 
       String airlineName = br.readLine();
 
-      if (airlineName == null) {
-        throw new ParserException("Missing airline name");
+      if (airlineName == null){
+        throw new ParserException("No airline name found");
       }
 
-      return new Airline(airlineName);
+      Airline newAirline = new Airline(airlineName);
+      Flight toAdd;
+      String flightNum;
+      String source;
+      String departureDate;
+      String departureTime;
+      String destination;
+      String arrivalDate;
+      String arrivalTime;
+
+      while(!br.readLine().equals("END AIRLINE")){
+        flightNum = br.readLine();
+        source = br.readLine();
+        departureDate = br.readLine();
+        departureTime = br.readLine();
+        destination = br.readLine();
+        arrivalDate = br.readLine();
+        arrivalTime = br.readLine();
+        toAdd = new Flight(Integer.parseInt(flightNum), source, departureDate, departureTime, destination, arrivalDate, arrivalTime);
+        newAirline.addFlight(toAdd);
+        br.readLine();
+      }
+
+      return newAirline;
 
     } catch (IOException e) {
+
       throw new ParserException("While parsing airline text", e);
     }
   }

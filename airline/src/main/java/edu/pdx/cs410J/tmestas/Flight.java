@@ -82,4 +82,19 @@ public class Flight extends AbstractFlight {
   public String getArrivalString(){
     return ArrivalTime + " " + ArrivalDate;
   }
+
+  public String getDepartureDate(){
+    return this.DepartureDate;
+  }
+  public String getDepartureTime(){
+    return this.DepartureTime;
+  }
+  public String getArrivalDate(){
+    return this.ArrivalDate;
+  }
+  public String getArrivalTime(){
+    return this.ArrivalTime;
+  }
+
+
 }
