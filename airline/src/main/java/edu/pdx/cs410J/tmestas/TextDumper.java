@@ -12,10 +12,18 @@ import java.io.Writer;
 public class TextDumper implements AirlineDumper<Airline> {
   private final Writer writer;
 
+  /**
+   * constructor for the TextDumper class
+   * @param writer writer object to write to the text file
+   */
   public TextDumper(Writer writer) {
     this.writer = writer;
   }
 
+  /**
+   * Function to dump contents of an airline to a text file
+   * @param airline airline to be dumped to the file
+   */
   @Override
   public void dump(Airline airline) {
 

@@ -279,20 +279,43 @@ public class Project1 {
         fileHasContent = false;
       }
       catch(ParserException e){
-        System.out.println("File is malformed, overriding ");
-        fileHasContent = false;
+        System.out.println("Text file is malformed");
+        return;
+        //fileHasContent = false;
+      }
+      catch(NumberFormatException e){
+        System.out.println("Text file is malformed");
+        return;
       }
 
-      try {
-        FileWriter f = new FileWriter(filePath, false);
-        BufferedWriter b = new BufferedWriter(f);
-        PrintWriter writer = new PrintWriter(b);
-        TextDumper test = new TextDumper(writer);
-        if(fileHasContent){test.dump(tempAirline);}//use tempAirline
-        else{test.dump(newAirline);}               //use newAirline
-      }
-      catch (Exception e) {
+      if(fileHasContent && tempAirline.getName().equals(newAirline.getName())){
+        try {
+          FileWriter f = new FileWriter(filePath, false);
+          BufferedWriter b = new BufferedWriter(f);
+          PrintWriter writer = new PrintWriter(b);
+          TextDumper dumper = new TextDumper(writer);
+          dumper.dump(tempAirline); //use tempAirline
+        }
+        catch (Exception e) {
           System.out.println("Error opening the file");
+        }
+      }
+      else if(fileHasContent && !tempAirline.getName().equals(newAirline.getName())){
+        if(print){System.out.println("\n" + temp.toString() + "\n");}
+        System.out.println("Airline name did not match text file, information not added");
+        return;
+      }
+      else{
+        try {
+          FileWriter f = new FileWriter(filePath, false);
+          BufferedWriter b = new BufferedWriter(f);
+          PrintWriter writer = new PrintWriter(b);
+          TextDumper dumper = new TextDumper(writer);
+          dumper.dump(newAirline);
+        }
+        catch (Exception e) {
+          System.out.println("Error opening the file");
+        }
       }
     }
 

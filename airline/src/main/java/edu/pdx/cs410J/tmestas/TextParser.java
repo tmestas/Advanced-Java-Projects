@@ -14,10 +14,19 @@ import java.io.Reader;
 public class TextParser implements AirlineParser<Airline> {
   private final Reader reader;
 
+  /**
+   * Constructor for the TextParser class
+   * @param reader reader that is being used to parse the text file
+   */
   public TextParser(Reader reader) {
     this.reader = reader;
   }
 
+  /**
+   * Parses the text file and returns an airline
+   * @return returns the airline found in the text file
+   * @throws ParserException for errors parsing the file
+   */
   @Override
   public Airline parse() throws ParserException {
     try (
