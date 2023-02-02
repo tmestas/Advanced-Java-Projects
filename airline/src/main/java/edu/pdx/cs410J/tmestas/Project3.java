@@ -4,20 +4,16 @@ import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
-import java.nio.file.InvalidPathException;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
-import java.nio.file.Paths;
-
-
 
 
 /**
  * The main class for the CS410J airline Project
  */
-public class Project2 {
+public class Project3 {
 
   /**
    * A method to check if the user entered time is in valid format
@@ -174,7 +170,7 @@ public class Project2 {
 
     return value;
   }
-  //testing
+
   /**
    * main method for the program
    * @param args command line arguments
@@ -195,7 +191,7 @@ public class Project2 {
 
     for(String option: options){
       if(option.equals("-README")){
-        try (InputStream readme = Project2.class.getResourceAsStream("README.txt"))
+        try (InputStream readme = Project3.class.getResourceAsStream("README.txt"))
         {
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line;
