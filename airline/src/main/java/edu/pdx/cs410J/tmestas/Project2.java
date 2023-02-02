@@ -125,26 +125,8 @@ public class Project2 {
    */
   @VisibleForTesting
   static boolean isValidFilePath(String filePath) {
-
-
-    /*
-    try{
-      //File check = new File(filePath);
-
-      Paths.get(filePath);
-    }catch(InvalidPathException e){
-      System.out.println("Invalid File Path");
-      return false;
-    }
-
-    return true;
-    */
-
      File check = new File(filePath);
-
      return check.exists();
-
-
   }
 
   /**
@@ -240,13 +222,8 @@ public class Project2 {
 
     if(textFile){
       filePath = getFilePath(args);
-      /*
-      if(isValidFilePath(filePath)){++listSize;}//must account for the extra arg if valid filepath was included
-      else{System.out.println("Invalid file path");}
-      */
        ++listSize;
     } //get textFile path
-
 
     List<String> newArgs = separateArguments(args, listSize); //needs a test
 
