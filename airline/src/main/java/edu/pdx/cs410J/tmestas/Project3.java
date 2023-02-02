@@ -214,55 +214,55 @@ public class Project3 {
       }
     } //check for flags
 
-    int listSize = options.size(); //get the list size, so we know where to start looking for command line args
+    int optionListSize = options.size(); //get the list size, so we know where to start looking for command line args
 
     if(textFile){
       filePath = getFilePath(args);
-       ++listSize;
-    } //get textFile path
+       ++optionListSize;
+    } //get textFile path and add one to optionListSize count
 
-    List<String> newArgs = separateArguments(args, listSize); //needs a test
+    List<String> argsListSize = separateArguments(args, optionListSize); //to get a true count of args
 
-    if(newArgs.size() < 8){
+    if(argsListSize.size() < 8){
       System.err.println("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
               "Run with -README for instructions");
       return;
-    }
-    else if(newArgs.size() > 8){
+    } //if there are too many args
+    else if(argsListSize.size() > 8){
       System.err.println("\n\nTOO MANY ARGUMENTS INCLUDED\n" +
               "Run with -README for instructions");
       return;
-    }
+    } //if there are not enough args
 
     try{
-      Integer.parseInt(args[listSize + 1]);
+      Integer.parseInt(args[optionListSize + 1]);
     } //make sure flight num is an integer
     catch(Exception e){
       System.out.println("\nFlight Number is not valid, please enter an integer value\n");
       return;
     }
 
-    String airlineName = args[listSize];
-    Integer flightNum = Integer.parseInt(args[listSize + 1]);
-    String departAirport = args[listSize + 2];
-    String departTime = args[listSize + 4];
-    String departDate = args[listSize + 3];
-    String arrivalAirport = args[listSize + 5];
-    String arrivalTime = args[listSize + 7];
-    String arrivalDate = args[listSize + 6];
+    String airlineName = args[optionListSize];
+    Integer flightNum = Integer.parseInt(args[optionListSize + 1]);
+    String departAirport = args[optionListSize + 2];
+    String departTime = args[optionListSize + 4];
+    String departDate = args[optionListSize + 3];
+    String arrivalAirport = args[optionListSize + 5];
+    String arrivalTime = args[optionListSize + 7];
+    String arrivalDate = args[optionListSize + 6];
 
-    //Error check times and dates
-    if(!checkValidInput(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate)){return;}
 
-    Flight flight = new Flight(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate); //create new flight object
+    if(!checkValidInput(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate)){return;} //Error check times and dates
+
+    Flight flight = new Flight(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate);
     Airline newAirline = new Airline(airlineName);
-    newAirline.addFlight(flight);
+    newAirline.addFlight(flight); //for command line flight
 
 
     Flight temp = new Flight();
     for(Flight f: newAirline.getFlights()){
       temp = f;
-    }
+    } //get flight from newly created airline (redundant because flight already stores it)
 
     if(textFile){
 
@@ -321,9 +321,9 @@ public class Project3 {
           System.out.println("Could not access directory");
         }
       }
-    }
+    } //if textFile option was included
 
-    if(print){System.out.println("\n" + temp.toString() + "\n");}
+    if(print){System.out.println("\n" + temp.toString() + "\n");} //if the print option was included
   }
 
 }
