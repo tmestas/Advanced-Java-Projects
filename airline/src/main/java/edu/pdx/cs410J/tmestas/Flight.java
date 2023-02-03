@@ -2,6 +2,7 @@ package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.AbstractFlight;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -79,7 +80,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   @Override
   public String getDepartureString() {
-    return DepartureDateTime.toString();
+    DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    String formatted = formatter.format(DepartureDateTime);
+    return formatted;
+    //return DepartureDateTime.toString();
   }
 
   /**
@@ -95,7 +99,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   @Override
   public String getArrivalString(){
-    return ArrivalDateTime.toString();
+    DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    String formatted = formatter.format(ArrivalDateTime);
+    return formatted;
+    //return ArrivalDateTime.toString();
   }
 
   public String getDepartureDateTimeString(){

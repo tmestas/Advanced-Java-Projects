@@ -17,12 +17,12 @@ public class FlightTest {
   @Test
   void getDepartureStringNeedsToBeImplemented(){
     Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
-    assertThat(flight.getDepartureString(), equalTo("Tue Nov 22 10:40:00 PST 2022"));
+    assertThat(flight.getDepartureString(), equalTo("11/22/22, 10:40 AM"));
   }
   @Test
   void getArrivalStringNeedsToBeImplemented() {
     Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
-    assertThat(flight.getArrivalString(), equalTo("Tue Nov 22 10:40:00 PST 2022"));
+    assertThat(flight.getArrivalString(), equalTo("11/22/22, 10:40 AM"));
   }
   @Test
   void testGetNumber() {
@@ -48,7 +48,7 @@ public class FlightTest {
   @Test
   void testToString(){
     Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
-    assertThat(flight.toString(), equalTo("Flight 123 departs PDX at Tue Nov 22 10:40:00 PST 2022 arrives BOI at Tue Nov 22 10:40:00 PST 2022"));
+    assertThat(flight.toString(), equalTo("Flight 123 departs PDX at 11/22/22, 10:40 AM arrives BOI at 11/22/22, 10:40 AM"));
   }
 
 }

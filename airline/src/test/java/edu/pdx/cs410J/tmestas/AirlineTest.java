@@ -28,7 +28,7 @@ public class AirlineTest {
         for(Flight f: airline.getFlights()){
             temp = f;
         }
-        assertThat(temp.toString(), equalTo("Flight 123 departs PDX at Tue Nov 22 10:40:00 PST 2022 arrives BOI at Tue Nov 22 10:40:00 PST 2022"));
+        assertThat(temp.toString(), equalTo("Flight 123 departs PDX at 11/22/22, 10:40 AM arrives BOI at 11/22/22, 10:40 AM"));
     }
 
     @Test
