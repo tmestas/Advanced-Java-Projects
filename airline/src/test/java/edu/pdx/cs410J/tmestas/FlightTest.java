@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.tmestas;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -15,28 +16,28 @@ public class FlightTest {
 
   @Test
   void getDepartureStringNeedsToBeImplemented(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getDepartureString(), equalTo("10:40 11/22/2022"));
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    assertThat(flight.getDepartureString(), equalTo("Tue Nov 22 10:40:00 PST 2022"));
   }
   @Test
   void getArrivalStringNeedsToBeImplemented() {
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getArrivalString(), equalTo("10:45 11/22/2022"));
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    assertThat(flight.getArrivalString(), equalTo("Tue Nov 22 10:40:00 PST 2022"));
   }
   @Test
   void testGetNumber() {
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
     assertThat(flight.getNumber(), equalTo(123));
   }
 
   @Test
   void testGetDestination(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
     assertThat(flight.getDestination(), equalTo("BOI"));
   }
   @Test
   void testGetSource(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
     assertThat(flight.getSource(), equalTo("PDX"));
   }
   @Test
@@ -46,31 +47,8 @@ public class FlightTest {
   }
   @Test
   void testToString(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.toString(), equalTo("Flight 123 departs PDX at 10:40 11/22/2022 arrives BOI at 10:45 11/22/2022"));
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    assertThat(flight.toString(), equalTo("Flight 123 departs PDX at Tue Nov 22 10:40:00 PST 2022 arrives BOI at Tue Nov 22 10:40:00 PST 2022"));
   }
 
-  @Test
-  void testGetDepartureDate(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getDepartureDate(), equalTo("11/22/2022"));
-  }
-
-  @Test
-  void testGetDepartureTime(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getDepartureTime(), equalTo("10:40"));
-  }
-
-  @Test
-  void testGetArrivalDate(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getArrivalDate(), equalTo("11/22/2022"));
-  }
-
-  @Test
-  void testGetArrivalTime(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getArrivalTime(), equalTo("10:45"));
-  }
 }

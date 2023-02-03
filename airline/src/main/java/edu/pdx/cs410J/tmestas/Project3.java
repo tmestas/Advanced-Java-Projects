@@ -23,9 +23,11 @@ public class Project3 {
   @VisibleForTesting
   static boolean isValidTime(String Time){
     try {
-      String[] time = Time.split(":");
-      return  Integer.parseInt(time[0]) < 24 && Integer.parseInt(time[1]) < 60;
-    } catch (Exception e) {
+      SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+      format.setLenient(false);
+      format.parse(Time);
+      return true;
+    } catch (ParseException e) {
       return false;
     }
 
@@ -223,12 +225,12 @@ public class Project3 {
 
     List<String> argsListSize = separateArguments(args, optionListSize); //to get a true count of args
 
-    if(argsListSize.size() < 8){
+    if(argsListSize.size() < 10){
       System.err.println("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
               "Run with -README for instructions");
       return;
     } //if there are too many args
-    else if(argsListSize.size() > 8){
+    else if(argsListSize.size() > 10){
       System.err.println("\n\nTOO MANY ARGUMENTS INCLUDED\n" +
               "Run with -README for instructions");
       return;
@@ -245,16 +247,17 @@ public class Project3 {
     String airlineName = args[optionListSize];
     Integer flightNum = Integer.parseInt(args[optionListSize + 1]);
     String departAirport = args[optionListSize + 2];
-    String departTime = args[optionListSize + 4];
-    String departDate = args[optionListSize + 3];
-    String arrivalAirport = args[optionListSize + 5];
-    String arrivalTime = args[optionListSize + 7];
-    String arrivalDate = args[optionListSize + 6];
+    String departureDate = args[optionListSize + 3];
+    String departureTime = args[optionListSize + 4] + " " + args[optionListSize + 5];
+    String departureDateTime = args[optionListSize + 3] + " " + args[optionListSize + 4] + " " + args[optionListSize + 5];
+    String arrivalAirport = args[optionListSize + 6];
+    String arrivalDate = args[optionListSize + 7];
+    String arrivalTime = args[optionListSize + 8] + " " + args[optionListSize + 9];
+    String arrivalDateTime = args[optionListSize + 7] + " " + args[optionListSize + 8] + " " + args[optionListSize + 9];
 
+    if(!checkValidInput(flightNum, departAirport, departureTime, departureDate, arrivalAirport, arrivalTime, arrivalDate)){return;} //Error check times and dates
 
-    if(!checkValidInput(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate)){return;} //Error check times and dates
-
-    Flight flight = new Flight(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate);
+    Flight flight = new Flight(flightNum, departAirport, departureDateTime, arrivalAirport, arrivalDateTime);
     Airline newAirline = new Airline(airlineName);
     newAirline.addFlight(flight); //for command line flight
 
@@ -263,6 +266,7 @@ public class Project3 {
     for(Flight f: newAirline.getFlights()){
       temp = f;
     } //get flight from newly created airline (redundant because flight already stores it)
+
 
     if(textFile){
 
@@ -322,6 +326,7 @@ public class Project3 {
         }
       }
     } //if textFile option was included
+
 
     if(print){System.out.println("\n" + temp.toString() + "\n");} //if the print option was included
   }

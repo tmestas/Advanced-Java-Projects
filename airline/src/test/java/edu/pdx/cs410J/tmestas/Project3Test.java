@@ -34,14 +34,14 @@ class Project3Test {
   @Test
   void testIsValidTimeWithGoodInput1Digit(){
     Project3 test = new Project3();
-    boolean value = test.isValidTime("1:30");
+    boolean value = test.isValidTime("1:30 PM");
     assertThat(value, equalTo(true));
   }
 
   @Test
   void testIsValidTimeWithGoodInput2Digits(){
     Project3 test = new Project3();
-    boolean value = test.isValidTime("10:30");
+    boolean value = test.isValidTime("10:30 PM");
     assertThat(value, equalTo(true));
   }
 
@@ -90,16 +90,16 @@ class Project3Test {
   @Test
   void testCheckValidInputWithGoodInput(){
     Project3 test = new Project3();
-    boolean value = test.checkValidInput(1234, "PDX", "10:20", "10/22/2022",
-            "BOI", "10:24", "10/22/2022");
+    boolean value = test.checkValidInput(1234, "PDX", "10:20 PM", "10/22/2022",
+            "BOI", "10:24 PM", "10/22/2022");
     assertThat(value, equalTo(true));
   }
 
   @Test
   void testCheckValidInputWithBadInput(){
     Project3 test = new Project3();
-    boolean value = test.checkValidInput(1234, "PDX", "10:20", "10/22/2022",
-            "BOI", "10:242", "10/22/2022");
+    boolean value = test.checkValidInput(1234, "PDX", "10:20 PM", "10/22/2022",
+            "BOI", "10:242 PM", "10/22/2022");
     assertThat(value, equalTo(false));
   }
 
@@ -116,13 +116,14 @@ class Project3Test {
     args[5] = "BOI";
     args[6] = "10/22/2022";
 
+
     List<String> value = test.separateArguments(args, 0);
     assertThat(value.size(), equalTo(7));
   }
   @Test
   void testSeparateArgumentsTooMany(){
     Project3 test = new Project3();
-    String[] args = new String[9];
+    String[] args = new String[12];
 
     args[0] = "Alaska Airlines";
     args[1] = "1234";
@@ -133,15 +134,18 @@ class Project3Test {
     args[6] = "10/22/2022";
     args[7] = "10:24";
     args[8] = "seipp";
+    args[9] = " ";
+    args[10] = " ";
+    args[11] = " ";
 
     List<String> value = test.separateArguments(args, 0);
-    assertThat(value.size(), equalTo(9));
+    assertThat(value.size(), equalTo(12));
   }
 
   @Test
   void testGetFilePath(){
     Project3 test = new Project3();
-    String[] args = new String[9];
+    String[] args = new String[11];
 
     args[0] = "Alaska Airlines";
     args[1] = "1234";
@@ -152,6 +156,8 @@ class Project3Test {
     args[6] = "10/22/2022";
     args[7] = "-textFile";
     args[8] = "here/directory/seipp.txt";
+    args[9] = " ";
+    args[10] = " ";
 
     String value = test.getFilePath(args);
     assertThat(value, equalTo("here/directory/seipp.txt"));
