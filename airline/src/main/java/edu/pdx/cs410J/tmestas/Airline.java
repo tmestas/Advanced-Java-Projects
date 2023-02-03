@@ -25,6 +25,10 @@ public class Airline extends AbstractAirline<Flight> {
     flightList = new ArrayList<Flight>();
   }
 
+  public void setList(List<Flight> toSet){
+    this.flightList = toSet;
+  }
+
   /**
    * Gets the name of the airline for the calling method
    * @return a string containing the name of the airline
@@ -49,8 +53,10 @@ public class Airline extends AbstractAirline<Flight> {
    */
 
   @Override
-  public Collection<Flight> getFlights() {
+  public List<Flight> getFlights() {
     return flightList;
   }
+
+  //public Collection<Flight>
 
 }

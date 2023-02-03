@@ -280,6 +280,7 @@ public class Project3 {
         TextParser parser = new TextParser(b);
         tempAirline = parser.parse();
         tempAirline.addFlight(flight); //append new airline to one read from file
+        Collections.sort(tempAirline.getFlights());
       }
       catch(FileNotFoundException e){
         System.out.println("File does not exist, creating file and adding information");

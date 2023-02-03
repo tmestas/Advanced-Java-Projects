@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Stores information about a flight
  */
-public class Flight extends AbstractFlight {
+public class Flight extends AbstractFlight implements Comparable<Flight> {
   private int FlightNumber;
   private String Source;
   private Date DepartureDateTime;
@@ -106,4 +106,16 @@ public class Flight extends AbstractFlight {
     return ArrivalDateTimeString;
   }
 
+  public Date getDepartureDateTime(){
+    return DepartureDateTime;
+  }
+  @Override
+  public int compareTo(Flight toCompare) {
+    int comparison = 0;
+    comparison = this.getSource().compareTo(toCompare.getSource());
+    if(comparison == 0){
+      comparison = this.getDepartureDateTime().compareTo(toCompare.getDepartureDateTime());
+    }
+    return comparison;
+  }
 }
