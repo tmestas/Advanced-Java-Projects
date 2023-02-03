@@ -106,10 +106,10 @@ public class Project3 {
    * @return string with filepath
    */
   @VisibleForTesting //no test
-  static String getFilePath(String args[]){
+  static String getFilePath(String args[], String toFind){
     String filePath = new String();
     for(int i = 0; i < args.length; ++i){
-      if(args[i].equals("-textFile")){
+      if(args[i].equals(toFind)){
           filePath = (args[i + 1]);
       }
     }
@@ -181,12 +181,14 @@ public class Project3 {
 
     boolean print = false;
     boolean textFile = false;
-    String filePath = new String();
+    boolean prettyPrint = false;
+    String textFilePath = new String();
+    String prettyFilePath = new String();
 
     List<String> options = new LinkedList<String>();
 
     for (String arg : args) {
-      if(arg.contains("-print") || arg.contains("-README") || arg.contains("-textFile")){
+      if(arg.contains("-print") || arg.contains("-README") || arg.contains("-textFile") || arg.contains("-pretty")){
         options.add(arg);
       }
     } //add option flags to a list
@@ -210,6 +212,7 @@ public class Project3 {
       }
       else if(option.equals("-print")){print = true;}
       else if (option.equals("-textFile")) {textFile = true;}
+      else if(option.equals("-pretty")){prettyPrint = true;}
       else {
         System.out.println("\nUnrecognized command line option.");
         return;
@@ -219,9 +222,14 @@ public class Project3 {
     int optionListSize = options.size(); //get the list size, so we know where to start looking for command line args
 
     if(textFile){
-      filePath = getFilePath(args);
+      textFilePath = getFilePath(args, "-textFile");
        ++optionListSize;
     } //get textFile path and add one to optionListSize count
+
+    if(prettyPrint){
+      prettyFilePath = getFilePath(args, "-pretty");
+      ++optionListSize;
+    } //get prettyPrint path and add one to optionListSize count
 
     List<String> argsListSize = separateArguments(args, optionListSize); //to get a true count of args
 
@@ -275,7 +283,7 @@ public class Project3 {
       Airline tempAirline = new Airline("");
 
       try{
-        FileReader f = new FileReader(filePath);
+        FileReader f = new FileReader(textFilePath);
         BufferedReader b = new BufferedReader(f);
         TextParser parser = new TextParser(b);
         tempAirline = parser.parse();
@@ -298,7 +306,7 @@ public class Project3 {
 
       if(fileHasContent && tempAirline.getName().equals(newAirline.getName())){
         try {
-          FileWriter f = new FileWriter(filePath, false);
+          FileWriter f = new FileWriter(textFilePath, false);
           BufferedWriter b = new BufferedWriter(f);
           PrintWriter writer = new PrintWriter(b);
           TextDumper dumper = new TextDumper(writer);
@@ -316,7 +324,7 @@ public class Project3 {
       }
       else{
         try {
-          FileWriter f = new FileWriter(filePath, false);
+          FileWriter f = new FileWriter(textFilePath, false);
           BufferedWriter b = new BufferedWriter(f);
           PrintWriter writer = new PrintWriter(b);
           TextDumper dumper = new TextDumper(writer);
@@ -328,6 +336,9 @@ public class Project3 {
       }
     } //if textFile option was included
 
+    if(prettyPrint){
+      System.out.println("Pretty Print File Path: " + prettyFilePath);
+    }
 
     if(print){System.out.println("\n" + temp.toString() + "\n");} //if the print option was included
   }

@@ -159,7 +159,7 @@ class Project3Test {
     args[9] = " ";
     args[10] = " ";
 
-    String value = test.getFilePath(args);
+    String value = test.getFilePath(args, "-textFile");
     assertThat(value, equalTo("here/directory/seipp.txt"));
   }
 
