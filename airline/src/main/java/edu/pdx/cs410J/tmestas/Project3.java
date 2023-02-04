@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
@@ -128,6 +129,17 @@ public class Project3 {
   }
 
   /**
+   * To check the list of airports to see if the one user passed exists
+   * @param airportCode 3 letter airport code
+   * @return boolean signifying whether the airport exists or not
+   */
+  @VisibleForTesting
+  static boolean doesAirportCodeExist(String airportCode){ //write unit test
+    if(AirportNames.getName(airportCode) != null) {return true;}
+    else{return false;}
+  }
+
+  /**
    * A method to run all input check functions
    * @param flightNum user entered flight number
    * @param departAirport user entered departure airport code
@@ -167,6 +179,14 @@ public class Project3 {
 
     if(!isValidAirportCode(departAirport) || !isValidAirportCode(arrivalAirport)){
       System.out.println("\nAirport Code must be 3 letters and no other characters\n");
+      value = false;
+    }
+    else if(!doesAirportCodeExist(departAirport)){ //maybe write test?
+      System.out.println("\n" + departAirport + " is not a stored airport, exiting");
+      value = false;
+    }
+    else if(!doesAirportCodeExist(arrivalAirport)) { //maybe write test?
+      System.out.println("\n" + arrivalAirport + " is not a stored airport, exiting");
       value = false;
     }
 
