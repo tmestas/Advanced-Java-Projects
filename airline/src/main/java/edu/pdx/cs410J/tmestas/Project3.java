@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -138,6 +139,53 @@ public class Project3 {
     if(AirportNames.getName(airportCode) != null) {return true;}
     else{return false;}
   }
+
+  /**
+   * Print contents of an airline to a file in a readable way
+   * @param toPrint Airline whose contents must be printed
+   * @param writer Writer object
+   * @return boolean signifying if it was successful or not
+   */
+  @VisibleForTesting
+  static boolean doPrettyPrint(Airline toPrint, PrintWriter writer){
+
+    try (PrintWriter pw = new PrintWriter(writer)) {
+
+      long timeDiff;
+      long hourDiff;
+      long minuteDiff;
+
+      pw.println(toPrint.getName());
+
+      for(Flight f: toPrint.getFlights()) {
+
+        SimpleDateFormat duration = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        Date d1 = duration.parse(f.getDepartureDateTimeString());
+        Date d2 = duration.parse(f.getArrivalDateTimeString());
+        timeDiff = d2.getTime() - d1.getTime();
+        hourDiff = (timeDiff / (1000 * 60 * 60)) % 24;
+        minuteDiff = (timeDiff / (1000 * 60)) % 60;
+
+        pw.println();
+        pw.println("Flight Number: " + f.getNumber());
+        pw.println("From " + AirportNames.getName(f.getSource()) + " to " + AirportNames.getName(f.getDestination()));
+        if(hourDiff > 0 && minuteDiff > 0){pw.println("Flight Duration: " + hourDiff + " hours and " + minuteDiff + " minutes");}
+        else if(hourDiff <= 0 && minuteDiff > 0) {pw.println("Flight Duration: " + minuteDiff + " minutes");}
+        else if(hourDiff > 0 && minuteDiff <= 0){pw.println("Flight Duration: " + hourDiff + " hours");}
+        pw.println();
+
+      }
+
+      pw.flush();
+    }
+    catch(Exception e){
+      System.out.println(e.getMessage());
+      System.out.println("Error writing to the pretty print file FROM FUNCTION");
+      return false;
+    }
+
+    return true;
+  } //good!
 
   /**
    * A method to run all input check functions
@@ -295,12 +343,12 @@ public class Project3 {
       temp = f;
     } //get flight from newly created airline (redundant because flight already stores it)
 
+    Airline tempAirline = new Airline("");
 
     if(textFile){
 
       boolean fileHasContent = true;
       //get an airline and all its flights from the file
-      Airline tempAirline = new Airline("");
 
       try{
         FileReader f = new FileReader(textFilePath);
@@ -357,8 +405,17 @@ public class Project3 {
     } //if textFile option was included
 
     if(prettyPrint){
-      System.out.println("Pretty Print File Path: " + prettyFilePath);
-    }
+      //System.out.println("Pretty Print File Path: " + prettyFilePath);
+       try{
+        FileWriter f = new FileWriter(prettyFilePath, false);
+        BufferedWriter b = new BufferedWriter(f);
+        PrintWriter writer = new PrintWriter(b);
+        if(tempAirline.getFlights().size() > 0){doPrettyPrint(tempAirline, writer);}
+        else {doPrettyPrint(newAirline, writer);}
+      } catch(IOException e){
+        System.out.println("Could not write to pretty print file");
+      }
+    } //if prettyPrint option was included
 
     if(print){System.out.println("\n" + temp.toString() + "\n");} //if the print option was included
   }
