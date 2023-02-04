@@ -2,10 +2,8 @@ package edu.pdx.cs410J.tmestas;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.security.spec.ECField;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -178,17 +176,55 @@ class Project3Test {
     assertThat(value, equalTo(false));
   }
 
-  @Test void testDoesAirportExistYes(){
+  @Test
+  void testDoesAirportExistYes(){
     Project3 test = new Project3();
     boolean value = test.doesAirportCodeExist("PDX");
     assertThat(value, equalTo(true));
   }
 
-  @Test void testDoesAirportExistNo(){
+  @Test
+  void testDoesAirportExistNo(){
     Project3 test = new Project3();
     boolean value = test.doesAirportCodeExist("OOO");
     assertThat(value, equalTo(false));
 
+  }
+
+  @Test
+  void testDoPrettyPrintSuccess(){
+    Project3 test = new Project3();
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    Airline testAirline = new Airline("Alaska Airlines");
+    testAirline.addFlight(flight);
+    boolean value = false;
+
+    try {
+      FileWriter f = new FileWriter("src/test/resources/edu/pdx/cs410J/tmestas/prettytest.txt", false);
+      BufferedWriter b = new BufferedWriter(f);
+      PrintWriter writer = new PrintWriter(b);
+      value = test.doPrettyPrint(testAirline, writer);
+    }catch(Exception e){}
+
+    assertThat(value, equalTo(true));
+  }
+
+  @Test
+  void testDoPrettyPrintFailure(){
+    Project3 test = new Project3();
+    Flight flight = new Flight();
+    Airline testAirline = new Airline("Alaska Airlines");
+    testAirline.addFlight(flight);
+    boolean value = false;
+
+    try {
+      FileWriter f = new FileWriter("src/test/resources/edu/pdx/cs410J/tmestas/prettytest.txt", false);
+      BufferedWriter b = new BufferedWriter(f);
+      PrintWriter writer = new PrintWriter(b);
+      value = test.doPrettyPrint(testAirline, writer);
+    }catch(Exception e){}
+
+    assertThat(value, equalTo(false));
   }
 
 }
