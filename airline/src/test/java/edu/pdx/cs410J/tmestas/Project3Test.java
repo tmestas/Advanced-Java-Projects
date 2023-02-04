@@ -174,7 +174,7 @@ class Project3Test {
   @Test
   void testIsValidFilePathBad(){
     Project3 test = new Project3();
-    boolean value = test.isValidFilePath("here/directory?!..seipp.txt"); //here/directory?!..seipp.txt
+    boolean value = test.isValidFilePath("here/directory?!..seipp.txt");
     assertThat(value, equalTo(false));
   }
 

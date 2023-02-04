@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
@@ -160,6 +161,7 @@ public class Project3 {
       for(Flight f: toPrint.getFlights()) {
 
         SimpleDateFormat duration = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
         Date d1 = duration.parse(f.getDepartureDateTimeString());
         Date d2 = duration.parse(f.getArrivalDateTimeString());
         timeDiff = d2.getTime() - d1.getTime();
@@ -168,6 +170,8 @@ public class Project3 {
 
         pw.println();
         pw.println("Flight Number: " + f.getNumber());
+        pw.println("Departure Date & Time: " + formatter.format(f.getDepartureDateTime()));
+        pw.println("Arrival Date & Time: " + formatter.format(f.getArrivalDateTime()));
         pw.println("From " + AirportNames.getName(f.getSource()) + " to " + AirportNames.getName(f.getDestination()));
         if(hourDiff > 0 && minuteDiff > 0){pw.println("Flight Duration: " + hourDiff + " hours and " + minuteDiff + " minutes");}
         else if(hourDiff <= 0 && minuteDiff > 0) {pw.println("Flight Duration: " + minuteDiff + " minutes");}
@@ -185,7 +189,7 @@ public class Project3 {
     }
 
     return true;
-  } //good!
+  } //needs test
 
   /**
    * A method to run all input check functions

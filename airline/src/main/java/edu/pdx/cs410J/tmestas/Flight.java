@@ -102,22 +102,23 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     String formatted = formatter.format(ArrivalDateTime);
     return formatted;
-    //return ArrivalDateTime.toString();
   }
 
   public String getDepartureDateTimeString(){
     return DepartureDateTimeString;
-  }
+  } //need test
 
   public String getArrivalDateTimeString(){
     return ArrivalDateTimeString;
-  }
+  } //need test
 
   public Date getDepartureDateTime(){
     return DepartureDateTime;
-  }
+  } //need test
+
+  public Date getArrivalDateTime(){return ArrivalDateTime;} //need test
   @Override
-  public int compareTo(Flight toCompare) {
+  public int compareTo(Flight toCompare) { //need test
     int comparison = 0;
     comparison = this.getSource().compareTo(toCompare.getSource());
     if(comparison == 0){
