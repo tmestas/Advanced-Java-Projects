@@ -178,6 +178,17 @@ class Project3Test {
     assertThat(value, equalTo(false));
   }
 
+  @Test void testDoesAirportExistYes(){
+    Project3 test = new Project3();
+    boolean value = test.doesAirportCodeExist("PDX");
+    assertThat(value, equalTo(true));
+  }
 
+  @Test void testDoesAirportExistNo(){
+    Project3 test = new Project3();
+    boolean value = test.doesAirportCodeExist("OOO");
+    assertThat(value, equalTo(false));
+
+  }
 
 }
