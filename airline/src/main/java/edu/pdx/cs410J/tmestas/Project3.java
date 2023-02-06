@@ -86,9 +86,9 @@ public class Project3 {
 
   /** A method to seperate command line options from arguments, and check their validity
    *
-   * @param args
-   * @param startingIndex
-   * @return
+   * @param args command line input
+   * @param startingIndex where the commands start
+   * @return list of args without options
    */
   @VisibleForTesting
   static List<String> separateArguments(String args[], int startingIndex){
