@@ -2,17 +2,21 @@ package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.AbstractFlight;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Stores information about a flight
  */
-public class Flight extends AbstractFlight {
+public class Flight extends AbstractFlight implements Comparable<Flight> {
   private int FlightNumber;
   private String Source;
-  private String DepartureTime;
-  private String DepartureDate;
+  private Date DepartureDateTime;
+  private String DepartureDateTimeString;
   private String Destination;
-  private String ArrivalTime;
-  private String ArrivalDate;
+  private Date ArrivalDateTime;
+  private String ArrivalDateTimeString;
 
   /**
    * Constructs a default object flight
@@ -24,20 +28,31 @@ public class Flight extends AbstractFlight {
    * destination airport, arrival time and arrival date
    * @param flightNumber flight number
    * @param source 3 letter source airport code
-   * @param departureTime source airport departure time in format hh:mm
-   * @param departureDate source airport departure date in format mm/dd/yyyy
+   * @param departureDateTime string containing departure date and time to be converted to date
    * @param destination 3 letter destination airport code
-   * @param arrivalTime destination airport arrival time in format hh:mm
-   * @param arrivalDate destination airport arrival date in format mm/dd/yyyy
+   * @param arrivalDateTime string containing arrival date and time to be converted to date
    */
-  public Flight(int flightNumber, String source, String departureTime, String departureDate, String destination, String arrivalTime, String arrivalDate){
+  public Flight(int flightNumber, String source, String departureDateTime, String destination, String arrivalDateTime){
+
+    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+
     this.FlightNumber = flightNumber;
     this.Source = source;
-    this.DepartureTime = departureTime;
-    this.DepartureDate = departureDate;
+    this.DepartureDateTimeString = departureDateTime;
+    try { //convert string to date
+      this.DepartureDateTime = formatter.parse(departureDateTime);
+    }catch(Exception e){
+      System.out.println("ERROR PARSING DEPARTURE DATE TIME");
+    }
+
     this.Destination = destination;
-    this.ArrivalTime = arrivalTime;
-    this.ArrivalDate = arrivalDate;
+    this.ArrivalDateTimeString = arrivalDateTime;
+    try { //convert string to date
+      this.ArrivalDateTime = formatter.parse(arrivalDateTime);
+    }catch(Exception e){
+      System.out.println("ERROR PARSING ARRIVAL DATE TIME");
+    }
+
   }
 
   /**
@@ -64,7 +79,9 @@ public class Flight extends AbstractFlight {
    */
   @Override
   public String getDepartureString() {
-    return DepartureTime + " " + DepartureDate;
+    DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    String formatted = formatter.format(DepartureDateTime);
+    return formatted;
   }
 
   /**
@@ -80,21 +97,31 @@ public class Flight extends AbstractFlight {
    */
   @Override
   public String getArrivalString(){
-    return ArrivalTime + " " + ArrivalDate;
+    DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    String formatted = formatter.format(ArrivalDateTime);
+    return formatted;
   }
 
-  public String getDepartureDate(){
-    return this.DepartureDate;
-  }
-  public String getDepartureTime(){
-    return this.DepartureTime;
-  }
-  public String getArrivalDate(){
-    return this.ArrivalDate;
-  }
-  public String getArrivalTime(){
-    return this.ArrivalTime;
-  }
+  public String getDepartureDateTimeString(){
+    return DepartureDateTimeString;
+  } //need test
 
+  public String getArrivalDateTimeString(){
+    return ArrivalDateTimeString;
+  } //need test
 
+  public Date getDepartureDateTime(){
+    return DepartureDateTime;
+  } //need test
+
+  public Date getArrivalDateTime(){return ArrivalDateTime;} //need test
+  @Override
+  public int compareTo(Flight toCompare) { //need test
+    int comparison = 0;
+    comparison = this.getSource().compareTo(toCompare.getSource());
+    if(comparison == 0){
+      comparison = this.getDepartureDateTime().compareTo(toCompare.getDepartureDateTime());
+    }
+    return comparison;
+  }
 }

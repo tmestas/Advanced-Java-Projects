@@ -1,23 +1,21 @@
 package edu.pdx.cs410J.tmestas;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
-import java.nio.file.InvalidPathException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
-import java.nio.file.Paths;
-
-
 
 
 /**
  * The main class for the CS410J airline Project
  */
-public class Project2 {
+public class Project3 {
 
   /**
    * A method to check if the user entered time is in valid format
@@ -27,9 +25,11 @@ public class Project2 {
   @VisibleForTesting
   static boolean isValidTime(String Time){
     try {
-      String[] time = Time.split(":");
-      return  Integer.parseInt(time[0]) < 24 && Integer.parseInt(time[1]) < 60;
-    } catch (Exception e) {
+      SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+      format.setLenient(false);
+      format.parse(Time);
+      return true;
+    } catch (ParseException e) {
       return false;
     }
 
@@ -108,10 +108,10 @@ public class Project2 {
    * @return string with filepath
    */
   @VisibleForTesting //no test
-  static String getFilePath(String args[]){
+  static String getFilePath(String args[], String toFind){
     String filePath = new String();
     for(int i = 0; i < args.length; ++i){
-      if(args[i].equals("-textFile")){
+      if(args[i].equals(toFind)){
           filePath = (args[i + 1]);
       }
     }
@@ -128,6 +128,67 @@ public class Project2 {
      File check = new File(filePath);
      return check.exists();
   }
+
+  /**
+   * To check the list of airports to see if the one user passed exists
+   * @param airportCode 3 letter airport code
+   * @return boolean signifying whether the airport exists or not
+   */
+  @VisibleForTesting
+  static boolean doesAirportCodeExist(String airportCode){ //write unit test
+    if(AirportNames.getName(airportCode) != null) {return true;}
+    else{return false;}
+  }
+
+  /**
+   * Print contents of an airline to a file in a readable way
+   * @param toPrint Airline whose contents must be printed
+   * @param writer Writer object
+   * @return boolean signifying if it was successful or not
+   */
+  @VisibleForTesting
+  static boolean doPrettyPrint(Airline toPrint, PrintWriter writer){
+
+    try (PrintWriter pw = new PrintWriter(writer)) {
+
+      long timeDiff;
+      long hourDiff;
+      long minuteDiff;
+
+      pw.println(toPrint.getName());
+
+      for(Flight f: toPrint.getFlights()) {
+
+        SimpleDateFormat duration = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+        Date d1 = duration.parse(f.getDepartureDateTimeString());
+        Date d2 = duration.parse(f.getArrivalDateTimeString());
+        timeDiff = d2.getTime() - d1.getTime();
+        hourDiff = (timeDiff / (1000 * 60 * 60)) % 24;
+        minuteDiff = (timeDiff / (1000 * 60)) % 60;
+
+        pw.println();
+        pw.println("Flight Number: " + f.getNumber());
+        pw.println("Departure Date & Time: " + formatter.format(f.getDepartureDateTime()));
+        pw.println("Arrival Date & Time: " + formatter.format(f.getArrivalDateTime()));
+        pw.println("From " + AirportNames.getName(f.getSource()) + " to " + AirportNames.getName(f.getDestination()));
+        if(hourDiff > 0 && minuteDiff > 0){pw.println("Flight Duration: " + hourDiff + " hours and " + minuteDiff + " minutes");}
+        else if(hourDiff <= 0 && minuteDiff > 0) {pw.println("Flight Duration: " + minuteDiff + " minutes");}
+        else if(hourDiff > 0 && minuteDiff <= 0){pw.println("Flight Duration: " + hourDiff + " hours");}
+        pw.println();
+
+      }
+
+      pw.flush();
+    }
+    catch(Exception e){
+      System.out.println(e.getMessage());
+      System.out.println("Error writing to the pretty print file FROM FUNCTION");
+      return false;
+    }
+
+    return true;
+  } //needs test
 
   /**
    * A method to run all input check functions
@@ -171,6 +232,14 @@ public class Project2 {
       System.out.println("\nAirport Code must be 3 letters and no other characters\n");
       value = false;
     }
+    else if(!doesAirportCodeExist(departAirport)){ //maybe write test?
+      System.out.println("\n" + departAirport + " is not a stored airport, exiting");
+      value = false;
+    }
+    else if(!doesAirportCodeExist(arrivalAirport)) { //maybe write test?
+      System.out.println("\n" + arrivalAirport + " is not a stored airport, exiting");
+      value = false;
+    }
 
     return value;
   }
@@ -183,19 +252,21 @@ public class Project2 {
 
     boolean print = false;
     boolean textFile = false;
-    String filePath = new String();
+    boolean prettyPrint = false;
+    String textFilePath = new String();
+    String prettyFilePath = new String();
 
     List<String> options = new LinkedList<String>();
 
     for (String arg : args) {
-      if(arg.contains("-print") || arg.contains("-README") || arg.contains("-textFile")){
+      if(arg.contains("-print") || arg.contains("-README") || arg.contains("-textFile") || arg.contains("-pretty")){
         options.add(arg);
       }
     } //add option flags to a list
 
     for(String option: options){
       if(option.equals("-README")){
-        try (InputStream readme = Project2.class.getResourceAsStream("README.txt"))
+        try (InputStream readme = Project3.class.getResourceAsStream("README.txt"))
         {
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line;
@@ -212,74 +283,83 @@ public class Project2 {
       }
       else if(option.equals("-print")){print = true;}
       else if (option.equals("-textFile")) {textFile = true;}
+      else if(option.equals("-pretty")){prettyPrint = true;}
       else {
         System.out.println("\nUnrecognized command line option.");
         return;
       }
     } //check for flags
 
-    int listSize = options.size(); //get the list size, so we know where to start looking for command line args
+    int optionListSize = options.size(); //get the list size, so we know where to start looking for command line args
 
     if(textFile){
-      filePath = getFilePath(args);
-       ++listSize;
-    } //get textFile path
+      textFilePath = getFilePath(args, "-textFile");
+       ++optionListSize;
+    } //get textFile path and add one to optionListSize count
 
-    List<String> newArgs = separateArguments(args, listSize); //needs a test
+    if(prettyPrint){
+      prettyFilePath = getFilePath(args, "-pretty");
+      ++optionListSize;
+    } //get prettyPrint path and add one to optionListSize count
 
-    if(newArgs.size() < 8){
+    List<String> argsListSize = separateArguments(args, optionListSize); //to get a true count of args
+
+    if(argsListSize.size() < 10){
       System.err.println("\n\nNOT ENOUGH ARGUMENTS INCLUDED\n" +
               "Run with -README for instructions");
       return;
-    }
-    else if(newArgs.size() > 8){
+    } //if there are too many args
+    else if(argsListSize.size() > 10){
       System.err.println("\n\nTOO MANY ARGUMENTS INCLUDED\n" +
               "Run with -README for instructions");
       return;
-    }
+    } //if there are not enough args
 
     try{
-      Integer.parseInt(args[listSize + 1]);
+      Integer.parseInt(args[optionListSize + 1]);
     } //make sure flight num is an integer
     catch(Exception e){
       System.out.println("\nFlight Number is not valid, please enter an integer value\n");
       return;
     }
 
-    String airlineName = args[listSize];
-    Integer flightNum = Integer.parseInt(args[listSize + 1]);
-    String departAirport = args[listSize + 2];
-    String departTime = args[listSize + 4];
-    String departDate = args[listSize + 3];
-    String arrivalAirport = args[listSize + 5];
-    String arrivalTime = args[listSize + 7];
-    String arrivalDate = args[listSize + 6];
+    String airlineName = args[optionListSize];
+    Integer flightNum = Integer.parseInt(args[optionListSize + 1]);
+    String departAirport = args[optionListSize + 2];
+    String departureDate = args[optionListSize + 3];
+    String departureTime = args[optionListSize + 4] + " " + args[optionListSize + 5];
+    String departureDateTime = args[optionListSize + 3] + " " + args[optionListSize + 4] + " " + args[optionListSize + 5];
+    String arrivalAirport = args[optionListSize + 6];
+    String arrivalDate = args[optionListSize + 7];
+    String arrivalTime = args[optionListSize + 8] + " " + args[optionListSize + 9];
+    String arrivalDateTime = args[optionListSize + 7] + " " + args[optionListSize + 8] + " " + args[optionListSize + 9];
 
-    //Error check times and dates
-    if(!checkValidInput(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate)){return;}
+    if(!checkValidInput(flightNum, departAirport, departureTime, departureDate, arrivalAirport, arrivalTime, arrivalDate)){return;} //Error check times and dates
 
-    Flight flight = new Flight(flightNum, departAirport, departTime, departDate, arrivalAirport, arrivalTime, arrivalDate); //create new flight object
+    Flight flight = new Flight(flightNum, departAirport, departureDateTime, arrivalAirport, arrivalDateTime);
     Airline newAirline = new Airline(airlineName);
-    newAirline.addFlight(flight);
+    newAirline.addFlight(flight); //for command line flight
 
 
     Flight temp = new Flight();
     for(Flight f: newAirline.getFlights()){
       temp = f;
-    }
+    } //get flight from newly created airline (redundant because flight already stores it)
+
+    Airline tempAirline = new Airline("");
 
     if(textFile){
 
       boolean fileHasContent = true;
       //get an airline and all its flights from the file
-      Airline tempAirline = new Airline("");
 
       try{
-        FileReader f = new FileReader(filePath);
+        FileReader f = new FileReader(textFilePath);
         BufferedReader b = new BufferedReader(f);
         TextParser parser = new TextParser(b);
         tempAirline = parser.parse();
         tempAirline.addFlight(flight); //append new airline to one read from file
+        Collections.sort(tempAirline.getFlights());
       }
       catch(FileNotFoundException e){
         System.out.println("File does not exist, creating file and adding information");
@@ -297,7 +377,7 @@ public class Project2 {
 
       if(fileHasContent && tempAirline.getName().equals(newAirline.getName())){
         try {
-          FileWriter f = new FileWriter(filePath, false);
+          FileWriter f = new FileWriter(textFilePath, false);
           BufferedWriter b = new BufferedWriter(f);
           PrintWriter writer = new PrintWriter(b);
           TextDumper dumper = new TextDumper(writer);
@@ -315,7 +395,7 @@ public class Project2 {
       }
       else{
         try {
-          FileWriter f = new FileWriter(filePath, false);
+          FileWriter f = new FileWriter(textFilePath, false);
           BufferedWriter b = new BufferedWriter(f);
           PrintWriter writer = new PrintWriter(b);
           TextDumper dumper = new TextDumper(writer);
@@ -325,9 +405,22 @@ public class Project2 {
           System.out.println("Could not access directory");
         }
       }
-    }
+    } //if textFile option was included
 
-    if(print){System.out.println("\n" + temp.toString() + "\n");}
+    if(prettyPrint){
+      //System.out.println("Pretty Print File Path: " + prettyFilePath);
+       try{
+        FileWriter f = new FileWriter(prettyFilePath, false);
+        BufferedWriter b = new BufferedWriter(f);
+        PrintWriter writer = new PrintWriter(b);
+        if(tempAirline.getFlights().size() > 0){doPrettyPrint(tempAirline, writer);}
+        else {doPrettyPrint(newAirline, writer);}
+      } catch(IOException e){
+        System.out.println("Could not write to pretty print file");
+      }
+    } //if prettyPrint option was included
+
+    if(print){System.out.println("\n" + temp.toString() + "\n");} //if the print option was included
   }
 
 }

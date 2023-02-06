@@ -1,12 +1,9 @@
 package edu.pdx.cs410J.tmestas;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.security.spec.ECField;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -17,13 +14,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * from <code>Project1IT</code> which is an integration test (and can capture data
  * written to {@link System#out} and the like.
  */
-class Project2Test {
+class Project3Test {
 
 
   @Test
   void readmeCanBeReadAsResource() throws IOException {
     try (
-      InputStream readme = Project2.class.getResourceAsStream("README.txt")
+      InputStream readme = Project3.class.getResourceAsStream("README.txt")
     ) {
       assertThat(readme, not(nullValue()));
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
@@ -34,79 +31,79 @@ class Project2Test {
 
   @Test
   void testIsValidTimeWithGoodInput1Digit(){
-    Project2 test = new Project2();
-    boolean value = test.isValidTime("1:30");
+    Project3 test = new Project3();
+    boolean value = test.isValidTime("1:30 PM");
     assertThat(value, equalTo(true));
   }
 
   @Test
   void testIsValidTimeWithGoodInput2Digits(){
-    Project2 test = new Project2();
-    boolean value = test.isValidTime("10:30");
+    Project3 test = new Project3();
+    boolean value = test.isValidTime("10:30 PM");
     assertThat(value, equalTo(true));
   }
 
   @Test
   void testIsValidTimeWithBadInput(){
-    Project2 test = new Project2();
+    Project3 test = new Project3();
     boolean value = test.isValidTime("030");
     assertThat(value, equalTo(false));
   }
 
   @Test
   void testIsValidDateWithGoodInput(){
-    Project2 test = new Project2();
+    Project3 test = new Project3();
     boolean value = test.isValidDate("10/22/2022");
     assertThat(value, equalTo(true));
   }
 
   @Test
   void testIsValidDateWithBadInput(){
-    Project2 test = new Project2();
+    Project3 test = new Project3();
     boolean value = test.isValidDate("100/22/2022");
     assertThat(value, equalTo(false));
   }
 
   @Test
   void testIsValidAirportCodeWithGoodInput(){
-    Project2 test = new Project2();
+    Project3 test = new Project3();
     boolean value = test.isValidAirportCode("PDX");
     assertThat(value, equalTo(true));
   }
 
   @Test
   void testIsValidAirportCodeWithBadInput(){
-    Project2 test = new Project2();
+    Project3 test = new Project3();
     boolean value = test.isValidAirportCode("PD1");
     assertThat(value, equalTo(false));
   }
 
   @Test
   void testIsValidAirportCodeWithBadInput2(){
-    Project2 test = new Project2();
+    Project3 test = new Project3();
     boolean value = test.isValidAirportCode("");
     assertThat(value, equalTo(false));
   }
 
   @Test
   void testCheckValidInputWithGoodInput(){
-    Project2 test = new Project2();
-    boolean value = test.checkValidInput(1234, "PDX", "10:20", "10/22/2022",
-            "BOI", "10:24", "10/22/2022");
+    Project3 test = new Project3();
+    boolean value = test.checkValidInput(1234, "PDX", "10:20 PM", "10/22/2022",
+            "BOI", "10:24 PM", "10/22/2022");
     assertThat(value, equalTo(true));
   }
 
   @Test
   void testCheckValidInputWithBadInput(){
-    Project2 test = new Project2();
-    boolean value = test.checkValidInput(1234, "PDX", "10:20", "10/22/2022",
-            "BOI", "10:242", "10/22/2022");
+    Project3 test = new Project3();
+    boolean value = test.checkValidInput(1234, "PDX", "10:20 PM", "10/22/2022",
+            "BOI", "10:242 PM", "10/22/2022");
     assertThat(value, equalTo(false));
   }
 
   @Test
   void testSeparateArgumentsTooFew(){
-    Project2 test = new Project2();
+    Project3 test = new Project3();
     String[] args = new String[7];
 
     args[0] = "Alaska Airlines";
@@ -117,13 +114,14 @@ class Project2Test {
     args[5] = "BOI";
     args[6] = "10/22/2022";
 
+
     List<String> value = test.separateArguments(args, 0);
     assertThat(value.size(), equalTo(7));
   }
   @Test
   void testSeparateArgumentsTooMany(){
-    Project2 test = new Project2();
-    String[] args = new String[9];
+    Project3 test = new Project3();
+    String[] args = new String[12];
 
     args[0] = "Alaska Airlines";
     args[1] = "1234";
@@ -134,15 +132,18 @@ class Project2Test {
     args[6] = "10/22/2022";
     args[7] = "10:24";
     args[8] = "seipp";
+    args[9] = " ";
+    args[10] = " ";
+    args[11] = " ";
 
     List<String> value = test.separateArguments(args, 0);
-    assertThat(value.size(), equalTo(9));
+    assertThat(value.size(), equalTo(12));
   }
 
   @Test
   void testGetFilePath(){
-    Project2 test = new Project2();
-    String[] args = new String[9];
+    Project3 test = new Project3();
+    String[] args = new String[11];
 
     args[0] = "Alaska Airlines";
     args[1] = "1234";
@@ -153,26 +154,77 @@ class Project2Test {
     args[6] = "10/22/2022";
     args[7] = "-textFile";
     args[8] = "here/directory/seipp.txt";
+    args[9] = " ";
+    args[10] = " ";
 
-    String value = test.getFilePath(args);
+    String value = test.getFilePath(args, "-textFile");
     assertThat(value, equalTo("here/directory/seipp.txt"));
   }
 
 
   @Test
   void testIsValidFilePathGood(){
-    Project2 test = new Project2();
+    Project3 test = new Project3();
     boolean value = test.isValidFilePath("src");
     assertThat(value, equalTo(true));
   }
 
   @Test
   void testIsValidFilePathBad(){
-    Project2 test = new Project2();
-    boolean value = test.isValidFilePath("here/directory?!..seipp.txt"); //here/directory?!..seipp.txt
+    Project3 test = new Project3();
+    boolean value = test.isValidFilePath("here/directory?!..seipp.txt");
     assertThat(value, equalTo(false));
   }
 
+  @Test
+  void testDoesAirportExistYes(){
+    Project3 test = new Project3();
+    boolean value = test.doesAirportCodeExist("PDX");
+    assertThat(value, equalTo(true));
+  }
 
+  @Test
+  void testDoesAirportExistNo(){
+    Project3 test = new Project3();
+    boolean value = test.doesAirportCodeExist("OOO");
+    assertThat(value, equalTo(false));
+
+  }
+
+  @Test
+  void testDoPrettyPrintSuccess(){
+    Project3 test = new Project3();
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    Airline testAirline = new Airline("Alaska Airlines");
+    testAirline.addFlight(flight);
+    boolean value = false;
+
+    try {
+      FileWriter f = new FileWriter("src/test/resources/edu/pdx/cs410J/tmestas/prettytest.txt", false);
+      BufferedWriter b = new BufferedWriter(f);
+      PrintWriter writer = new PrintWriter(b);
+      value = test.doPrettyPrint(testAirline, writer);
+    }catch(Exception e){}
+
+    assertThat(value, equalTo(true));
+  }
+
+  @Test
+  void testDoPrettyPrintFailure(){
+    Project3 test = new Project3();
+    Flight flight = new Flight();
+    Airline testAirline = new Airline("Alaska Airlines");
+    testAirline.addFlight(flight);
+    boolean value = false;
+
+    try {
+      FileWriter f = new FileWriter("src/test/resources/edu/pdx/cs410J/tmestas/prettytest.txt", false);
+      BufferedWriter b = new BufferedWriter(f);
+      PrintWriter writer = new PrintWriter(b);
+      value = test.doPrettyPrint(testAirline, writer);
+    }catch(Exception e){}
+
+    assertThat(value, equalTo(false));
+  }
 
 }

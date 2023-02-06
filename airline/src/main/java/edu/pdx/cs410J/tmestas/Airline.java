@@ -3,8 +3,6 @@ package edu.pdx.cs410J.tmestas;
 import edu.pdx.cs410J.AbstractAirline;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,6 +21,10 @@ public class Airline extends AbstractAirline<Flight> {
   public Airline(String name) {
     this.name = name;
     flightList = new ArrayList<Flight>();
+  }
+
+  public void setList(List<Flight> toSet){
+    this.flightList = toSet;
   }
 
   /**
@@ -49,8 +51,10 @@ public class Airline extends AbstractAirline<Flight> {
    */
 
   @Override
-  public Collection<Flight> getFlights() {
+  public List<Flight> getFlights() {
     return flightList;
   }
+
+  //public Collection<Flight>
 
 }

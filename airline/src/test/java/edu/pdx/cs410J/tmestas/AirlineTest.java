@@ -22,19 +22,19 @@ public class AirlineTest {
     @Test
     void testAddFlight(){
         Airline airline = new Airline("Alaska Airlines");
-        Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+        Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
         airline.addFlight(flight);
         Flight temp = new Flight();
         for(Flight f: airline.getFlights()){
             temp = f;
         }
-        assertThat(temp.toString(), equalTo("Flight 123 departs PDX at 10:40 11/22/2022 arrives BOI at 10:45 11/22/2022"));
+        assertThat(temp.toString(), equalTo("Flight 123 departs PDX at 11/22/22, 10:40 AM arrives BOI at 11/22/22, 10:40 AM"));
     }
 
     @Test
     void testGetFlights(){
         Airline airline = new Airline("Alaska Airlines");
-        Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+        Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
         airline.addFlight(flight);
         Flight temp = new Flight();
         for(Flight f: airline.getFlights()){

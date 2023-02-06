@@ -1,6 +1,10 @@
 package edu.pdx.cs410J.tmestas;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,28 +19,28 @@ public class FlightTest {
 
   @Test
   void getDepartureStringNeedsToBeImplemented(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getDepartureString(), equalTo("10:40 11/22/2022"));
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    assertThat(flight.getDepartureString(), equalTo("11/22/22, 10:40 AM"));
   }
   @Test
   void getArrivalStringNeedsToBeImplemented() {
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getArrivalString(), equalTo("10:45 11/22/2022"));
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    assertThat(flight.getArrivalString(), equalTo("11/22/22, 10:40 AM"));
   }
   @Test
   void testGetNumber() {
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
     assertThat(flight.getNumber(), equalTo(123));
   }
 
   @Test
   void testGetDestination(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
     assertThat(flight.getDestination(), equalTo("BOI"));
   }
   @Test
   void testGetSource(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
     assertThat(flight.getSource(), equalTo("PDX"));
   }
   @Test
@@ -46,31 +50,47 @@ public class FlightTest {
   }
   @Test
   void testToString(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.toString(), equalTo("Flight 123 departs PDX at 10:40 11/22/2022 arrives BOI at 10:45 11/22/2022"));
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    assertThat(flight.toString(), equalTo("Flight 123 departs PDX at 11/22/22, 10:40 AM arrives BOI at 11/22/22, 10:40 AM"));
   }
 
   @Test
-  void testGetDepartureDate(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getDepartureDate(), equalTo("11/22/2022"));
+  void testGetDepartureDateTimeString(){
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    assertThat(flight.getDepartureDateTimeString(), equalTo("11/22/2022 10:40 AM"));
   }
 
   @Test
-  void testGetDepartureTime(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getDepartureTime(), equalTo("10:40"));
+  void testGetArrivalDateTimeString(){
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    assertThat(flight.getArrivalDateTimeString(), equalTo("11/22/2022 10:40 AM"));
   }
 
   @Test
-  void testGetArrivalDate(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getArrivalDate(), equalTo("11/22/2022"));
+  void testGetDepartureDateTime(){
+    Date DateTime = new Date();
+    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+    try { //convert string to date
+      DateTime = formatter.parse("11/22/2022 10:40 AM");
+    }catch(Exception e){}
+
+    Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+    assertThat(flight.getDepartureDateTime(), equalTo(DateTime));
   }
 
   @Test
-  void testGetArrivalTime(){
-    Flight flight = new Flight(123, "PDX", "10:40", "11/22/2022", "BOI", "10:45", "11/22/2022");
-    assertThat(flight.getArrivalTime(), equalTo("10:45"));
+  void testGetArrivalDateTime(){
+      Date DateTime = new Date();
+      SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+      try { //convert string to date
+        DateTime = formatter.parse("11/22/2022 10:40 AM");
+      }catch(Exception e){}
+
+      Flight flight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
+      assertThat(flight.getArrivalDateTime(), equalTo(DateTime));
+    }
+
   }
-}
+
+
+

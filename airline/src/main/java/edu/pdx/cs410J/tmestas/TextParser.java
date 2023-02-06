@@ -43,21 +43,17 @@ public class TextParser implements AirlineParser<Airline> {
       Flight toAdd;
       String flightNum;
       String source;
-      String departureDate;
-      String departureTime;
+      String departureDateTime;
       String destination;
-      String arrivalDate;
-      String arrivalTime;
+      String arrivalDateTime;
 
       while(!br.readLine().equals("END AIRLINE")){
         flightNum = br.readLine();
         source = br.readLine();
-        departureDate = br.readLine();
-        departureTime = br.readLine();
+        departureDateTime = br.readLine();
         destination = br.readLine();
-        arrivalDate = br.readLine();
-        arrivalTime = br.readLine();
-        toAdd = new Flight(Integer.parseInt(flightNum), source, departureTime, departureDate, destination, arrivalTime, arrivalDate);
+        arrivalDateTime = br.readLine();
+        toAdd = new Flight(Integer.parseInt(flightNum), source, departureDateTime, destination, arrivalDateTime);
         newAirline.addFlight(toAdd);
         br.readLine();
       }
