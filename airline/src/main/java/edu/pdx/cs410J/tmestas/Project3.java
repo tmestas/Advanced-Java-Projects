@@ -101,7 +101,7 @@ public class Project3 {
 
     return newArgs;
   }
-
+  //test
   /**
    * To get the provided file path if the user used the -textFile flag
    * @param args args to look for the filepath in
