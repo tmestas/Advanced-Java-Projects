@@ -149,46 +149,96 @@ public class Project3 {
   @VisibleForTesting
   static boolean doPrettyPrint(Airline toPrint, PrintWriter writer){
 
-    try (PrintWriter pw = new PrintWriter(writer)) {
+      try (PrintWriter pw = new PrintWriter(writer)) {
 
-      long timeDiff;
-      long hourDiff;
-      long minuteDiff;
+        long timeDiff;
+        long hourDiff;
+        long minuteDiff;
 
-      pw.println(toPrint.getName());
+        pw.println(toPrint.getName());
 
-      for(Flight f: toPrint.getFlights()) {
+        for (Flight f : toPrint.getFlights()) {
 
-        SimpleDateFormat duration = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-        DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-        Date d1 = duration.parse(f.getDepartureDateTimeString());
-        Date d2 = duration.parse(f.getArrivalDateTimeString());
-        timeDiff = d2.getTime() - d1.getTime();
-        hourDiff = (timeDiff / (1000 * 60 * 60)) % 24;
-        minuteDiff = (timeDiff / (1000 * 60)) % 60;
+          SimpleDateFormat duration = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+          DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+          Date d1 = duration.parse(f.getDepartureDateTimeString());
+          Date d2 = duration.parse(f.getArrivalDateTimeString());
+          timeDiff = d2.getTime() - d1.getTime();
+          hourDiff = (timeDiff / (1000 * 60 * 60)) % 24;
+          minuteDiff = (timeDiff / (1000 * 60)) % 60;
 
-        pw.println();
-        pw.println("Flight Number: " + f.getNumber());
-        pw.println("Departure Date & Time: " + formatter.format(f.getDepartureDateTime()));
-        pw.println("Arrival Date & Time: " + formatter.format(f.getArrivalDateTime()));
-        pw.println("From " + AirportNames.getName(f.getSource()) + " to " + AirportNames.getName(f.getDestination()));
-        if(hourDiff > 0 && minuteDiff > 0){pw.println("Flight Duration: " + hourDiff + " hours and " + minuteDiff + " minutes");}
-        else if(hourDiff <= 0 && minuteDiff > 0) {pw.println("Flight Duration: " + minuteDiff + " minutes");}
-        else if(hourDiff > 0 && minuteDiff <= 0){pw.println("Flight Duration: " + hourDiff + " hours");}
-        pw.println();
+          pw.println();
+          pw.println("Flight Number: " + f.getNumber());
+          pw.println("Departure Date & Time: " + formatter.format(f.getDepartureDateTime()));
+          pw.println("Arrival Date & Time: " + formatter.format(f.getArrivalDateTime()));
+          pw.println("From " + AirportNames.getName(f.getSource()) + " to " + AirportNames.getName(f.getDestination()));
+          if (hourDiff > 0 && minuteDiff > 0) {
+            pw.println("Flight Duration: " + hourDiff + " hours and " + minuteDiff + " minutes");
+          } else if (hourDiff <= 0 && minuteDiff > 0) {
+            pw.println("Flight Duration: " + minuteDiff + " minutes");
+          } else if (hourDiff > 0 && minuteDiff <= 0) {
+            pw.println("Flight Duration: " + hourDiff + " hours");
+          }
+          pw.println();
 
+        }
+
+        pw.flush();
+      } catch (Exception e) {
+        System.out.println(e.getMessage());
+        System.out.println("Error writing to the pretty print file FROM FUNCTION");
+        return false;
       }
 
-      pw.flush();
-    }
-    catch(Exception e){
-      System.out.println(e.getMessage());
-      System.out.println("Error writing to the pretty print file FROM FUNCTION");
-      return false;
-    }
 
     return true;
   } //needs test
+
+  @VisibleForTesting
+  static boolean prettyPrintConsole(Airline airline){
+    System.out.println("\n******** PRETTY PRINT ********\n");
+    long timeDiff =0;
+    long hourDiff =0;
+    long minuteDiff =0;
+    Date d1;
+    Date d2;
+
+    System.out.println(airline.getName());
+
+    for (Flight f : airline.getFlights()) {
+
+      SimpleDateFormat duration = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+      DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+      try {
+        d1 = duration.parse(f.getDepartureDateTimeString());
+        d2 = duration.parse(f.getArrivalDateTimeString());
+        timeDiff = d2.getTime() - d1.getTime();
+        hourDiff = (timeDiff / (1000 * 60 * 60)) % 24;
+        minuteDiff = (timeDiff / (1000 * 60)) % 60;
+      }
+      catch(Exception e){System.out.println("Could not parse time");}
+
+
+      System.out.println();
+      System.out.println("Flight Number: " + f.getNumber());
+      System.out.println("Departure Date & Time: " + formatter.format(f.getDepartureDateTime()));
+      System.out.println("Arrival Date & Time: " + formatter.format(f.getArrivalDateTime()));
+      System.out.println("From " + AirportNames.getName(f.getSource()) + " to " + AirportNames.getName(f.getDestination()));
+      if (hourDiff > 0 && minuteDiff > 0) {
+        System.out.println("Flight Duration: " + hourDiff + " hours and " + minuteDiff + " minutes");
+      } else if (hourDiff <= 0 && minuteDiff > 0) {
+        System.out.println("Flight Duration: " + minuteDiff + " minutes");
+      } else if (hourDiff > 0 && minuteDiff <= 0) {
+        System.out.println("Flight Duration: " + hourDiff + " hours");
+      }
+      System.out.println();
+
+    }
+
+    System.out.println("\n******** END PRETTY PRINT ********\n");
+
+    return true;
+  }
 
   /**
    * A method to run all input check functions
@@ -244,6 +294,38 @@ public class Project3 {
     return value;
   }
 
+  @VisibleForTesting
+  public static boolean checkPrettyConsole(String args[]){
+    int check = 0;
+    int i = 0;
+    for(i = 0; i < args.length; ++i){
+      if(args[i].equals("-pretty")){
+        check = i + 1;
+      }
+    }
+
+    if(args[check].equals("-") || args[check + 1].equals("-")){
+      return true;
+    }
+
+
+    return false;
+  }
+
+  @VisibleForTesting
+  public static boolean checkPrettyPath(String args[]){
+    int check = 0;
+    for(int i = 0; i < args.length; ++i){
+      if(args[i].equals("-pretty")){check = i + 1;}
+    }
+
+    if(args[check].equals("-")){
+      return false;
+    }
+
+    return true;
+  }
+
   /**
    * main method for the program
    * @param args command line arguments
@@ -253,6 +335,8 @@ public class Project3 {
     boolean print = false;
     boolean textFile = false;
     boolean prettyPrint = false;
+    boolean prettyConsole = false;
+    boolean prettyHasPath = false;
     String textFilePath = new String();
     String prettyFilePath = new String();
 
@@ -299,7 +383,12 @@ public class Project3 {
 
     if(prettyPrint){
       prettyFilePath = getFilePath(args, "-pretty");
+      prettyConsole = checkPrettyConsole(args);
+      prettyHasPath = checkPrettyPath(args);
       ++optionListSize;
+      if(prettyConsole && prettyHasPath){
+        ++optionListSize;
+      }
     } //get prettyPrint path and add one to optionListSize count
 
     List<String> argsListSize = separateArguments(args, optionListSize); //to get a true count of args
@@ -362,7 +451,7 @@ public class Project3 {
         Collections.sort(tempAirline.getFlights());
       }
       catch(FileNotFoundException e){
-        System.out.println("File does not exist, creating file and adding information");
+        System.out.println("-textFile file does not exist, creating file and adding information");
         fileHasContent = false;
       }
       catch(ParserException e){
@@ -385,7 +474,7 @@ public class Project3 {
           //System.out.println("ADDED TEMP");
         }
         catch (Exception e) {
-          System.out.println("Error opening the file");
+          System.out.println("Error opening the file provided for -textFile");
         }
       }
       else if(fileHasContent && !tempAirline.getName().equals(newAirline.getName())){
@@ -402,7 +491,7 @@ public class Project3 {
           dumper.dump(newAirline);
         }
         catch (Exception e) {
-          System.out.println("Could not access directory");
+          System.out.println("Could not access -textFile directory");
         }
       }
     } //if textFile option was included
@@ -418,6 +507,11 @@ public class Project3 {
       } catch(IOException e){
         System.out.println("Could not write to pretty print file");
       }
+
+       if(prettyConsole){
+         if(tempAirline.getFlights().size() > 0){prettyPrintConsole(tempAirline);}
+         else {prettyPrintConsole(newAirline);}
+       }
     } //if prettyPrint option was included
 
     if(print){System.out.println("\n" + temp.toString() + "\n");} //if the print option was included
