@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 /**
  * The main class for the CS410J airline Project
  */
-public class Project3 {
+public class Project4 {
 
   /**
    * A method to check if the user entered time is in valid format
@@ -401,7 +401,7 @@ public class Project3 {
 
     for(String option: options){
       if(option.equals("-README")){
-        try (InputStream readme = Project3.class.getResourceAsStream("README.txt"))
+        try (InputStream readme = Project4.class.getResourceAsStream("README.txt"))
         {
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line;
