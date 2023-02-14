@@ -194,6 +194,11 @@ public class Project3 {
     return true;
   } //needs test
 
+  /**
+   * Pretty prints to the console
+   * @param airline airline to pretty print
+   * @return boolean signifying success or failure
+   */
   @VisibleForTesting
   static boolean prettyPrintConsole(Airline airline){
     System.out.println("\n******** PRETTY PRINT ********\n");
@@ -216,7 +221,7 @@ public class Project3 {
         hourDiff = (timeDiff / (1000 * 60 * 60)) % 24;
         minuteDiff = (timeDiff / (1000 * 60)) % 60;
       }
-      catch(Exception e){System.out.println("Could not parse time");}
+      catch(Exception e){System.out.println("Could not parse time"); return false;}
 
 
       System.out.println();
@@ -240,6 +245,27 @@ public class Project3 {
     return true;
   }
 
+  @VisibleForTesting
+  static boolean isDepartureTimeNotAfterArrivalTime(String depart, String arrive){
+    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+    Date DepartureDate = new Date();
+    Date ArrivalDate = new Date();
+
+    try {
+      DepartureDate = formatter.parse(depart);
+    }catch(Exception e){
+      System.out.println("ERROR PARSING DEPARTURE DATE");
+    }
+    try {
+      ArrivalDate = formatter.parse(arrive);
+    }catch(Exception e){
+      System.out.println("ERROR PARSING ARRIVAL DATE");
+    }
+
+    if(DepartureDate.before(ArrivalDate)){return true;}
+    else{return false;}
+  }
+
   /**
    * A method to run all input check functions
    * @param flightNum user entered flight number
@@ -257,6 +283,7 @@ public class Project3 {
                                  String arrivalAirport, String arrivalTime, String arrivalDate)
   {
     boolean value = true;
+
 
     if(!isValidTime(departTime)){
       System.out.println("\n" + departTime+" is not a valid departure time.\nValid Format: hh:mm\n");
@@ -278,22 +305,33 @@ public class Project3 {
     value = false;
     }
 
+    if(value && !isDepartureTimeNotAfterArrivalTime(departDate + " " + departTime, arrivalDate + " " + arrivalTime)){
+      System.out.println("\nDeparture time is after arrival time, exiting\n");
+      value = false;
+    }
+
     if(!isValidAirportCode(departAirport) || !isValidAirportCode(arrivalAirport)){
       System.out.println("\nAirport Code must be 3 letters and no other characters\n");
       value = false;
     }
     else if(!doesAirportCodeExist(departAirport)){ //maybe write test?
-      System.out.println("\n" + departAirport + " is not a stored airport, exiting");
+      System.out.println("\n" + departAirport + " is not a known airport, exiting");
       value = false;
     }
     else if(!doesAirportCodeExist(arrivalAirport)) { //maybe write test?
-      System.out.println("\n" + arrivalAirport + " is not a stored airport, exiting");
+      System.out.println("\n" + arrivalAirport + " is not a known airport, exiting");
       value = false;
     }
+
 
     return value;
   }
 
+  /**
+   * check for a '-' after the -pretty flag
+   * @param args command line arguments
+   * @return boolean signifying pretty print to console, or not
+   */
   @VisibleForTesting
   public static boolean checkPrettyConsole(String args[]){
     int check = 0;
@@ -312,6 +350,12 @@ public class Project3 {
     return false;
   }
 
+
+  /**
+   * check if a pretty print path exists
+   * @param args command line arguments
+   * @return a boolean signifying if there is a path or not
+   */
   @VisibleForTesting
   public static boolean checkPrettyPath(String args[]){
     int check = 0;
@@ -331,6 +375,13 @@ public class Project3 {
    * @param args command line arguments
    */
   public static void main(String[] args) {
+
+    if(args.length == 0){
+      System.out.println("\n\nNo arguments supplied\n");
+      System.out.println("Usage: command <options> [args]");
+      System.out.println("Run with -README for more information\n\n");
+      return;
+    }
 
     boolean print = false;
     boolean textFile = false;
