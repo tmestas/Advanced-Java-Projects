@@ -226,5 +226,58 @@ class Project3Test {
 
     assertThat(value, equalTo(false));
   }
+  @Test
+  void testCheckPrettyConsoleYes(){
+    Project3 test = new Project3();
+    String [] args = {"-pretty", "-"};
+    assertThat(test.checkPrettyConsole(args), equalTo(true));
+  }
+
+  @Test
+  void testCheckPrettyConsoleNo(){
+      Project3 test = new Project3();
+      String [] args = {"-pretty", " ", " ", " "};
+      assertThat(test.checkPrettyConsole(args), equalTo(false));
+  }
+
+  @Test
+  void testPrettyPrintToConsoleGood(){
+    Project3 test = new Project3();
+    Airline testAirline = new Airline("Alaska Airlines");
+    Flight testFlight = new Flight(123, "PDX", "02/20/2022 10:40 PM", "PDX", "02/20/2022 10:40 PM");
+    testAirline.addFlight(testFlight);
+    assertThat(test.prettyPrintConsole(testAirline), equalTo(true));
+  }
+
+
+  @Test
+  void testPrettyHasPathYes(){
+    Project3 test = new Project3();
+    String [] args = {"-pretty", "seipp/seipp.txt", "-"};
+    assertThat(test.checkPrettyPath(args), equalTo(true));
+  }
+
+  @Test
+  void testPrettyHasPathNo(){
+    Project3 test = new Project3();
+    String [] args = {"-pretty", "-"};
+    assertThat(test.checkPrettyPath(args), equalTo(false));
+  }
+
+  @Test
+  void testIsDepartureTimeNotAfterArrivalTimeYes(){
+    Project3 test = new Project3();
+    String depart = "10/22/2022 10:30 PM";
+    String arrive = "10/23/2022 10:30 PM";
+    assertThat(test.isDepartureTimeNotAfterArrivalTime(depart, arrive), equalTo(true));
+  }
+
+  @Test
+  void testIsDepartureTimeNotAfterArrivalTimeNo(){
+    Project3 test = new Project3();
+    String depart = "10/23/2022 10:30 PM";
+    String arrive = "10/22/2022 10:30 PM";
+    assertThat(test.isDepartureTimeNotAfterArrivalTime(depart, arrive), equalTo(false));
+  }
 
 }

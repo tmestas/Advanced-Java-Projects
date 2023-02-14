@@ -1,9 +1,37 @@
 
 Name: Tanner Mestas
-Assignment: Advanced Programming with Java - Project 1
+Assignment: Advanced Programming with Java - Project 3
 
-The purpose of this assignment is to provide a command line interface for a user to create flights in memory
-and print them.
+The purpose of this assignment is to provide a command line interface for a user to add flight objects to
+airline objects, and perform different actions with the data.
 
-Command Line Usage: java -jar target/airline-2023.0.0.jar [options] <args>
+*****************************************************************************************************************
 
+Options:
+
+-README                 | Prints readme file with project information
+-textFile <FilePath>    | Prints the provided flight and airline to a text file (if valid), appends to file
+                        | if there already exists a file, aborts if airlines in file and command line differ
+-pretty <FilePath>      | Pretty prints airline and its flights to a text file
+-pretty -               | Pretty prints airline and its flights to standard out
+-pretty <FilePath> -    | Pretty prints airline and its flights to a text file and standard out
+
+*****************************************************************************************************************
+
+Args (in order):
+
+Flight Number: Must be a parseable integer
+Source Airport Code: Must be a 3-letter code that corresponds to an existing airport
+Departure Date: Date the flight will depart in format dd/mm/yyyy
+Departure Time: Time the flight will depart in format hh:mm a
+Destination Airport Code: Must be a 3-letter code that corresponds to an existing airport
+Arrival Date: Date the flight will arrive in format dd/mm/yyyy
+Arrival Time: Time the flight will arrive in format hh:mm a
+
+*****************************************************************************************************************
+
+Command Line Usage:
+
+java -jar target/airline-2023.0.0.jar [options] <args>
+
+*****************************************************************************************************************
