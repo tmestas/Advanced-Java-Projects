@@ -4,12 +4,18 @@ import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 
 
 /**
@@ -385,16 +391,18 @@ public class Project4 {
 
     boolean print = false;
     boolean textFile = false;
+    boolean xmlFile = false;
     boolean prettyPrint = false;
     boolean prettyConsole = false;
     boolean prettyHasPath = false;
     String textFilePath = new String();
     String prettyFilePath = new String();
+    String xmlFilePath = new String();
 
     List<String> options = new LinkedList<String>();
 
     for (String arg : args) {
-      if(arg.contains("-print") || arg.contains("-README") || arg.contains("-textFile") || arg.contains("-pretty")){
+      if(arg.contains("-print") || arg.contains("-README") || arg.contains("-textFile") || arg.contains("-pretty") || arg.contains("-xmlFile")){
         options.add(arg);
       }
     } //add option flags to a list
@@ -419,11 +427,14 @@ public class Project4 {
       else if(option.equals("-print")){print = true;}
       else if (option.equals("-textFile")) {textFile = true;}
       else if(option.equals("-pretty")){prettyPrint = true;}
+      else if(option.equals("-xmlFile")){xmlFile = true;}
       else {
         System.out.println("\nUnrecognized command line option.");
         return;
       }
     } //check for flags
+
+    if(textFile && xmlFile){System.out.println("\n-textFile and -xmlFile cannot be used at the same time, exiting\n"); return;}
 
     int optionListSize = options.size(); //get the list size, so we know where to start looking for command line args
 
@@ -441,6 +452,11 @@ public class Project4 {
         ++optionListSize;
       }
     } //get prettyPrint path and add one to optionListSize count
+
+    if(xmlFile){
+      xmlFilePath = getFilePath(args, "-xmlFile");
+      ++optionListSize;
+    }
 
     List<String> argsListSize = separateArguments(args, optionListSize); //to get a true count of args
 
@@ -546,6 +562,19 @@ public class Project4 {
         }
       }
     } //if textFile option was included
+
+    if(xmlFile){
+      System.out.println("XML FILE PATH: " + xmlFilePath);
+
+      XmlDumper newDumper = new XmlDumper();
+      try{
+        newDumper.dump(newAirline);
+      }catch(Exception e){
+        System.out.println("EXCEPTION FROM CLASS");
+      }
+
+
+    }
 
     if(prettyPrint){
       //System.out.println("Pretty Print File Path: " + prettyFilePath);
