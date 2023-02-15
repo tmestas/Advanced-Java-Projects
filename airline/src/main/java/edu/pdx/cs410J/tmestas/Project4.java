@@ -4,18 +4,24 @@ import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 
 
 /**
  * The main class for the CS410J airline Project
  */
-public class Project3 {
+public class Project4 {
 
   /**
    * A method to check if the user entered time is in valid format
@@ -101,7 +107,7 @@ public class Project3 {
 
     return newArgs;
   }
-
+  //test
   /**
    * To get the provided file path if the user used the -textFile flag
    * @param args args to look for the filepath in
@@ -385,23 +391,25 @@ public class Project3 {
 
     boolean print = false;
     boolean textFile = false;
+    boolean xmlFile = false;
     boolean prettyPrint = false;
     boolean prettyConsole = false;
     boolean prettyHasPath = false;
     String textFilePath = new String();
     String prettyFilePath = new String();
+    String xmlFilePath = new String();
 
     List<String> options = new LinkedList<String>();
 
     for (String arg : args) {
-      if(arg.contains("-print") || arg.contains("-README") || arg.contains("-textFile") || arg.contains("-pretty")){
+      if(arg.contains("-print") || arg.contains("-README") || arg.contains("-textFile") || arg.contains("-pretty") || arg.contains("-xmlFile")){
         options.add(arg);
       }
     } //add option flags to a list
 
     for(String option: options){
       if(option.equals("-README")){
-        try (InputStream readme = Project3.class.getResourceAsStream("README.txt"))
+        try (InputStream readme = Project4.class.getResourceAsStream("README.txt"))
         {
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line;
@@ -419,11 +427,14 @@ public class Project3 {
       else if(option.equals("-print")){print = true;}
       else if (option.equals("-textFile")) {textFile = true;}
       else if(option.equals("-pretty")){prettyPrint = true;}
+      else if(option.equals("-xmlFile")){xmlFile = true;}
       else {
         System.out.println("\nUnrecognized command line option.");
         return;
       }
     } //check for flags
+
+    if(textFile && xmlFile){System.out.println("\n-textFile and -xmlFile cannot be used at the same time, exiting\n"); return;}
 
     int optionListSize = options.size(); //get the list size, so we know where to start looking for command line args
 
@@ -441,6 +452,11 @@ public class Project3 {
         ++optionListSize;
       }
     } //get prettyPrint path and add one to optionListSize count
+
+    if(xmlFile){
+      xmlFilePath = getFilePath(args, "-xmlFile");
+      ++optionListSize;
+    }
 
     List<String> argsListSize = separateArguments(args, optionListSize); //to get a true count of args
 
@@ -546,6 +562,24 @@ public class Project3 {
         }
       }
     } //if textFile option was included
+
+    if(xmlFile){
+
+
+
+
+
+
+
+      XmlDumper newDumper = new XmlDumper(xmlFilePath);
+      try{
+        newDumper.dump(newAirline);
+      }catch(Exception e){
+        System.out.println("Error writing to XML file (from main)");
+      }
+
+
+    }
 
     if(prettyPrint){
       //System.out.println("Pretty Print File Path: " + prettyFilePath);
