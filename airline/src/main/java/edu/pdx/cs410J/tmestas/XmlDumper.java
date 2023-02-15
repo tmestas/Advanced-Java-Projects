@@ -45,14 +45,14 @@ public class XmlDumper implements AirlineDumper<Airline> {
         time.setAttribute("minutes", String.valueOf(date.getMinutes()));
         return time;
     }
-    @Override
-    public void dump(Airline airline) throws IOException {
 
+    public Document CreateDocument(){
         String systemID = null;
         Document doc;
+        AirlineXmlHelper helper = new AirlineXmlHelper();
 
         try{
-            File dtd = new File("http://www.cs.pdx.edu/˜whitlock/dtds/airline.dtd");
+            File dtd = new File("http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd");
             systemID = dtd.toURL().toString();
         }catch(MalformedURLException e){
             System.out.println("BAD URL");
@@ -60,69 +60,25 @@ public class XmlDumper implements AirlineDumper<Airline> {
 
         try{
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
             factory.setValidating(true);
 
             DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setErrorHandler(helper);
+            builder.setEntityResolver(helper);
 
             DOMImplementation dom = builder.getDOMImplementation();
-
             DocumentType docType = dom.createDocumentType("airline", null, systemID);
-
             doc = dom.createDocument(null, "airline", docType);
 
-            //happens once
-            Element root = doc.getDocumentElement();
-
-            Element airlineName = doc.createElement("name");
-            airlineName.appendChild(doc.createTextNode(airline.getName()));
-
-            root.appendChild(airlineName);
-            //doc.appendChild(root);
-
-            //loop for all flights
-            for(Flight f: airline.getFlights()) {
-
-                Element flight = doc.createElement("flight");
-                root.appendChild(flight);
-
-                Element flightNum = doc.createElement("number");
-                flightNum.appendChild(doc.createTextNode(String.valueOf(f.getNumber())));
-                flight.appendChild(flightNum);
-
-                Element sourceAirport = doc.createElement("src");
-                sourceAirport.appendChild(doc.createTextNode(f.getSource()));
-                flight.appendChild(sourceAirport);
-
-                //start departure stuff
-                Element departureDateTime = doc.createElement("depart");
-                Element departureDate = createDateElement(doc, f.getDepartureDateTimeString());
-                Element departureTime = createTimeElement(doc, f.getDepartureDateTime());
-                departureDateTime.appendChild(departureDate);
-                departureDateTime.appendChild(departureTime);
-                flight.appendChild(departureDateTime);
-                //end departure stuff
-
-                Element destinationAirport = doc.createElement("dest");
-                destinationAirport.appendChild(doc.createTextNode(f.getDestination()));
-                flight.appendChild(destinationAirport);
-
-                //start arrival stuff
-                Element arrivalDateTime = doc.createElement("arrive");
-                Element arrivalDate = createDateElement(doc, f.getArrivalDateTimeString());
-                Element arrivalTime = createTimeElement(doc, f.getArrivalDateTime());
-                arrivalDateTime.appendChild(arrivalDate);
-                arrivalDateTime.appendChild(arrivalTime);
-                flight.appendChild(arrivalDateTime);
-                //end arrival stuff
-            }
-        } //create xml tree
-        catch(Exception e){
-            System.out.println("Error while creating XML tree");
-            System.out.print(e.getMessage());
-            return;
+        }catch(ParserConfigurationException e){
+            System.out.println("Error building the XML document");
+            return null;
         }
 
+        return doc;
+    }
+
+    public void WriteToFile(Document doc){
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "YES");
@@ -130,8 +86,65 @@ public class XmlDumper implements AirlineDumper<Airline> {
             StreamResult result = new StreamResult(outputStream);
             transformer.transform(new DOMSource(doc), result);
             outputStream.close();
-        }catch(Exception e){
+        }catch(TransformerConfigurationException e){
+            System.out.println("\nTransformer could not be configured");
+        }
+        catch(IOException e){
             System.out.println("\nCould not access XML file");
         }
+        catch(TransformerException e){
+            System.out.println("\nError with the transformer");
+        }
+    }
+    @Override
+    public void dump(Airline airline) throws IOException {
+
+        Document doc = CreateDocument();
+        if(doc == null){return;}
+
+        //happens once
+        Element root = doc.getDocumentElement();
+        Element airlineName = doc.createElement("name");
+        airlineName.appendChild(doc.createTextNode(airline.getName()));
+        root.appendChild(airlineName);
+
+        //loop for all flights
+        for(Flight f: airline.getFlights()) {
+
+            Element flight = doc.createElement("flight");
+            root.appendChild(flight);
+
+            Element flightNum = doc.createElement("number");
+            flightNum.appendChild(doc.createTextNode(String.valueOf(f.getNumber())));
+            flight.appendChild(flightNum);
+
+            Element sourceAirport = doc.createElement("src");
+            sourceAirport.appendChild(doc.createTextNode(f.getSource()));
+            flight.appendChild(sourceAirport);
+
+            //start departure stuff
+            Element departureDateTime = doc.createElement("depart");
+            Element departureDate = createDateElement(doc, f.getDepartureDateTimeString());
+            Element departureTime = createTimeElement(doc, f.getDepartureDateTime());
+            departureDateTime.appendChild(departureDate);
+            departureDateTime.appendChild(departureTime);
+            flight.appendChild(departureDateTime);
+            //end departure stuff
+
+            Element destinationAirport = doc.createElement("dest");
+            destinationAirport.appendChild(doc.createTextNode(f.getDestination()));
+            flight.appendChild(destinationAirport);
+
+            //start arrival stuff
+            Element arrivalDateTime = doc.createElement("arrive");
+            Element arrivalDate = createDateElement(doc, f.getArrivalDateTimeString());
+            Element arrivalTime = createTimeElement(doc, f.getArrivalDateTime());
+            arrivalDateTime.appendChild(arrivalDate);
+            arrivalDateTime.appendChild(arrivalTime);
+            flight.appendChild(arrivalDateTime);
+            //end arrival stuff
+        }
+
+        WriteToFile(doc);
     }
 }
