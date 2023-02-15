@@ -564,13 +564,18 @@ public class Project4 {
     } //if textFile option was included
 
     if(xmlFile){
-      System.out.println("XML FILE PATH: " + xmlFilePath);
 
-      XmlDumper newDumper = new XmlDumper();
+
+
+
+
+
+
+      XmlDumper newDumper = new XmlDumper(xmlFilePath);
       try{
         newDumper.dump(newAirline);
       }catch(Exception e){
-        System.out.println("EXCEPTION FROM CLASS");
+        System.out.println("Error writing to XML file (from main)");
       }
 
 

@@ -14,10 +14,14 @@ import javax.xml.transform.stream.*;
 import org.w3c.dom.*;
 
 public class XmlDumper implements AirlineDumper<Airline> {
+    public String FilePath;
 
+    XmlDumper(String filePath){
+        this.FilePath = filePath;
+    }
     @Override
     public void dump(Airline airline) throws IOException {
-        String publicID = null;
+
         String systemID = null;
         Document doc;
 
@@ -42,41 +46,56 @@ public class XmlDumper implements AirlineDumper<Airline> {
             doc = dom.createDocument(null, "airline", docType);
 
             //happens once
-            Element root = doc.createElement("airline");
-            root.appendChild(doc.createTextNode("Seipp Airlines"));
-            doc.appendChild(root);
+            Element root = doc.getDocumentElement();
 
-            //happens multiple times
+            Element airlineName = doc.createElement("airlinename");
+            airlineName.appendChild(doc.createTextNode(airline.getName()));
 
-            Element flight = doc.createElement("flight");
-            root.appendChild(flight);
+            root.appendChild(airlineName);
+            //doc.appendChild(root);
 
-            Element flightNum = doc.createElement("flightnum");
-            flightNum.appendChild(doc.createTextNode("1111"));
-            flight.appendChild(flightNum);
+            //loop for all flights
+            for(Flight f: airline.getFlights()) {
 
-            Element sourceAirport = doc.createElement("source");
-            flightNum.appendChild(doc.createTextNode("PDX"));
-            flight.appendChild(sourceAirport);
+                Element flight = doc.createElement("flight");
+                root.appendChild(flight);
 
-            Element departureDateTime = doc.createElement("departuredatetime");
-            flightNum.appendChild(doc.createTextNode("11/11/1111 11:11 PM"));
-            flight.appendChild(departureDateTime);
+                Element flightNum = doc.createElement("flightnum");
+                flightNum.appendChild(doc.createTextNode(String.valueOf(f.getNumber())));
+                flight.appendChild(flightNum);
 
-            Element destinationAirport = doc.createElement("destination");
-            flightNum.appendChild(doc.createTextNode("PDX"));
-            flight.appendChild(destinationAirport);
+                Element sourceAirport = doc.createElement("source");
+                sourceAirport.appendChild(doc.createTextNode(f.getSource()));
+                flight.appendChild(sourceAirport);
 
-            Element arrivalDateTime = doc.createElement("arrivaldatetime");
-            flightNum.appendChild(doc.createTextNode("11/11/1111 11:11 PM"));
-            flight.appendChild(arrivalDateTime);
-        }
+                Element departureDateTime = doc.createElement("departuredatetime");
+                departureDateTime.appendChild(doc.createTextNode(f.getDepartureDateTimeString()));
+                flight.appendChild(departureDateTime);
+
+                Element destinationAirport = doc.createElement("destination");
+                destinationAirport.appendChild(doc.createTextNode(f.getDestination()));
+                flight.appendChild(destinationAirport);
+
+                Element arrivalDateTime = doc.createElement("arrivaldatetime");
+                arrivalDateTime.appendChild(doc.createTextNode(f.getArrivalDateTimeString()));
+                flight.appendChild(arrivalDateTime);
+
+            }
+        } //create xml tree
         catch(Exception e){
-            System.out.println("ERROR WHILE MAKING TREE");
-            e.printStackTrace();
-            e.getCause();
+            System.out.println("Error while creating XML tree");
+            return;
         }
 
-
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "YES");
+            FileOutputStream outputStream = new FileOutputStream(this.FilePath);
+            StreamResult result = new StreamResult(outputStream);
+            transformer.transform(new DOMSource(doc), result);
+            outputStream.close();
+        }catch(Exception e){
+            System.out.println("\nCould not access XML file");
+        }
     }
 }
