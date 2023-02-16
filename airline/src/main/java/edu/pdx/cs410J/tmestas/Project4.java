@@ -565,20 +565,29 @@ public class Project4 {
 
     if(xmlFile){
 
-
-
-
-
-
+      XmlParser parser = new XmlParser(xmlFilePath);
+      Airline tempAirlineXML = new Airline("");
+      try {
+        tempAirlineXML = parser.parse();
+      }catch (Exception e){
+        System.out.println(e.getMessage());
+      }
 
       XmlDumper newDumper = new XmlDumper(xmlFilePath);
       try{
-        newDumper.dump(newAirline);
+        if(tempAirlineXML != null && tempAirlineXML.getName().equals(newAirline.getName())){
+          tempAirlineXML.addFlight(flight);
+          Collections.sort(tempAirlineXML.getFlights());
+          newDumper.dump(tempAirlineXML);
+        }
+        else if(tempAirlineXML != null && !tempAirlineXML.getName().equals(newAirline.getName())){
+          System.out.println("Airline name does not match any stored in XML, exiting");
+          return;
+        }
+        else{newDumper.dump(newAirline);}
       }catch(Exception e){
-        System.out.println("Error writing to XML file (from main)");
+        System.out.println(e.getMessage());
       }
-
-
     }
 
     if(prettyPrint){

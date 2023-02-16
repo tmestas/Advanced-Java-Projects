@@ -39,8 +39,8 @@ public class XmlDumper implements AirlineDumper<Airline> {
 
     public Element createTimeElement(Document doc, Date date){
         Element time = doc.createElement("time");
-        time.setAttribute("hours", String.valueOf(date.getHours()));
-        time.setAttribute("minutes", String.valueOf(date.getMinutes()));
+        time.setAttribute("hour", String.valueOf(date.getHours()));
+        time.setAttribute("minute", String.valueOf(date.getMinutes()));
         return time;
     }
 
