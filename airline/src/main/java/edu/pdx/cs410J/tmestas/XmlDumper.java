@@ -23,8 +23,6 @@ public class XmlDumper implements AirlineDumper<Airline> {
 
     public String [] ParseDate(String date){
         String [] array1 = date.split(" ");
-        //System.out.println("ARRAY1[0]: " + array1[0]);
-        //System.out.println("ARRAY1[1]: " + array1[1]);
         String parsedDate = array1[0];
         return parsedDate.split("/");
 
@@ -47,16 +45,10 @@ public class XmlDumper implements AirlineDumper<Airline> {
     }
 
     public Document CreateDocument(){
-        String systemID = null;
+        String systemID = AirlineXmlHelper.SYSTEM_ID;
+        String publicID = AirlineXmlHelper.PUBLIC_ID;
         Document doc;
         AirlineXmlHelper helper = new AirlineXmlHelper();
-
-        try{
-            File dtd = new File("http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd");
-            systemID = dtd.toURL().toString();
-        }catch(MalformedURLException e){
-            System.out.println("BAD URL");
-        }
 
         try{
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -67,7 +59,7 @@ public class XmlDumper implements AirlineDumper<Airline> {
             builder.setEntityResolver(helper);
 
             DOMImplementation dom = builder.getDOMImplementation();
-            DocumentType docType = dom.createDocumentType("airline", null, systemID);
+            DocumentType docType = dom.createDocumentType("airline", publicID, systemID);
             doc = dom.createDocument(null, "airline", docType);
 
         }catch(ParserConfigurationException e){
@@ -82,6 +74,11 @@ public class XmlDumper implements AirlineDumper<Airline> {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "YES");
+            transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, AirlineXmlHelper.SYSTEM_ID);
+            //transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, AirlineXmlHelper.PUBLIC_ID);
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "ASCII");
+
             FileOutputStream outputStream = new FileOutputStream(this.FilePath);
             StreamResult result = new StreamResult(outputStream);
             transformer.transform(new DOMSource(doc), result);
