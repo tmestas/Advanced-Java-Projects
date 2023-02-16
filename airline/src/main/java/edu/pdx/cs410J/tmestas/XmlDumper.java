@@ -25,14 +25,13 @@ public class XmlDumper implements AirlineDumper<Airline> {
         String [] array1 = date.split(" ");
         String parsedDate = array1[0];
         return parsedDate.split("/");
-
     }
 
     public Element createDateElement(Document doc, String dateString){
         Element date = doc.createElement("date");
         String [] parsedDate = ParseDate(dateString);
-        date.setAttribute("day", String.valueOf(parsedDate[0]));
-        date.setAttribute("month", String.valueOf(parsedDate[1]));
+        date.setAttribute("day", String.valueOf(parsedDate[1]));
+        date.setAttribute("month", String.valueOf(parsedDate[0]));
         date.setAttribute("year", String.valueOf(parsedDate[2]));
         return date;
     }

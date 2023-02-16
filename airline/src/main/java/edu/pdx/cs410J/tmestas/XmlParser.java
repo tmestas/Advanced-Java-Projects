@@ -103,7 +103,7 @@ public class XmlParser implements AirlineParser<Airline> {
 
             departInfo = flightInfo.item(5).getChildNodes();
             dateInfo = (Element) departInfo.item(1);
-            date = dateInfo.getAttribute("day") + "/" + dateInfo.getAttribute("month") + "/"
+            date = dateInfo.getAttribute("month") + "/" + dateInfo.getAttribute("day") + "/"
                     + dateInfo.getAttribute("year");
             timeInfo =(Element) departInfo.item(3);
             time = timeInfo.getAttribute("hour") + ":" + timeInfo.getAttribute("minute");
@@ -113,7 +113,7 @@ public class XmlParser implements AirlineParser<Airline> {
 
             arrivalInfo = flightInfo.item(9).getChildNodes();
             dateInfo = (Element) arrivalInfo.item(1);
-            date = dateInfo.getAttribute("day") + "/" + dateInfo.getAttribute("month") + "/"
+            date = dateInfo.getAttribute("month") + "/" + dateInfo.getAttribute("day") + "/"
                     + dateInfo.getAttribute("year");
             timeInfo =(Element) arrivalInfo.item(3);
             time = timeInfo.getAttribute("hour") + ":" + timeInfo.getAttribute("minute");
