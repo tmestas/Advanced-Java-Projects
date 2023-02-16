@@ -2,10 +2,7 @@ package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.AirlineParser;
 import edu.pdx.cs410J.ParserException;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -36,8 +33,9 @@ public class XmlParser implements AirlineParser<Airline> {
 
             doc = builder.parse(FilePath);
 
-        }catch(ParserConfigurationException e){
-            throw new ParserConfigurationException("Parser could not be configured");
+        }
+        catch(ParserConfigurationException e){
+            throw new SAXException("Could not configure parser");
         }
         catch(SAXException e){
             throw new SAXException("XML file format does not conform to dtd");
@@ -76,53 +74,115 @@ public class XmlParser implements AirlineParser<Airline> {
         }
 
         Element root = (Element) doc.getChildNodes().item(1);
-        Element AirlineName = (Element) root.getChildNodes().item(1);
-        String name = AirlineName.getTextContent();
-        Airline newAirline = new Airline(name);
-        NodeList flightInfo;
-        NodeList departInfo;
-        NodeList arrivalInfo;
-        Element dateInfo;
-        Element timeInfo;
-        String date;
-        String time;
-        String flightNumber;
-        String source;
+        Element newFlights = (Element) root.getChildNodes();
+
+        String AirlineName = GetTextElement(newFlights.getElementsByTagName("name"));
+        Airline newAirline = new Airline(AirlineName);
+
+        NodeList flightList = newFlights.getElementsByTagName("flight");
+        Element currentFlight;
+
+        NodeList currentNumber;
+        String flightNum = null;
+        NodeList currentSource;
+        String source = null;
+        NodeList depart;
+        NodeList depart2 = null;
+        Element departDate = null;
+        String currentDepartDateString;
+        Element departTime = null;
+        String currentDepartTimeString;
+        String currentDepartDateTimeString;
+        NodeList currentDestination;
         String destination;
-        String departureDateTime;
-        String arrivalDateTime;
-        NodeList flights = root.getChildNodes();
+        NodeList arrive;
+        NodeList arrive2 = null;
+        Element arriveDate = null;
+        String currentArriveDateString;
+        Element arriveTime = null;
+        String currentArriveTimeString;
+        String currentArriveDateTimeString;
 
-        int i;
-        for(i = 3; i < flights.getLength(); i = i + 2){
-            flightInfo = flights.item(i).getChildNodes();
 
-            flightNumber = flightInfo.item(1).getTextContent();
+        int i = 0;
+        int j = 0;
 
-            source = flightInfo.item(3).getTextContent();
+        for(i = 0; i < flightList.getLength(); ++i){
+            currentFlight = (Element) flightList.item(i);
 
-            departInfo = flightInfo.item(5).getChildNodes();
-            dateInfo = (Element) departInfo.item(1);
-            date = dateInfo.getAttribute("month") + "/" + dateInfo.getAttribute("day") + "/"
-                    + dateInfo.getAttribute("year");
-            timeInfo =(Element) departInfo.item(3);
-            time = timeInfo.getAttribute("hour") + ":" + timeInfo.getAttribute("minute");
-            departureDateTime = date + " " + Convert24HourTime(time);
+            currentNumber = currentFlight.getElementsByTagName("number");
+            flightNum = GetTextElement(currentNumber);
 
-            destination = flightInfo.item(7).getTextContent();
+            currentSource = currentFlight.getElementsByTagName("src");
+            source = GetTextElement(currentSource);
 
-            arrivalInfo = flightInfo.item(9).getChildNodes();
-            dateInfo = (Element) arrivalInfo.item(1);
-            date = dateInfo.getAttribute("month") + "/" + dateInfo.getAttribute("day") + "/"
-                    + dateInfo.getAttribute("year");
-            timeInfo =(Element) arrivalInfo.item(3);
-            time = timeInfo.getAttribute("hour") + ":" + timeInfo.getAttribute("minute");
-            arrivalDateTime = date + " " + Convert24HourTime(time);
 
-            newAirline.addFlight(new Flight(Integer.parseInt(flightNumber), source, departureDateTime, destination,
-                    arrivalDateTime));
+            depart = currentFlight.getElementsByTagName("depart");
+            for(j = 0; j<depart.getLength(); ++j){
+                if(depart.item(j).getNodeType() == Node.ELEMENT_NODE){
+                    depart2 = depart.item(j).getChildNodes();
+                }
+            }
+            for(j = 0; j < depart2.getLength(); ++j){
+                if(depart2.item(j).getNodeName().equals("date")){
+                    departDate = (Element) depart2.item(j);
+                }
+                if(depart2.item(j).getNodeName().equals("time")){
+                    departTime = (Element) depart2.item(j);
+                }
+            }
+            currentDepartDateString = departDate.getAttribute("month") + "/" + departDate.getAttribute("day") + "/"
+                    + departDate.getAttribute("year");
+            currentDepartTimeString = departTime.getAttribute("hour") + ":" + departTime.getAttribute("minute");
+            currentDepartDateTimeString = currentDepartDateString + " " + Convert24HourTime(currentDepartTimeString);
+
+            currentDestination = currentFlight.getElementsByTagName("dest");
+            destination = GetTextElement(currentDestination);
+
+            arrive = currentFlight.getElementsByTagName("arrive");
+            for(j = 0; j<arrive.getLength(); ++j){
+                if(arrive.item(j).getNodeType() == Node.ELEMENT_NODE){
+                    arrive2 = arrive.item(j).getChildNodes();
+                }
+            }
+            for(j = 0; j < arrive2.getLength(); ++j){
+                if(arrive2.item(j).getNodeName().equals("date")){
+                    arriveDate = (Element) arrive2.item(j);
+                }
+                if(arrive2.item(j).getNodeName().equals("time")){
+                    arriveTime = (Element) arrive2.item(j);
+                }
+            }
+            currentArriveDateString = arriveDate.getAttribute("month") + "/" + arriveDate.getAttribute("day") + "/"
+                    + arriveDate.getAttribute("year");
+            currentArriveTimeString = arriveTime.getAttribute("hour") + ":" + arriveTime.getAttribute("minute");
+            currentArriveDateTimeString = currentArriveDateString + " " + Convert24HourTime(currentArriveTimeString);
+
+
+            newAirline.addFlight(new Flight(Integer.parseInt(flightNum), source, currentDepartDateTimeString, destination,
+                    currentArriveDateTimeString));
         }
 
         return newAirline;
+    }
+
+    public String GetTextElement(NodeList list){
+        int j = 0;
+        for(j = 0; j < list.getLength(); ++j){
+            if(list.item(j).getNodeType() == Node.ELEMENT_NODE){
+                return list.item(j).getTextContent();
+            }
+        }
+        return null;
+    }
+
+    public Element GetElement(NodeList list, String find){
+        int j = 0;
+        for(j = 0; j < list.getLength(); ++j){
+            if(list.item(j).getNodeType() == Node.ELEMENT_NODE && list.item(j).getNodeName().equals("date")){
+                return (Element) list.item(j);
+            }
+        }
+        return null;
     }
 }
