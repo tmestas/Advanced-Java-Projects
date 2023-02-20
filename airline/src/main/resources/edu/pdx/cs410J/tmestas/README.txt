@@ -18,6 +18,8 @@ Options:
 -XmlFile <FilePath>     | Prints the provided flight and airline to a Xml file (if valid), appends to file
                         | if there already exists a file, aborts if airlines in file and command line differ
 
+*Note*: -textFile and -XmlFile options can not be used at the same time.
+
 *****************************************************************************************************************
 
 Args (in order):
