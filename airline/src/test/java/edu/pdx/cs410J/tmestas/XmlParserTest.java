@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.tmestas;
 
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
@@ -36,17 +37,31 @@ public class XmlParserTest {
     }
 
     @Test
-    public void testParse(){
+    public void testParseValidFile(){
         Airline testAirline;
         XmlParser test = new XmlParser("src/test/resources/edu/pdx/cs410J/tmestas/valid-airline.xml");
         try {
             testAirline = test.parse();
         }catch(Exception e){
             System.out.println(e.getMessage());
-            System.out.println(e.getStackTrace());
             return;
         }
 
         assertThat(testAirline.getName(), equalTo("Valid Airlines"));
+    }
+
+    @Test
+    @Disabled
+    public void testParseInvalidFile(){
+        Airline testAirline;
+        XmlParser test = new XmlParser("src/test/resources/edu/pdx/cs410J/tmestas/invalid-airline.xml");
+        try {
+            testAirline = test.parse();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return;
+        }
+
+        assertThat(testAirline.getName(), equalTo(null));
     }
 }
