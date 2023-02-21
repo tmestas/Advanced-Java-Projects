@@ -75,14 +75,4 @@ public class XmlDumperTest {
         Document newDoc = test.CreateDocument();
         assertThat(testDoc, equalTo(newDoc));
     }
-
-    @Test
-    @Disabled
-    public void testWriteToFile(){
-
-    }
-
-
-
-
 }

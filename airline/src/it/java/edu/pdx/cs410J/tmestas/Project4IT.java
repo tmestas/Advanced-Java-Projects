@@ -95,4 +95,12 @@ class Project4IT extends InvokeMainTestCase {
       MainMethodResult result = invokeMain("-print", "-textFile", "src/test/resources/edu/pdx/cs410J/tmestas/valid-airline.txt", "\"Seipp Airlines\"", "123", "PDX", "11/22/2022", "10:40", "PM", "BOI", "12/22/2022", "10:45", "PM");
       assertThat(result.getTextWrittenToStandardOut(), containsString("Airline name did not match text file, information not added"));
   }
+
+  @Test
+  void testCouldNotAccessXMLFile(){
+      MainMethodResult result = invokeMain("-print", "-xmlFile", "fakedir/valid-airline.txt", "\"Seipp Airlines\"", "123", "PDX", "11/22/2022", "10:40", "PM", "BOI", "12/22/2022", "10:45", "PM");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Could not access XML file"));
+  }
+
+
 }
