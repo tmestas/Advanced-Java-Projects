@@ -10,9 +10,6 @@ import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
 
-
-
-
 /**
  * The main class for the CS410J airline Project
  */

@@ -1,7 +1,5 @@
 package edu.pdx.cs410J.tmestas;
 import edu.pdx.cs410J.ParserException;
-
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.Collections;
 
