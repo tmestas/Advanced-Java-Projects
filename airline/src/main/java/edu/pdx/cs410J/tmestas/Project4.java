@@ -3,18 +3,13 @@ package edu.pdx.cs410J.tmestas;
 import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.Integer;
 import java.text.SimpleDateFormat;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+
 
 
 

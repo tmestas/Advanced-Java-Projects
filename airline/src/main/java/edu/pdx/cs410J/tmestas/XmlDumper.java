@@ -14,19 +14,38 @@ import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
 import org.w3c.dom.*;
 
+
+/**
+ * The class that controls the XmlDumper for Project #4
+ */
 public class XmlDumper implements AirlineDumper<Airline> {
     public String FilePath;
 
+    /**
+     * Constructor
+     * @param filePath file path to dump to
+     */
     XmlDumper(String filePath){
         this.FilePath = filePath;
     }
 
+    /**
+     * gets the individual components of a date
+     * @param date date to parse
+     * @return array containing components of the date
+     */
     public String [] ParseDate(String date){
         String [] array1 = date.split(" ");
         String parsedDate = array1[0];
         return parsedDate.split("/");
     }
 
+    /**
+     * function to create a date element to be sent to the xml file
+     * @param doc document object
+     * @param dateString date to be converted
+     * @return an XML element
+     */
     public Element createDateElement(Document doc, String dateString){
         Element date = doc.createElement("date");
         String [] parsedDate = ParseDate(dateString);
@@ -36,6 +55,12 @@ public class XmlDumper implements AirlineDumper<Airline> {
         return date;
     }
 
+    /**
+     * Function to create a time element
+     * @param doc document object
+     * @param date date object that contains the time to be converted
+     * @return an XML element
+     */
     public Element createTimeElement(Document doc, Date date){
         Element time = doc.createElement("time");
         time.setAttribute("hour", String.valueOf(date.getHours()));
@@ -43,6 +68,10 @@ public class XmlDumper implements AirlineDumper<Airline> {
         return time;
     }
 
+    /**
+     * function to create the document to be build the XML tree on
+     * @return document
+     */
     public Document CreateDocument(){
         String systemID = AirlineXmlHelper.SYSTEM_ID;
         String publicID = AirlineXmlHelper.PUBLIC_ID;
@@ -69,6 +98,10 @@ public class XmlDumper implements AirlineDumper<Airline> {
         return doc;
     }
 
+    /**
+     * function that writes the XML tree to the XML file
+     * @param doc the document containing the XML tree
+     */
     public void WriteToFile(Document doc){
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -92,6 +125,12 @@ public class XmlDumper implements AirlineDumper<Airline> {
             System.out.println("\nError with the transformer");
         }
     }
+
+    /**
+     * function to dump contents of an airline to the xml file
+     * @param airline airline to dump
+     * @throws IOException error writing the airline
+     */
     @Override
     public void dump(Airline airline) throws IOException {
 

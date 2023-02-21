@@ -12,14 +12,28 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * class to control the Xml Parser
+ */
 public class XmlParser implements AirlineParser<Airline> {
 
     public String FilePath;
 
+    /**
+     * constructor
+     * @param filePath filepath to parse
+     */
     XmlParser(String filePath){
         this.FilePath = filePath;
     }
 
+    /**
+     * build document to be used in parsing
+     * @return document to parse
+     * @throws ParserConfigurationException error configuring the parser
+     * @throws SAXException when the format of the xml file does not conform to dtd
+     * @throws IOException when the xml file does not exist
+     */
     public Document GetDocument() throws ParserConfigurationException, SAXException, IOException{
         Document doc;
         AirlineXmlHelper helper = new AirlineXmlHelper();
@@ -47,6 +61,11 @@ public class XmlParser implements AirlineParser<Airline> {
         return doc;
     }
 
+    /**
+     * convert 24 hour time to 12 hour time
+     * @param oldTime 24 hour time to convert
+     * @return 24 hour time converted to 12 hour time
+     */
     public String Convert24HourTime(String oldTime){
         String newTime;
 
@@ -62,6 +81,12 @@ public class XmlParser implements AirlineParser<Airline> {
 
         return newTime;
     }
+
+    /**
+     * parse the document
+     * @return an airline constructed from xml
+     * @throws ParserException when there is a parsing error
+     */
     @Override
     public Airline parse() throws ParserException {
         Document doc;
@@ -166,21 +191,16 @@ public class XmlParser implements AirlineParser<Airline> {
         return newAirline;
     }
 
+    /**
+     * get text from an element
+     * @param list NodeList to search
+     * @return text from element
+     */
     public String GetTextElement(NodeList list){
         int j = 0;
         for(j = 0; j < list.getLength(); ++j){
             if(list.item(j).getNodeType() == Node.ELEMENT_NODE){
                 return list.item(j).getTextContent();
-            }
-        }
-        return null;
-    }
-
-    public Element GetElement(NodeList list, String find){
-        int j = 0;
-        for(j = 0; j < list.getLength(); ++j){
-            if(list.item(j).getNodeType() == Node.ELEMENT_NODE && list.item(j).getNodeName().equals("date")){
-                return (Element) list.item(j);
             }
         }
         return null;

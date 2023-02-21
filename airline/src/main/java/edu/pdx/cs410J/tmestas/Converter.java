@@ -5,7 +5,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.Collections;
 
+/**
+ * class to control the converting of a text file to a xml file
+ */
 public class Converter {
+    /**
+     * main method for the converter
+     * @param args command line arguments
+     */
     public static void main(String[] args){
 
         //usage: java -cp target/airline-2023.0.0.jar edu.pdx.cs410J.tmestas.Converter <Text File Path> <XML File Path>
