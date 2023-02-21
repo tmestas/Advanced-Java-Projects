@@ -3,7 +3,8 @@ Name: Tanner Mestas
 Assignment: Advanced Programming with Java - Project 4
 
 The purpose of this assignment is to provide a command line interface for a user to add flight objects to
-airline objects, and perform different actions with the data.
+airline objects, and perform different actions with the data. This assignment also has a method to convert
+a .txt representation of an airline to a .xml representation of an airline.
 
 *****************************************************************************************************************
 
@@ -36,6 +37,8 @@ Arrival Time: Time the flight will arrive in format hh:mm a
 
 Command Line Usage:
 
-java -jar target/airline-2023.0.0.jar [options] <args>
+FOR MAIN PROGRAM: java -jar target/airline-2023.0.0.jar [options] <args>
+
+TO CONVERT .TXT TO .XML: java -cp target/airline-2023.0.0.jar <textFilePath> <xmlFilePath>
 
 *****************************************************************************************************************
