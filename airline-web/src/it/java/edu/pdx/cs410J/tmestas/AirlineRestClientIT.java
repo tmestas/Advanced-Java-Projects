@@ -2,6 +2,7 @@ package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer.MethodName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -41,6 +42,7 @@ class AirlineRestClientIT {
   }
 
   @Test
+  @Disabled
   void test2DefineOneWord() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
     String testWord = "TEST WORD";

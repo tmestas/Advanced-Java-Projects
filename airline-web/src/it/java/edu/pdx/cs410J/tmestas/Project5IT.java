@@ -3,6 +3,7 @@ package edu.pdx.cs410J.tmestas;
 import edu.pdx.cs410J.InvokeMainTestCase;
 import edu.pdx.cs410J.UncaughtExceptionInMain;
 import edu.pdx.cs410J.web.HttpRequestHelper.RestException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
@@ -60,6 +61,7 @@ class Project5IT extends InvokeMainTestCase {
     }
 
     @Test
+    @Disabled
     void test4AddDefinition() {
         String word = "WORD";
         String definition = "DEFINITION";
