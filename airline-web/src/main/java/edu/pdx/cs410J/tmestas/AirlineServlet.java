@@ -125,7 +125,9 @@ public class AirlineServlet extends HttpServlet {
 
     } else {
       PrintWriter pw = response.getWriter();
-
+      TextDumper dumper = new TextDumper(pw);
+      dumper.dump(airline);
+      pw.flush();
       /* he was saying something about needing an XML dumper here??
       Map<String, String> wordDefinition = Map.of(airlineName, definition);
       TextDumper dumper = new TextDumper(pw);

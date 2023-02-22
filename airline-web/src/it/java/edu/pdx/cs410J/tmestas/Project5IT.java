@@ -28,23 +28,13 @@ class Project5IT extends InvokeMainTestCase {
     @Test
     void test0RemoveAllMappings() throws IOException {
       AirlineRestClient client = new AirlineRestClient(HOSTNAME, Integer.parseInt(PORT));
-      client.removeAllDictionaryEntries();
+      client.removeAllAirlines();
     }
 
     @Test
     void test1NoCommandLineArguments() {
         MainMethodResult result = invokeMain( Project5.class );
         assertThat(result.getTextWrittenToStandardError(), containsString(Project5.MISSING_ARGS));
-    }
-
-    @Test
-    void test2EmptyServer() {
-        MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT );
-
-        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
-
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatWordCount(0)));
     }
 
     @Test
