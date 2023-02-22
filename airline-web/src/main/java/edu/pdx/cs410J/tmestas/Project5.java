@@ -14,7 +14,7 @@ import java.util.Map;
 public class Project5 {
     //testing new branch for Project5
     public static final String MISSING_ARGS = "Missing command line arguments";
-
+    
     public static void main(String... args) {
         String hostName = null;
         String portString = null;
