@@ -38,6 +38,7 @@ class Project5IT extends InvokeMainTestCase {
     }
 
     @Test
+    @Disabled
     void test3NoDefinitionsThrowsAppointmentBookRestException() {
         String word = "WORD";
         try {

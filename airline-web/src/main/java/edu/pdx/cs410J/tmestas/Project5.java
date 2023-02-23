@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.ParserException;
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.*;
 import java.util.Map;
@@ -14,68 +15,101 @@ public class Project5 {
     public static final String MISSING_ARGS = "Missing command line arguments";
     
     public static void main(String... args) {
-        String hostName = null;
-        String portString = null;
-        String airlineName = null;
-        String flightNumberAsString = null;
 
-        for (String arg : args) {
-            if (hostName == null) {
-                hostName = arg;
+        CommandLineArgHandler handler = new CommandLineArgHandler();
 
-            } else if ( portString == null) {
-                portString = arg;
-
-            } else if (airlineName == null) {
-                airlineName = arg;
-
-            } else if (flightNumberAsString == null) {
-                flightNumberAsString = arg;
-
-            } else {
-                usage("Extraneous command line argument: " + arg);
-            }
-        }
-
-        if (hostName == null) {
-            usage( MISSING_ARGS );
-            return;
-
-        } else if ( portString == null) {
-            usage( "Missing port" );
-            return;
-        }
-
-        int port;
         try {
-            port = Integer.parseInt( portString );
-
-        } catch (NumberFormatException ex) {
-            usage("Port \"" + portString + "\" must be an integer");
+            handler.parse(args);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
             return;
         }
+
+        boolean readme = handler.Readme;
+        if(readme){
+            //do readme and exit
+            System.out.println("README!");
+            return;
+        }
+
+        String hostName = handler.HostName;
+        int port = Integer.parseInt(handler.PortString);
+        boolean print = handler.Print;
+        boolean search = handler.Search;
 
         AirlineRestClient client = new AirlineRestClient(hostName, port);
 
+        String airlineName = handler.AirlineName;
+        String flightNumberAsString = handler.FlightNumberAsString;
+        String sourceAirport = handler.Source;
+        String DepartureDateTime = handler.DepartureDate + handler.DepartureTime;
+        String destinationAirport = handler.Destination;
+        String ArrivalDateTime = handler.ArrivalDate + handler.ArrivalTime;
 
+        /*
         try {
             if (airlineName == null) {
                error("Airline name required");
-            } else if (flightNumberAsString == null) {
-                // Pretty print the entire airline
+            }
+            else if (search && flightNumberAsString == null) {
+                // if no args pretty print whole airline
                 Airline airline = client.getAirline(airlineName);
                 PrintWriter writer = new PrintWriter(System.out);
                 PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
                 prettyPrinter.dump(airline);
-
-            } else {
-                client.addFlight(airlineName, flightNumberAsString);
+                //handle other cases here (search by args)
             }
-
+            else {client.addFlight(airlineName, flightNumberAsString);}
         } catch (IOException | ParserException ex ) {
             error("While contacting server: " + ex.getMessage());
         }
+         */
+
+        if(!search){
+            //adding an airline
+            System.out.println("ADDING!");
+        }
+        else{
+            //searching for + displaying an airline (with potential fields)
+            System.out.println("SEARCHING!");
+            try {
+                Airline airline = client.getAirline(airlineName);
+                PrintWriter writer = new PrintWriter(System.out);
+                PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
+                prettyPrinter.dump(airline);
+            }catch(Exception e){
+                error("While contacting server: " + e.getMessage());
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private static void error( String message )
     {
