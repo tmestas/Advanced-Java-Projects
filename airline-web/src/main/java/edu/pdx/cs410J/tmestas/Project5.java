@@ -2,9 +2,7 @@ package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.ParserException;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -63,11 +61,13 @@ public class Project5 {
         try {
             if (airlineName == null) {
                error("Airline name required");
-
             } else if (flightNumberAsString == null) {
                 // Pretty print the entire airline
                 Airline airline = client.getAirline(airlineName);
-                System.out.println(airline.toString());
+                PrintWriter writer = new PrintWriter(System.out);
+                PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
+                prettyPrinter.dump(airline);
+
             } else {
                 client.addFlight(airlineName, flightNumberAsString);
             }
