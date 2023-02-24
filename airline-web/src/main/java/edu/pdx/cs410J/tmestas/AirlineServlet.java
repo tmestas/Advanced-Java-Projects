@@ -42,7 +42,7 @@ public class AirlineServlet extends HttpServlet {
           writeDefinition(word, response);
 
       } else {
-          writeAllDictionaryEntries(response);
+          writeAllFlights(response);
       }
   }
 
@@ -172,7 +172,7 @@ public class AirlineServlet extends HttpServlet {
    *
    * The text of the message is formatted with {@link TextDumper}
    */
-  private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
+  private void writeAllFlights(HttpServletResponse response ) throws IOException
   {
       PrintWriter pw = response.getWriter();
 
