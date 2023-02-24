@@ -42,9 +42,9 @@ public class Project5 {
         String airlineName = handler.AirlineName;
         String flightNumberAsString = handler.FlightNumberAsString;
         String sourceAirport = handler.Source;
-        String DepartureDateTime = handler.DepartureDate + handler.DepartureTime;
+        String DepartureDateTime = handler.DepartureDate + " " + handler.DepartureTime;
         String destinationAirport = handler.Destination;
-        String ArrivalDateTime = handler.ArrivalDate + handler.ArrivalTime;
+        String ArrivalDateTime = handler.ArrivalDate + " " + handler.ArrivalTime;
 
         /*
         try {
@@ -64,13 +64,20 @@ public class Project5 {
             error("While contacting server: " + ex.getMessage());
         }
          */
+        Flight newFlight = new Flight(Integer.parseInt(flightNumberAsString), sourceAirport, DepartureDateTime,
+                destinationAirport, ArrivalDateTime);
 
         if(!search){
             //adding an airline
             System.out.println("ADDING!");
+            try {
+                client.addFlight(airlineName, newFlight);
+            }catch(Exception e){
+                error("While contacting server: " + e.getMessage());
+            }
         }
         else{
-            //searching for + displaying an airline (with potential fields)
+            //next step is to figure out how to display all flights for an airline
             System.out.println("SEARCHING!");
             try {
                 Airline airline = client.getAirline(airlineName);

@@ -19,6 +19,10 @@ import java.util.Map;
 public class AirlineServlet extends HttpServlet {
   static final String AIRLINE_NAME_PARAMETER = "airline";
   static final String FLIGHT_NUMBER_PARAMETER = "flightNumber";
+  static final String SOURCE_PARAMETER = "source";
+  static final String DEPART_PARAMETER = "depart";
+  static final String DESTINATION_PARAMETER = "destination";
+  static final String ARRIVAL_PARAMETER = "arrive";
 
   private final Map<String, Airline> airlines = new HashMap<>();
 
@@ -64,6 +68,30 @@ public class AirlineServlet extends HttpServlet {
           return;
       }
 
+      String source = getParameter(SOURCE_PARAMETER, request );
+      if (source == null) {
+          missingRequiredParameter(response, SOURCE_PARAMETER);
+          return;
+      }
+
+      String departureDateTime = getParameter(DEPART_PARAMETER, request );
+      if (departureDateTime == null) {
+          missingRequiredParameter(response, DEPART_PARAMETER);
+          return;
+      }
+
+      String destination = getParameter(DESTINATION_PARAMETER, request );
+      if (destination == null) {
+          missingRequiredParameter(response, DESTINATION_PARAMETER);
+          return;
+      }
+
+      String arrivalDateTime = getParameter(ARRIVAL_PARAMETER, request);
+      if (arrivalDateTime == null) {
+          missingRequiredParameter(response, ARRIVAL_PARAMETER);
+          return;
+      }
+
       // ^ do this for all things in airline in the future
 
       Airline airline = this.airlines.get(airlineName);
@@ -72,10 +100,10 @@ public class AirlineServlet extends HttpServlet {
           this.airlines.put(airlineName, airline);
       }
 
-      airline.addFlight(new Flight(Integer.parseInt(flightNumberAsString)));
+      airline.addFlight(new Flight(Integer.parseInt(flightNumberAsString), source, departureDateTime, destination, arrivalDateTime));
 
       PrintWriter pw = response.getWriter();
-      pw.println(Messages.definedWordAs(airlineName, flightNumberAsString));
+      pw.println(Messages.addedFlightToAirline(airlineName, flightNumberAsString));
       pw.flush();
 
       response.setStatus( HttpServletResponse.SC_OK);

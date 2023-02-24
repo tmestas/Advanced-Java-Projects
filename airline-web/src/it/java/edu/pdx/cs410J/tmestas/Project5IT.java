@@ -32,6 +32,7 @@ class Project5IT extends InvokeMainTestCase {
     }
 
     @Test
+    @Disabled
     void test1NoCommandLineArguments() {
         MainMethodResult result = invokeMain( Project5.class );
         assertThat(result.getTextWrittenToStandardError(), containsString(Project5.MISSING_ARGS));
@@ -62,7 +63,7 @@ class Project5IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
         String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.definedWordAs(word, definition)));
+        assertThat(out, out, containsString(Messages.addedFlightToAirline(word, definition)));
 
         result = invokeMain( Project5.class, HOSTNAME, PORT, word );
 

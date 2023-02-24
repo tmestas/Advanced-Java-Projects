@@ -54,9 +54,17 @@ public class AirlineRestClient
     return parser.parse();
   }
 
-  public void addFlight(String airlineName, String flightNumber) throws IOException {
-    Response response = http.post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName, AirlineServlet.FLIGHT_NUMBER_PARAMETER, flightNumber));
+  public void addFlight(String airlineName, Flight flight) throws IOException {
+    Response response = http.post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName,
+            AirlineServlet.FLIGHT_NUMBER_PARAMETER, String.valueOf(flight.getNumber()),
+            AirlineServlet.SOURCE_PARAMETER, flight.getSource(),
+            AirlineServlet.DEPART_PARAMETER, flight.getDepartureDateTimeString(),
+            AirlineServlet.DESTINATION_PARAMETER, flight.getDestination(),
+            AirlineServlet.ARRIVAL_PARAMETER, flight.getArrivalDateTimeString()));
+
+    System.out.println(response.getContent()); //
     throwExceptionIfNotOkayHttpStatus(response);
+
   }
 
   public void removeAllAirlines() throws IOException {

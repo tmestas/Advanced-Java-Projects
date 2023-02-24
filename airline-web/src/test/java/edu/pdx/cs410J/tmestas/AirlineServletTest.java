@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.tmestas;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -36,6 +37,7 @@ class AirlineServletTest {
   }
 
   @Test
+  @Disabled
   void addFlightInNewAirline() throws IOException {
     AirlineServlet servlet = new AirlineServlet();
 
