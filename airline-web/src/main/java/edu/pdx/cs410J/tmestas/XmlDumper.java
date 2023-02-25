@@ -14,6 +14,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Date;
 
 
@@ -21,14 +23,15 @@ import java.util.Date;
  * The class that controls the XmlDumper for Project #4
  */
 public class XmlDumper implements AirlineDumper<Airline> {
-    public String FilePath;
+
+    private final Writer writer;
 
     /**
      * Constructor
-     * @param filePath file path to dump to
+     * @param writer to write to character stream with
      */
-    XmlDumper(String filePath){
-        this.FilePath = filePath;
+    XmlDumper(Writer writer){
+        this.writer = writer;
     }
 
     /**
@@ -101,30 +104,24 @@ public class XmlDumper implements AirlineDumper<Airline> {
     }
 
     /**
-     * function that writes the XML tree to the XML file
+     * function that writes the XML tree to a stream
      * @param doc the document containing the XML tree
      */
-    public void WriteToFile(Document doc){
+    public void WriteToStream(Document doc){
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "YES");
             transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, AirlineXmlHelper.SYSTEM_ID);
-            //transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, AirlineXmlHelper.PUBLIC_ID);
+            transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, AirlineXmlHelper.PUBLIC_ID);
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             transformer.setOutputProperty(OutputKeys.ENCODING, "ASCII");
 
-            FileOutputStream outputStream = new FileOutputStream(this.FilePath);
-            StreamResult result = new StreamResult(outputStream);
-            transformer.transform(new DOMSource(doc), result);
-            outputStream.close();
-        }catch(TransformerConfigurationException e){
-            System.out.println("\nTransformer could not be configured");
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(writer);
+            transformer.transform(source, result);
         }
-        catch(IOException e){
-            System.out.println("\nCould not access XML file");
-        }
-        catch(TransformerException e){
-            System.out.println("\nError with the transformer");
+        catch(Exception e){
+            System.out.println("Error dumping xml");
         }
     }
 
@@ -182,6 +179,6 @@ public class XmlDumper implements AirlineDumper<Airline> {
             //end arrival stuff
         }
 
-        WriteToFile(doc);
+        WriteToStream(doc);
     }
 }

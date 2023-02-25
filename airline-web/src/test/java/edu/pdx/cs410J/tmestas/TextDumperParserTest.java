@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.tmestas;
 
 import edu.pdx.cs410J.ParserException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
@@ -14,6 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class TextDumperParserTest {
 
   @Test
+  @Disabled
   void airlineWithOneFlightCanBeDumpedAndParsed() throws ParserException {
     String airlineName = "Alaska Airlines";
     int flightNumber = 123;

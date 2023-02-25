@@ -46,25 +46,6 @@ public class Project5 {
         String destinationAirport = handler.Destination;
         String ArrivalDateTime = handler.ArrivalDate + " " + handler.ArrivalTime;
 
-        /*
-        try {
-            if (airlineName == null) {
-               error("Airline name required");
-            }
-            else if (search && flightNumberAsString == null) {
-                // if no args pretty print whole airline
-                Airline airline = client.getAirline(airlineName);
-                PrintWriter writer = new PrintWriter(System.out);
-                PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
-                prettyPrinter.dump(airline);
-                //handle other cases here (search by args)
-            }
-            else {client.addFlight(airlineName, flightNumberAsString);}
-        } catch (IOException | ParserException ex ) {
-            error("While contacting server: " + ex.getMessage());
-        }
-         */
-
 
         if(!search){
             //adding an airline
@@ -75,33 +56,21 @@ public class Project5 {
                 client.addFlight(airlineName, newFlight);
             }catch(Exception e){
                 error("While contacting server: " + e.getMessage());
-                //test
             }
         }
         else{
-            //next step is to figure out how to display all flights for an airline
-            System.out.println("SEARCHING!");
+            System.out.println("\nSEARCHING!\n");
             try {
                 Airline airline = client.getAirline(airlineName);
                 PrintWriter writer = new PrintWriter(System.out);
                 PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
                 prettyPrinter.dump(airline);
+
+                //next figure out how to search by parameters
             }catch(Exception e){
                 error("While contacting server: " + e.getMessage());
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 

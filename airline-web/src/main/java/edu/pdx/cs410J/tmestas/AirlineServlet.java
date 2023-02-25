@@ -39,10 +39,11 @@ public class AirlineServlet extends HttpServlet {
 
       String word = getParameter(AIRLINE_NAME_PARAMETER, request );
       if (word != null) {
-          writeDefinition(word, response);
+          writeAirline(word, response);
 
       } else {
-          writeAllFlights(response);
+          System.out.println("Airline name is required");
+          //writeAllFlights(response);
       }
   }
 
@@ -92,8 +93,6 @@ public class AirlineServlet extends HttpServlet {
           return;
       }
 
-      // ^ do this for all things in airline in the future
-
       Airline airline = this.airlines.get(airlineName);
       if(airline == null){
           airline = new Airline(airlineName);
@@ -125,7 +124,6 @@ public class AirlineServlet extends HttpServlet {
       pw.flush();
 
       response.setStatus(HttpServletResponse.SC_OK);
-
   }
 
   /**
@@ -141,49 +139,24 @@ public class AirlineServlet extends HttpServlet {
   }
 
   /**
-   * Writes the definition of the given word to the HTTP response.
+   * Writes the definition of the given airline to the HTTP response.
    *
-   * The text of the message is formatted with {@link TextDumper}
+   * The text of the message is formatted with {@link XmlDumper}
    */
-  private void writeDefinition(String airlineName, HttpServletResponse response) throws IOException {
+  private void writeAirline(String airlineName, HttpServletResponse response) throws IOException {
     Airline airline = this.airlines.get(airlineName);
 
     if (airline == null) {
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-
     } else {
       PrintWriter pw = response.getWriter();
-      TextDumper dumper = new TextDumper(pw);
+      XmlDumper dumper = new XmlDumper(pw);
       dumper.dump(airline);
       pw.flush();
-      /* he was saying something about needing an XML dumper here??
-      Map<String, String> wordDefinition = Map.of(airlineName, definition);
-      TextDumper dumper = new TextDumper(pw);
-      dumper.dump(wordDefinition);
-      */
-
-
       response.setStatus(HttpServletResponse.SC_OK);
     }
   }
 
-  /**
-   * Writes all of the dictionary entries to the HTTP response.
-   *
-   * The text of the message is formatted with {@link TextDumper}
-   */
-  private void writeAllFlights(HttpServletResponse response ) throws IOException
-  {
-      PrintWriter pw = response.getWriter();
-
-      /*XML dumper????
-      TextDumper dumper = new TextDumper(pw);
-      dumper.dump(airlines);
-      */
-
-
-      response.setStatus( HttpServletResponse.SC_OK );
-  }
 
   /**
    * Returns the value of the HTTP request parameter with the given name.

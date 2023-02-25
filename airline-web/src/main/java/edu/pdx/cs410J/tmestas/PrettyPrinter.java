@@ -39,7 +39,7 @@ public class PrettyPrinter {
 
       for (Flight f : airline.getFlights()) {
 
-        /*
+
         SimpleDateFormat duration = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
         Date d1 = duration.parse(f.getDepartureDateTimeString());
@@ -47,13 +47,9 @@ public class PrettyPrinter {
         timeDiff = d2.getTime() - d1.getTime();
         hourDiff = (timeDiff / (1000 * 60 * 60)) % 24;
         minuteDiff = (timeDiff / (1000 * 60)) % 60;
-         */
 
         pw.println();
         pw.println("Flight Number: " + f.getNumber());
-
-
-        /*
         pw.println("Departure Date & Time: " + formatter.format(f.getDepartureDateTime()));
         pw.println("Arrival Date & Time: " + formatter.format(f.getArrivalDateTime()));
         pw.println("From " + AirportNames.getName(f.getSource()) + " to " + AirportNames.getName(f.getDestination()));
@@ -65,7 +61,7 @@ public class PrettyPrinter {
           pw.println("Flight Duration: " + hourDiff + " hours");
         }
         pw.println();
-        */
+
       }
       pw.flush();
 

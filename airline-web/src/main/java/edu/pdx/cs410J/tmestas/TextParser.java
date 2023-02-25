@@ -18,7 +18,8 @@ public class TextParser {
   }
 
   public Airline parse() throws ParserException {
-    Pattern pattern = Pattern.compile("(.*) : (.*)");
+    //Pattern pattern = Pattern.compile("(.*) : (.*)");
+    Pattern pattern = Pattern.compile("(.*) : (.*) : (.*)");
 
     Airline airline = null;
 
@@ -34,11 +35,12 @@ public class TextParser {
 
         String airlineName = matcher.group(1);
         String flightNumber = matcher.group(2);
+        String source = matcher.group(3);
 
         if(airline == null) {
           airline = new Airline(airlineName);
         }
-        airline.addFlight(new Flight(Integer.parseInt(flightNumber)));
+        airline.addFlight(new Flight(Integer.parseInt(flightNumber), source));
       }
 
     } catch (IOException e) {

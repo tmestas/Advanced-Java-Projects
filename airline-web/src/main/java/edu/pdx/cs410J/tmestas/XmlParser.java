@@ -6,12 +6,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,14 +22,16 @@ import java.util.Date;
  */
 public class XmlParser implements AirlineParser<Airline> {
 
-    public String FilePath;
+
+    private final Reader reader;
+
 
     /**
      * constructor
-     * @param filePath filepath to parse
+     * @param reader is the stream to read
      */
-    XmlParser(String filePath){
-        this.FilePath = filePath;
+    XmlParser(Reader reader){
+        this.reader = reader;
     }
 
     /**
@@ -48,8 +52,8 @@ public class XmlParser implements AirlineParser<Airline> {
             builder.setErrorHandler(helper);
             builder.setEntityResolver(helper);
 
-            doc = builder.parse(FilePath);
-
+            InputSource inputSource = new InputSource(reader);
+            doc = builder.parse(inputSource);
         }
         catch(ParserConfigurationException e){
             throw new SAXException("Could not configure parser");

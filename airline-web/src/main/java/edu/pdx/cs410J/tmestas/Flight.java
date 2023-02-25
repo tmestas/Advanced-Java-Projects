@@ -25,8 +25,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
   public Flight(int flightNumber){
     this.FlightNumber = flightNumber;
-  }
-
+  } //testing only
+  public Flight(int flightNumber, String source){this.FlightNumber = flightNumber; this.Source = source;} //testing only
   /**
    * This constructs a flight with a specified flight number, source airport, departure time, departure date,
    * destination airport, arrival time and arrival date

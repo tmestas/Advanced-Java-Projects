@@ -43,14 +43,16 @@ public class AirlineRestClient
   /**
    * Returns the definition for the given word
    */
-  public Airline getAirline(String airlineName) throws IOException, ParserException {
-    Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
-    throwExceptionIfNotOkayHttpStatus(response);
-    String content = response.getContent();
 
-    TextParser parser = new TextParser(new StringReader(content));
-    return parser.parse();
+  public Airline getAirline(String airlineName) throws IOException, ParserException{
+      Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
+      throwExceptionIfNotOkayHttpStatus(response);
+      String content = response.getContent();
+
+      XmlParser parser = new XmlParser(new StringReader(content));
+      return parser.parse();
   }
+
 
   public void addFlight(String airlineName, Flight flight) throws IOException {
     Response response = http.post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName,
