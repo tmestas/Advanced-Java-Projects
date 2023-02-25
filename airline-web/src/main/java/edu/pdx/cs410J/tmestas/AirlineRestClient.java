@@ -40,8 +40,6 @@ public class AirlineRestClient
       this.http = http;
     }
 
-
-
   /**
    * Returns the definition for the given word
    */

@@ -64,16 +64,18 @@ public class Project5 {
             error("While contacting server: " + ex.getMessage());
         }
          */
-        Flight newFlight = new Flight(Integer.parseInt(flightNumberAsString), sourceAirport, DepartureDateTime,
-                destinationAirport, ArrivalDateTime);
+
 
         if(!search){
             //adding an airline
             System.out.println("ADDING!");
             try {
+                Flight newFlight = new Flight(Integer.parseInt(flightNumberAsString), sourceAirport, DepartureDateTime,
+                        destinationAirport, ArrivalDateTime);
                 client.addFlight(airlineName, newFlight);
             }catch(Exception e){
                 error("While contacting server: " + e.getMessage());
+                //test
             }
         }
         else{
