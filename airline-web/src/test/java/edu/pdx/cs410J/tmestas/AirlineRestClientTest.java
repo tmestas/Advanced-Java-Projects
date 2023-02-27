@@ -22,11 +22,17 @@ public class AirlineRestClientTest {
 
   @Test
   @Disabled
-  void getAllDictionaryEntriesPerformsHttpGetWithNoParameters() throws ParserException, IOException {
-   String airlineName = "Alaska Airlines";
-   int flightNumber = 123;
-   Airline airline = new Airline(airlineName);
-   airline.addFlight(new Flight(flightNumber));
+  void getAirlinePerformsGetWithNoParameters() throws ParserException, IOException {
+
+      String airlineName = "Alaska Airlines";
+      int flightNumber = 123;
+      String src = "PDX";
+      String depart = "1/23/2022 10:40 PM";
+      String dest = "BOI";
+      String arrive = "1/23/2022 11:40 PM";
+
+      Airline airline = new Airline(airlineName);
+      airline.addFlight(new Flight(flightNumber, src, depart, dest, arrive));
 
     HttpRequestHelper http = mock(HttpRequestHelper.class);
     when(http.get(eq(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName)))).thenReturn(airlineAsText(airline));
@@ -41,7 +47,11 @@ public class AirlineRestClientTest {
 
   private HttpRequestHelper.Response airlineAsText(Airline airline) {
     StringWriter writer = new StringWriter();
-    new TextDumper(writer).dump(airline);
+    try {
+        new XmlDumper(writer).dump(airline);
+    }catch(Exception e){
+        System.out.println("Error");
+    }
 
     return new HttpRequestHelper.Response(writer.toString());
   }

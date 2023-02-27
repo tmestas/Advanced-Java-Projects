@@ -45,6 +45,10 @@ public class AirlineRestClient
    */
 
   public Airline getAirline(String airlineName) throws IOException, ParserException{
+
+      //this is probably going to be where you implement the logic for other parameters also
+
+
       Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
       throwExceptionIfNotOkayHttpStatus(response);
       String content = response.getContent();

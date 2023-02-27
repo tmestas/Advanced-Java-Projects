@@ -37,17 +37,24 @@ class AirlineServletTest {
   }
 
   @Test
-  @Disabled
   void addFlightInNewAirline() throws IOException {
     AirlineServlet servlet = new AirlineServlet();
 
     String airlineName = "Airline";
     int flightNumber = 123;
+    String src = "PDX";
+    String depart = "1/23/2022 10:40 PM";
+    String dest = "BOI";
+    String arrive = "1/23/2022 11:40 PM";
     String flightNumberAsString = String.valueOf(flightNumber);
 
     HttpServletRequest request = mock(HttpServletRequest.class);
     when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(airlineName);
     when(request.getParameter(AirlineServlet.FLIGHT_NUMBER_PARAMETER)).thenReturn(flightNumberAsString);
+    when(request.getParameter(AirlineServlet.SOURCE_PARAMETER)).thenReturn(src);
+    when(request.getParameter(AirlineServlet.DEPART_PARAMETER)).thenReturn(depart);
+    when(request.getParameter(AirlineServlet.DESTINATION_PARAMETER)).thenReturn(dest);
+    when(request.getParameter(AirlineServlet.ARRIVAL_PARAMETER)).thenReturn(arrive);
 
     HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -61,7 +68,7 @@ class AirlineServletTest {
 
     String xml = stringWriter.toString();
     assertThat(xml, containsString(airlineName));
-    assertThat(xml, containsString(flightNumberAsString));
+    assertThat(xml, containsString(flightNumberAsString)); //in the message returned
 
     // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
     ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
@@ -74,6 +81,10 @@ class AirlineServletTest {
 
     Flight flight = airline.getFlights().iterator().next();
     assertThat(flight.getNumber(), equalTo(flightNumber));
+    assertThat(flight.getSource(), equalTo(src));
+    assertThat(flight.getDepartureDateTimeString(), equalTo(depart));
+    assertThat(flight.getDestination(), equalTo(dest));
+    assertThat(flight.getArrivalDateTimeString(), equalTo(arrive));
   }
 
 }
