@@ -45,7 +45,9 @@ public class AirlineServlet extends HttpServlet {
           writeAirline(airlineName, response);
       }
       else if(airlineName != null && source != null && destination != null){
+
           writeFlights(airlineName, source, destination, response);
+
       }else {
           throw new IOException("Airline name is required");
       }
@@ -176,9 +178,14 @@ public class AirlineServlet extends HttpServlet {
                   newAirline.addFlight(f);
               }
           }
-          dumper.dump(newAirline);
-          pw.flush();
-          response.setStatus(HttpServletResponse.SC_OK);
+          if(newAirline.getFlights().size() > 0) {
+              dumper.dump(newAirline);
+              pw.flush();
+              response.setStatus(HttpServletResponse.SC_OK);
+          }else{
+              response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+              //usually would write error to response here but was having issues
+          }
       }
   }
 

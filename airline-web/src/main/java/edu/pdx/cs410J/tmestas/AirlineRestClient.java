@@ -10,7 +10,7 @@ import java.util.Map;
 
 import static edu.pdx.cs410J.web.HttpRequestHelper.Response;
 import static edu.pdx.cs410J.web.HttpRequestHelper.RestException;
-import static java.net.HttpURLConnection.HTTP_OK;
+import static java.net.HttpURLConnection.*;
 
 /**
  * A helper class for accessing the rest client.  Note that this class provides
@@ -51,21 +51,32 @@ public class AirlineRestClient
       }catch(IOException e){
           throw new IOException(e.getMessage());
       }
+
       throwExceptionIfNotOkayHttpStatus(response);
       String content = response.getContent();
       XmlParser parser = new XmlParser(new StringReader(content));
       return parser.parse();
   }
 
-  public Airline getFlightsBetween(String airlineName, String sourceAirport, String destinationAirport)throws IOException, ParserException{
+  public Airline getFlightsBetween(String airlineName, String sourceAirport, String destinationAirport) throws Exception {
 
       Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName, AirlineServlet.SOURCE_PARAMETER,
               sourceAirport, AirlineServlet.DESTINATION_PARAMETER, destinationAirport));
-      throwExceptionIfNotOkayHttpStatus(response);
+
+
+      //throwExceptionIfNotOkayHttpStatus(response); //how to get message from this exception?
+
+      if (response.getHttpStatusCode() == HTTP_NO_CONTENT) {
+          throw new Exception("No " + airlineName + " flights between " + sourceAirport + " and " + destinationAirport + " were found.");
+      }
+      else if(response.getHttpStatusCode() == HTTP_NOT_FOUND){
+          throw new Exception(airlineName + " not found in saved airlines");
+      }
+
+
       String content = response.getContent();
       XmlParser parser = new XmlParser(new StringReader(content));
       return parser.parse();
-
   }
 
   public void addFlight(String airlineName, Flight flight) throws IOException {
@@ -86,12 +97,13 @@ public class AirlineRestClient
     throwExceptionIfNotOkayHttpStatus(response);
   }
 
-  private void throwExceptionIfNotOkayHttpStatus(Response response) {
+  private void throwExceptionIfNotOkayHttpStatus(Response response){
     int code = response.getHttpStatusCode();
     if (code != HTTP_OK) {
       String message = response.getContent();
       throw new RestException(code, message);
     }
+
   }
 
 }
