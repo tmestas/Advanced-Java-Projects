@@ -37,13 +37,17 @@ public class AirlineServlet extends HttpServlet {
   {
       response.setContentType( "text/plain" );
 
-      String word = getParameter(AIRLINE_NAME_PARAMETER, request );
-      if (word != null) {
-          writeAirline(word, response);
+      String airlineName = getParameter(AIRLINE_NAME_PARAMETER, request );
+      String source = getParameter(SOURCE_PARAMETER, request);           //will be null if not passed in
+      String destination = getParameter(DESTINATION_PARAMETER, request); //will be null if not passed in
 
-      } else {
-          System.out.println("Airline name is required");
-          //writeAllFlights(response);
+      if (airlineName != null && source == null && destination == null) {
+          writeAirline(airlineName, response);
+      }
+      else if(airlineName != null && source != null && destination != null){
+          writeFlights(airlineName, source, destination, response);
+      }else {
+          throw new IOException("Airline name is required");
       }
   }
 
@@ -155,6 +159,27 @@ public class AirlineServlet extends HttpServlet {
       pw.flush();
       response.setStatus(HttpServletResponse.SC_OK);
     }
+  }
+
+  private void writeFlights(String airlineName, String source, String destination, HttpServletResponse response)throws
+          IOException{
+      Airline airline = this.airlines.get(airlineName);
+      Airline newAirline = new Airline(airlineName);
+
+      if (airline == null) {
+          response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      } else {
+          PrintWriter pw = response.getWriter();
+          XmlDumper dumper = new XmlDumper(pw);
+          for(Flight f: airline.getFlights()){
+              if(f.getSource().equals(source) && f.getDestination().equals(destination)){
+                  newAirline.addFlight(f);
+              }
+          }
+          dumper.dump(newAirline);
+          pw.flush();
+          response.setStatus(HttpServletResponse.SC_OK);
+      }
   }
 
 

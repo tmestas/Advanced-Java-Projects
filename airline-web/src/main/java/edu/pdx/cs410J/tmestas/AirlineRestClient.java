@@ -45,18 +45,28 @@ public class AirlineRestClient
    */
 
   public Airline getAirline(String airlineName) throws IOException, ParserException{
-
-      //this is probably going to be where you implement the logic for other parameters also
-
-
-      Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
+      Response response;
+      try {
+          response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
+      }catch(IOException e){
+          throw new IOException(e.getMessage());
+      }
       throwExceptionIfNotOkayHttpStatus(response);
       String content = response.getContent();
-
       XmlParser parser = new XmlParser(new StringReader(content));
       return parser.parse();
   }
 
+  public Airline getFlightsBetween(String airlineName, String sourceAirport, String destinationAirport)throws IOException, ParserException{
+
+      Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName, AirlineServlet.SOURCE_PARAMETER,
+              sourceAirport, AirlineServlet.DESTINATION_PARAMETER, destinationAirport));
+      throwExceptionIfNotOkayHttpStatus(response);
+      String content = response.getContent();
+      XmlParser parser = new XmlParser(new StringReader(content));
+      return parser.parse();
+
+  }
 
   public void addFlight(String airlineName, Flight flight) throws IOException {
     Response response = http.post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName,
@@ -66,7 +76,7 @@ public class AirlineRestClient
             AirlineServlet.DESTINATION_PARAMETER, flight.getDestination(),
             AirlineServlet.ARRIVAL_PARAMETER, flight.getArrivalDateTimeString()));
 
-    System.out.println(response.getContent()); //
+    System.out.println(response.getContent());
     throwExceptionIfNotOkayHttpStatus(response);
 
   }

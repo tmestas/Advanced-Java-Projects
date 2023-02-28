@@ -102,54 +102,66 @@ public class CommandLineArgHandler {
     }
 
 
-    private void handleArgs(String[] args, int start) throws Exception{
-        try {
-            this.AirlineName = args[start];
+    private void handleArgs(String[] args, int start) throws Exception {
 
-            if (isInteger(args[start + 1])) {this.FlightNumberAsString = args[start + 1];}
-            else{throw new Exception ("Flight Number is not an integer");}
+        if (!this.Search) {
+            try {
+                this.AirlineName = args[start];
 
-            this.Source = args[start + 2];
-            this.DepartureDate = args[start + 3];
-            this.DepartureTime = args[start + 4] + " " + args[start + 5];
-            this.Destination = args[start + 6];
-            this.ArrivalDate = args[start + 7];
-            this.ArrivalTime = args[start + 8] + " " + args[start + 9];
+                if (isInteger(args[start + 1])) {
+                    this.FlightNumberAsString = args[start + 1];
+                } else {
+                    throw new Exception("Flight Number is not an integer");
+                }
 
-            //if it makes it to here all arguments are included, so we need to check their validity
+                this.Source = args[start + 2];
+                this.DepartureDate = args[start + 3];
+                this.DepartureTime = args[start + 4] + " " + args[start + 5];
+                this.Destination = args[start + 6];
+                this.ArrivalDate = args[start + 7];
+                this.ArrivalTime = args[start + 8] + " " + args[start + 9];
 
-            try{
-            checkValidInput(this.Source, this.DepartureTime, this.DepartureDate, this.Destination,
-                                                                this.ArrivalTime, this.ArrivalDate);
-            }catch(Exception e){
-                throw new Exception(e.getMessage());
+                //if it makes it to here all arguments are included, so we need to check their validity
+
+                try {
+                    checkValidInput(this.Source, this.DepartureTime, this.DepartureDate, this.Destination,
+                            this.ArrivalTime, this.ArrivalDate);
+                } catch (Exception e) {
+                    throw new Exception(e.getMessage());
+                }
+            } catch (IndexOutOfBoundsException e) {
+                if (this.AirlineName == null) {
+                    throw new Exception("Missing airline name");
+                }
+
+                if (!this.Search) {
+                    if (this.FlightNumberAsString == null) {
+                        throw new Exception("Flight num missing");
+                    } else if (this.Source == null) {
+                        throw new Exception("Source airport is missing");
+                    } else if (this.DepartureDate == null) {
+                        throw new Exception("Departure date is missing");
+                    } else if (this.DepartureTime == null) {
+                        throw new Exception("Departure time is missing");
+                    } else if (this.Destination == null) {
+                        throw new Exception("Destination airport is missing");
+                    } else if (this.ArrivalTime == null) {
+                        throw new Exception("Arrival time is missing");
+                    } else if (this.ArrivalDate == null) {
+                        throw new Exception("Arrival date is missing");
+                    }
+                }
             }
-        }catch(IndexOutOfBoundsException e){
-            if(this.AirlineName == null){
-                throw new Exception("Missing airline name");
-            }
-
-            if(!this.Search){
-                if(this.FlightNumberAsString == null){
-                    throw new Exception("Flight num missing");
-                }
-                else if(this.Source == null){
-                    throw new Exception("Source airport is missing");
-                }
-                else if(this.DepartureDate == null){
-                    throw new Exception("Departure date is missing");
-                }
-                else if(this.DepartureTime == null){
-                    throw new Exception("Departure time is missing");
-                }
-                else if(this.Destination == null){
-                    throw new Exception("Destination airport is missing");
-                }
-                else if(this.ArrivalTime == null){
-                    throw new Exception("Arrival time is missing");
-                }
-                else if(this.ArrivalDate == null){
-                    throw new Exception("Arrival date is missing");
+        }else{
+            try {
+                this.AirlineName = args[start];
+                if(start + 1 < args.length){this.Source = args[start + 1];}
+                else{this.Source = null;}
+                if(start + 2 < args.length){this.Destination = args[start + 2];}
+                else{this.Destination = null;}
+            }catch(IndexOutOfBoundsException e){
+                if(this.AirlineName == null){
+                    throw new IndexOutOfBoundsException("Airline name is required to search");
                 }
             }
         }

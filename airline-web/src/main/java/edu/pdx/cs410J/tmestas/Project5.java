@@ -16,6 +16,11 @@ public class Project5 {
     
     public static void main(String... args) {
 
+        if(args.length == 0){
+            System.out.println("No args included");
+            return;
+        }
+
         CommandLineArgHandler handler = new CommandLineArgHandler();
 
         try {
@@ -54,23 +59,39 @@ public class Project5 {
                 Flight newFlight = new Flight(Integer.parseInt(flightNumberAsString), sourceAirport, DepartureDateTime,
                         destinationAirport, ArrivalDateTime);
                 client.addFlight(airlineName, newFlight);
+
+                if(print){
+                    System.out.println(newFlight);
+                }
+
             }catch(Exception e){
                 error("While contacting server: " + e.getMessage());
             }
+
         }
         else{
             System.out.println("\nSEARCHING!\n");
             try {
-                Airline airline = client.getAirline(airlineName);
-                PrintWriter writer = new PrintWriter(System.out);
-                PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
-                prettyPrinter.dump(airline);
+                Airline airline ;
+                if(sourceAirport == null || destinationAirport == null) {
+                    airline = client.getAirline(airlineName);
+                    PrintWriter writer = new PrintWriter(System.out);
+                    PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
+                    prettyPrinter.dump(airline);
+                }else{
+                    airline = client.getFlightsBetween(airlineName, sourceAirport, destinationAirport);
+                    PrintWriter writer = new PrintWriter(System.out);
+                    PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
+                    prettyPrinter.dump(airline);
+                }
 
                 //next figure out how to search by parameters
             }catch(Exception e){
                 error("While contacting server: " + e.getMessage());
             }
         }
+
+
     }
 
 
