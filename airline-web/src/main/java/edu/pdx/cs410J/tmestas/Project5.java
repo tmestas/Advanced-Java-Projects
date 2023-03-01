@@ -1,10 +1,6 @@
 package edu.pdx.cs410J.tmestas;
 
-import edu.pdx.cs410J.ParserException;
-import org.checkerframework.checker.units.qual.C;
-
 import java.io.*;
-import java.util.Map;
 
 /**
  * The main class that parses the command line and communicates with the
@@ -17,7 +13,7 @@ public class Project5 {
     public static void main(String... args) {
 
         if(args.length == 0){
-            System.out.println("No args included");
+            usage(MISSING_ARGS);
             return;
         }
 
@@ -26,16 +22,27 @@ public class Project5 {
         try {
             handler.parse(args);
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            error(e.getMessage());
             return;
         }
 
         boolean readme = handler.Readme;
         if(readme){
-            //do readme and exit
-            System.out.println("README!");
+            try (InputStream readMe = Project5.class.getResourceAsStream("readme.txt")) //issue getting readme
+            {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(readMe));
+                String line;
+                while((line=reader.readLine())!=null){
+                    System.out.println(line);
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.println("COULD NOT GET README");
+                return;
+            }
             return;
-        }
+        } //having issues
 
         String hostName = handler.HostName;
         int port = Integer.parseInt(handler.PortString);
@@ -73,18 +80,28 @@ public class Project5 {
             System.out.println("\nSEARCHING!\n");
             try {
                 Airline airline;
-                if(sourceAirport == null || destinationAirport == null) {
-                    airline = client.getAirline(airlineName);
+                if(sourceAirport == null || destinationAirport == null) { //this is what causes all flights to print
+
+                    try {
+                        airline = client.getAirline(airlineName);
+                    }catch(IOException e){
+                        System.out.println(e.getMessage());
+                        return;
+                    }
+
                     PrintWriter writer = new PrintWriter(System.out);
                     PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
                     prettyPrinter.dump(airline);
+
                 }else{
+
                     try {
                         airline = client.getFlightsBetween(airlineName, sourceAirport, destinationAirport);
                     }catch(Exception e){
                         System.out.println(e.getMessage());
                         return;
                     }
+
                     PrintWriter writer = new PrintWriter(System.out);
                     PrettyPrinter prettyPrinter = new PrettyPrinter(writer);
                     prettyPrinter.dump(airline);
@@ -98,22 +115,10 @@ public class Project5 {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * prints error
+     * @param message message to print
+     */
     private static void error( String message )
     {
         PrintStream err = System.err;
@@ -129,7 +134,9 @@ public class Project5 {
         PrintStream err = System.err;
         err.println("** " + message);
         err.println();
-        err.println("usage: java Project5 host port [word] [definition]");
+        err.println("usage: \n");
+        err.println("To add flight: java Project5 -host [hostname] -port [port] <args>");
+        err.println("To display all of an airlines flights: java Project5 -host [hostname] -port [port] ");
         err.println("  host         Host of web server");
         err.println("  port         Port of web server");
         err.println("  word         Word in dictionary");

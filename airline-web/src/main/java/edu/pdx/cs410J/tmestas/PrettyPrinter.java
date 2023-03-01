@@ -10,24 +10,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * class to handle pretty printing
+ */
 public class PrettyPrinter {
   private final Writer writer;
 
-  @VisibleForTesting
-  static String formatWordCount(int count) {
-    return String.format("Dictionary on server contains %d words", count);
-  }
-
-  @VisibleForTesting
-  static String formatDictionaryEntry(String word, String definition) {
-    return String.format("  %s -> %s", word, definition);
-  }
-
-
+  /**
+   * constructor
+   * @param writer writer to set for class
+   */
   public PrettyPrinter(Writer writer) {
     this.writer = writer;
   }
 
+  /**
+   * pretty prints an airline
+   * @param airline airline to pretty print
+   */
   public void dump(Airline airline) {
     try (PrintWriter pw = new PrintWriter(writer)) {
 

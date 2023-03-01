@@ -10,6 +10,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * handles the parsing of command line arguments
+ */
 public class CommandLineArgHandler {
 
     public String HostName;
@@ -26,6 +29,9 @@ public class CommandLineArgHandler {
     public boolean Print;
     public boolean Readme;
 
+    /**
+     * constructor
+     */
     CommandLineArgHandler(){
         HostName = null;
         PortString = null;
@@ -42,6 +48,11 @@ public class CommandLineArgHandler {
         Readme = false;
     }
 
+    /**
+     * drives the parsing
+     * @param args command line args
+     * @throws Exception for issues during parsing
+     */
     public void parse(String[] args) throws Exception{
 
         int optionSize;
@@ -59,7 +70,13 @@ public class CommandLineArgHandler {
         catch(Exception e){throw new Exception(e.getMessage());}
     }
 
-    private boolean checkForReadMe(String[]args){
+    /**
+     * check if readme exists
+     * @param args command line arguments
+     * @return boolean signifying if readme exists
+     */
+    @VisibleForTesting
+    public boolean checkForReadMe(String[]args){
         for(String arg: args){
             if(arg.equals("-README")){
                 return true;
@@ -68,7 +85,14 @@ public class CommandLineArgHandler {
         return false;
     }
 
-    private int handleOptions(String[] args) throws Exception{
+    /**
+     * handles options in command line
+     * @param args command line args
+     * @return integer signifying if readme was included
+     * @throws Exception for IO issues
+     */
+    @VisibleForTesting
+    public int handleOptions(String[] args) throws Exception{
         if (checkForReadMe(args)) {
             return -1;
         }
@@ -101,8 +125,14 @@ public class CommandLineArgHandler {
         return optionsLength;
     }
 
-
-    private void handleArgs(String[] args, int start) throws Exception {
+    /**
+     * handle the args portion of the command line
+     * @param args command line arguments
+     * @param start where options ends and args starts
+     * @throws Exception for errors during parsing
+     */
+    @VisibleForTesting
+    public void handleArgs(String[] args, int start) throws Exception {
 
         if (!this.Search) {
             try {
@@ -167,7 +197,14 @@ public class CommandLineArgHandler {
         }
     }
 
-    private boolean isReachableHost(String host, int port){
+    /**
+     * checks if the host is reachable
+     * @param host hostname
+     * @param port port number
+     * @return boolean signifying if host is reachable
+     */
+    @VisibleForTesting
+    public boolean isReachableHost(String host, int port){
         try {
             try (Socket soc = new Socket()) {
                 soc.connect(new InetSocketAddress(host, port)/*note that there can be a timeout time specified here*/);
@@ -178,9 +215,15 @@ public class CommandLineArgHandler {
         }
     }
 
-    private boolean isInteger(String port){
+    /**
+     * check if a number is an integer
+     * @param num number to check
+     * @return
+     */
+    @VisibleForTesting
+    public boolean isInteger(String num){
         try {
-            Integer.parseInt(port);
+            Integer.parseInt(num);
             return true;
         }catch(NumberFormatException e){
             return false;
@@ -198,7 +241,8 @@ public class CommandLineArgHandler {
      * @return a boolean signifying whether the program should continue, or if there was an error
      * parsing the input
      */
-    private void checkValidInput(String departAirport, String departTime, String departDate,
+    @VisibleForTesting
+    public void checkValidInput(String departAirport, String departTime, String departDate,
                             String arrivalAirport, String arrivalTime, String arrivalDate) throws Exception
     {
         if(!isValidTime(departTime)){
@@ -232,8 +276,14 @@ public class CommandLineArgHandler {
         }
     }
 
+    /**
+     * check if arrival time is after departure time
+     * @param depart departure time
+     * @param arrive arrival time
+     * @return boolean signifying if departure time is after arrival time
+     */
     @VisibleForTesting
-    static boolean isDepartureTimeNotAfterArrivalTime(String depart, String arrive){
+    public static boolean isDepartureTimeNotAfterArrivalTime(String depart, String arrive){
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         Date DepartureDate = new Date();
         Date ArrivalDate = new Date();
@@ -253,7 +303,13 @@ public class CommandLineArgHandler {
         else{return false;}
     }
 
-    private boolean isValidTime(String Time){
+    /**
+     * check if time is valid
+     * @param Time time to check
+     * @return boolean signifying if time is valid
+     */
+    @VisibleForTesting
+    public boolean isValidTime(String Time){
         try {
             SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
             format.setLenient(false);
@@ -270,8 +326,8 @@ public class CommandLineArgHandler {
      * @param Date a string containing the user input for date
      * @return a boolean signifying if the user entered date is in valid format
      */
-
-    private boolean isValidDate(String Date){
+    @VisibleForTesting
+    public boolean isValidDate(String Date){
         try {
             SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
             format.setLenient(false);
@@ -282,7 +338,13 @@ public class CommandLineArgHandler {
         }
     }
 
-    private boolean isValidAirportCode(String airportCode){
+    /**
+     * check if airport code is valid
+     * @param airportCode airport code to check
+     * @return boolean signifying if airport code is valid or not
+     */
+    @VisibleForTesting
+    public boolean isValidAirportCode(String airportCode){
         boolean hasNonLetter = false;
         char [] array = airportCode.toCharArray();
 
@@ -308,7 +370,13 @@ public class CommandLineArgHandler {
         }
     }
 
-    private boolean doesAirportCodeExist(String airportCode){ //write unit test
+    /**
+     * check if airport code exists
+     * @param airportCode airport code to check
+     * @return boolean signifying whether airport code exists or not
+     */
+    @VisibleForTesting
+    public boolean doesAirportCodeExist(String airportCode){ //write unit test
         if(AirportNames.getName(airportCode) != null) {return true;}
         else{return false;}
     }

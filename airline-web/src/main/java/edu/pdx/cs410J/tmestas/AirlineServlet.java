@@ -12,9 +12,7 @@ import java.util.Map;
 
 /**
  * This servlet ultimately provides a REST API for working with an
- * <code>Airline</code>.  However, in its current state, it is an example
- * of how to use HTTP and Java servlets to store simple dictionary of words
- * and their definitions.
+ * <code>Airline</code>.
  */
 public class AirlineServlet extends HttpServlet {
   static final String AIRLINE_NAME_PARAMETER = "airline";
@@ -146,14 +144,15 @@ public class AirlineServlet extends HttpServlet {
 
   /**
    * Writes the definition of the given airline to the HTTP response.
-   *
    * The text of the message is formatted with {@link XmlDumper}
    */
   private void writeAirline(String airlineName, HttpServletResponse response) throws IOException {
     Airline airline = this.airlines.get(airlineName);
 
     if (airline == null) {
-      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        PrintWriter pw = response.getWriter();
+        pw.write(airlineName + " does not exist");
     } else {
       PrintWriter pw = response.getWriter();
       XmlDumper dumper = new XmlDumper(pw);
@@ -163,6 +162,14 @@ public class AirlineServlet extends HttpServlet {
     }
   }
 
+    /**
+     * writes flights that match criteria to a new airline object
+     * @param airlineName airline to search for
+     * @param source source airport to search for
+     * @param destination destination airport to search for
+     * @param response http response containing info returned or an error message
+     * @throws IOException for IO issues
+     */
   private void writeFlights(String airlineName, String source, String destination, HttpServletResponse response)throws
           IOException{
       Airline airline = this.airlines.get(airlineName);
@@ -170,6 +177,8 @@ public class AirlineServlet extends HttpServlet {
 
       if (airline == null) {
           response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+          PrintWriter pw = response.getWriter();
+          pw.write(airlineName + " does not exist");
       } else {
           PrintWriter pw = response.getWriter();
           XmlDumper dumper = new XmlDumper(pw);
@@ -192,7 +201,6 @@ public class AirlineServlet extends HttpServlet {
 
   /**
    * Returns the value of the HTTP request parameter with the given name.
-   *
    * @return <code>null</code> if the value of the parameter is
    *         <code>null</code> or is the empty string
    */
@@ -206,6 +214,11 @@ public class AirlineServlet extends HttpServlet {
     }
   }
 
+    /**
+     * gets airline object
+     * @param airlineName airline to get
+     * @return airline object
+     */
   @VisibleForTesting
   Airline getAirline(String airlineName) {
       return this.airlines.get(airlineName);

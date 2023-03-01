@@ -55,6 +55,5 @@ public class Airline extends AbstractAirline<Flight> {
     return flightList;
   }
 
-  //public Collection<Flight>
 
 }

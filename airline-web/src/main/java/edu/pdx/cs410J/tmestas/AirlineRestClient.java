@@ -13,9 +13,7 @@ import static edu.pdx.cs410J.web.HttpRequestHelper.RestException;
 import static java.net.HttpURLConnection.*;
 
 /**
- * A helper class for accessing the rest client.  Note that this class provides
- * an example of how to make gets and posts to a URL.  You'll need to change it
- * to do something other than just send dictionary entries.
+ * A helper class for accessing the rest client.
  */
 public class AirlineRestClient
 {
@@ -58,6 +56,14 @@ public class AirlineRestClient
       return parser.parse();
   }
 
+    /**
+     * gets flights between 2 airports
+     * @param airlineName airline to search for flights in
+     * @param sourceAirport source airport
+     * @param destinationAirport destination airport
+     * @return airline object containing flights
+     * @throws Exception for no flights found, or airline not found
+     */
   public Airline getFlightsBetween(String airlineName, String sourceAirport, String destinationAirport) throws Exception {
 
       Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName, AirlineServlet.SOURCE_PARAMETER,
@@ -74,11 +80,18 @@ public class AirlineRestClient
       }
 
 
+
       String content = response.getContent();
       XmlParser parser = new XmlParser(new StringReader(content));
       return parser.parse();
   }
 
+    /**
+     *
+     * @param airlineName name of airline to add flight to
+     * @param flight flight object to add
+     * @throws IOException for error with IO
+     */
   public void addFlight(String airlineName, Flight flight) throws IOException {
     Response response = http.post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName,
             AirlineServlet.FLIGHT_NUMBER_PARAMETER, String.valueOf(flight.getNumber()),
@@ -89,7 +102,6 @@ public class AirlineRestClient
 
     System.out.println(response.getContent());
     throwExceptionIfNotOkayHttpStatus(response);
-
   }
 
   public void removeAllAirlines() throws IOException {
@@ -97,6 +109,10 @@ public class AirlineRestClient
     throwExceptionIfNotOkayHttpStatus(response);
   }
 
+    /**
+     * throws an exception if the http status is not OK
+     * @param response http response containing status and message
+     */
   private void throwExceptionIfNotOkayHttpStatus(Response response){
     int code = response.getHttpStatusCode();
     if (code != HTTP_OK) {
