@@ -11,14 +11,20 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class XmlDumperTest {
-/*
+
+
     @Test
     public void testParseDate(){
-        XmlDumper test = new XmlDumper("");
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        XmlDumper test = new XmlDumper(pw);
         String [] value = test.ParseDate("11/22/2023");
         assertThat(value[0], equalTo("11"));
         assertThat(value[1], equalTo("22"));
@@ -27,7 +33,9 @@ public class XmlDumperTest {
 
     @Test
     public void testCreateDateElement(){
-        XmlDumper test = new XmlDumper("");
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        XmlDumper test = new XmlDumper(pw);
         Document doc = test.CreateDocument();
         Element testElement = test.createDateElement(doc, "11/22/2023");
         assertThat(testElement.getAttribute("month"), equalTo("11"));
@@ -37,7 +45,9 @@ public class XmlDumperTest {
 
     @Test
     public void testCreateTimeElement(){
-        XmlDumper test = new XmlDumper("");
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        XmlDumper test = new XmlDumper(pw);
         Document doc = test.CreateDocument();
         Flight testFlight = new Flight(123, "PDX", "11/22/2022 10:40 AM", "BOI", "11/22/2022 10:40 AM");
         Element testElement = test.createTimeElement(doc, testFlight.getDepartureDateTime());
@@ -48,7 +58,9 @@ public class XmlDumperTest {
     @Test
     @Disabled
     public void testCreateDocument(){
-        XmlDumper test = new XmlDumper("");
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        XmlDumper test = new XmlDumper(pw);
         String systemID = AirlineXmlHelper.SYSTEM_ID;
         String publicID = AirlineXmlHelper.PUBLIC_ID;
         Document testDoc;
@@ -74,6 +86,5 @@ public class XmlDumperTest {
         Document newDoc = test.CreateDocument();
         assertThat(testDoc, equalTo(newDoc));
     }
-    */
 
 }

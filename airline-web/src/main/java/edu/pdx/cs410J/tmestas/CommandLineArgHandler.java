@@ -218,7 +218,6 @@ public class CommandLineArgHandler {
     /**
      * check if a number is an integer
      * @param num number to check
-     * @return
      */
     @VisibleForTesting
     public boolean isInteger(String num){
@@ -238,7 +237,6 @@ public class CommandLineArgHandler {
      * @param arrivalAirport user entered arrival airport code
      * @param arrivalTime user entered arrival time
      * @param arrivalDate user entered arrival date
-     * @return a boolean signifying whether the program should continue, or if there was an error
      * parsing the input
      */
     @VisibleForTesting
