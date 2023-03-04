@@ -179,21 +179,24 @@ public class AirlineServlet extends HttpServlet {
           response.setStatus(HttpServletResponse.SC_NOT_FOUND);
           PrintWriter pw = response.getWriter();
           pw.write(airlineName + " does not exist");
-      } else {
+      }
+      else {
           PrintWriter pw = response.getWriter();
           XmlDumper dumper = new XmlDumper(pw);
+
           for(Flight f: airline.getFlights()){
               if(f.getSource().equals(source) && f.getDestination().equals(destination)){
                   newAirline.addFlight(f);
               }
           }
+
           if(newAirline.getFlights().size() > 0) {
               dumper.dump(newAirline);
               pw.flush();
               response.setStatus(HttpServletResponse.SC_OK);
           }else{
-              response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-              //usually would write error to response here but was having issues
+              response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+              pw.write(airlineName + " does not contain any flights between " + source + " and " + destination);
           }
       }
   }

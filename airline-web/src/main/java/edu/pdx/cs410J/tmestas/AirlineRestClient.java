@@ -70,16 +70,7 @@ public class AirlineRestClient
               sourceAirport, AirlineServlet.DESTINATION_PARAMETER, destinationAirport));
 
 
-      //throwExceptionIfNotOkayHttpStatus(response); //how to get message from this exception?
-
-      if (response.getHttpStatusCode() == HTTP_NO_CONTENT) {
-          throw new Exception("No " + airlineName + " flights between " + sourceAirport + " and " + destinationAirport + " were found.");
-      }
-      else if(response.getHttpStatusCode() == HTTP_NOT_FOUND){
-          throw new Exception(airlineName + " not found in saved airlines");
-      }
-
-
+      throwExceptionIfNotOkayHttpStatus(response); //how to get message from this exception?
 
       String content = response.getContent();
       XmlParser parser = new XmlParser(new StringReader(content));
