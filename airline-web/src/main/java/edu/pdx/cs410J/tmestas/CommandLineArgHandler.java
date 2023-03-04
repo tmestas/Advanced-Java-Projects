@@ -119,8 +119,12 @@ public class CommandLineArgHandler {
         if(isInteger(portString)){this.PortString = portString;}
         else{throw new Exception("\nInteger value required for port");}
 
+        this.HostName = hostName;
+
+        /*
         if(isReachableHost(hostName, Integer.parseInt(portString))){this.HostName = hostName;}
         else{throw new Exception("\nHost " + hostName + " is not reachable on port " + portString);}
+        */
 
         return optionsLength;
     }

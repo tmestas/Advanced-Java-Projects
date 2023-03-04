@@ -3,6 +3,7 @@ package edu.pdx.cs410J.tmestas;
 import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.AirportNames;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.text.DateFormat;
@@ -27,8 +28,9 @@ public class PrettyPrinter {
   /**
    * pretty prints an airline
    * @param airline airline to pretty print
+   * @throws IOException for printing errors
    */
-  public void dump(Airline airline) {
+  public void dump(Airline airline) throws IOException {
     try (PrintWriter pw = new PrintWriter(writer)) {
 
       long timeDiff;
@@ -66,8 +68,9 @@ public class PrettyPrinter {
       pw.flush();
 
     } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.out.println("Error pretty printing");
+      throw new IOException("Error pretty printing");
+      //System.out.println(e.getMessage());
+      //System.out.println("Error pretty printing");
     }
   }
 }

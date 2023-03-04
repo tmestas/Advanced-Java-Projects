@@ -15,6 +15,13 @@ public class Airline extends AbstractAirline<Flight> {
   private Flight NewFlight;
 
   /**
+   * constructor for testing purposes
+   */
+  public Airline(){
+    this.name = null;
+    new ArrayList<Flight>();
+  }
+  /**
    * Constructs an airline object with a specified name
    * @param name name of the airline being constructed
    */

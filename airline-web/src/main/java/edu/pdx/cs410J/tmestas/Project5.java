@@ -1,5 +1,7 @@
 package edu.pdx.cs410J.tmestas;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import java.io.*;
 
 /**
@@ -28,19 +30,7 @@ public class Project5 {
 
         boolean readme = handler.Readme;
         if(readme){
-            try (InputStream readMe = Project5.class.getResourceAsStream("readme.txt")) //issue getting readme
-            {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(readMe));
-                String line;
-                while((line=reader.readLine())!=null){
-                    System.out.println(line);
-                }
-            }
-            catch(Exception e)
-            {
-                System.out.println("COULD NOT GET README");
-                return;
-            }
+            doReadMe();
             return;
         } //having issues
 
@@ -48,6 +38,11 @@ public class Project5 {
         int port = Integer.parseInt(handler.PortString);
         boolean print = handler.Print;
         boolean search = handler.Search;
+
+        if(!handler.isReachableHost(hostName, Integer.parseInt(handler.PortString))) {
+            System.out.println("\nHost " + handler.HostName + " is not reachable on port " + handler.PortString);
+            return;
+        }
 
         AirlineRestClient client = new AirlineRestClient(hostName, port);
 
@@ -107,7 +102,11 @@ public class Project5 {
                     prettyPrinter.dump(airline);
                 }
 
-            }catch(Exception e){
+            }
+            catch(IOException e){
+                System.out.println(e.getMessage());
+            }
+            catch(Exception e){
                 error("While contacting server: " + e.getMessage());
             }
         }
@@ -116,10 +115,30 @@ public class Project5 {
     }
 
     /**
+     * handle readme stuff
+     */
+    public static boolean doReadMe(){
+        try (InputStream readMe = Project5.class.getResourceAsStream("readme.txt")) //issue getting readme
+        {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(readMe));
+            String line;
+            while((line=reader.readLine())!=null){
+                System.out.println(line);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("COULD NOT GET README");
+            return false;
+        }
+        return true;
+    }
+    /**
      * prints error
      * @param message message to print
      */
-    private static void error( String message )
+    @VisibleForTesting
+    public static void error( String message )
     {
         PrintStream err = System.err;
         err.println("** " + message);
@@ -129,7 +148,7 @@ public class Project5 {
      * Prints usage information for this program and exits
      * @param message An error message to print
      */
-    private static void usage( String message )
+    public static void usage( String message )
     {
         PrintStream err = System.err;
         err.println("** " + message);

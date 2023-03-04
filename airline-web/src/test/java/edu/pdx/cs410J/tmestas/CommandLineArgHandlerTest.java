@@ -8,6 +8,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * A unit test for code in the <code>Project1</code> class.  This is different
@@ -243,6 +244,236 @@ class CommandLineArgHandlerTest {
     String arrive = "10/22/2022 10:30 PM";
     assertThat(test.isDepartureTimeNotAfterArrivalTime(depart, arrive), equalTo(false));
   }
+
+  @Test
+  void testHandleArgsFlightNumNotInt(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "notnum", "PDX", "10/22/2022", "10:00", "PM", "BOI", "10/22/2022", "11:00", "PM"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+  @Test
+  void testHandleArgsNoSearch1(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "1234"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+  @Test
+  void testHandleArgsNoSearch2(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+  @Test
+  void testHandleArgsNoSearch3(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "1234"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+  @Test
+  void testHandleArgsNoSearch4(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "1234", "PDX"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+  @Test
+  void testHandleArgsNoSearch5(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "1234", "PDX", "10/22/2022"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+  @Test
+  void testHandleArgsNoSearch6(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "1234", "PDX", "10/22/2022", "10:00", "PM"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+
+  @Test
+  void testHandleArgsNoSearch7(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "1234", "PDX", "10/22/2022", "10:00", "PM", "BOI"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+
+  @Test
+  void testHandleArgsNoSearch8(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "1234", "PDX", "10/22/2022", "10:00", "PM", "BOI", "10/22/2022"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+
+  @Test
+  void testHandleArgsNoSearchGood(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "1234", "PDX", "10/22/2022", "10:00", "PM", "BOI", "10/22/2022", "11:00", "PM"};
+    try {
+      test.handleArgs(args, 0);
+    }catch(Exception e){
+      System.out.println(e.getMessage());
+    }
+    assertThat(test.AirlineName, equalTo("Airline Name"));
+    assertThat(test.FlightNumberAsString, equalTo("1234"));
+    assertThat(test.Source, equalTo("PDX"));
+    assertThat(test.DepartureDate, equalTo("10/22/2022"));
+    assertThat(test.DepartureTime, equalTo("10:00 PM"));
+    assertThat(test.Destination, equalTo("BOI"));
+    assertThat(test.ArrivalDate, equalTo("10/22/2022"));
+    assertThat(test.ArrivalTime, equalTo("11:00 PM"));
+  }
+
+  @Test
+  void testHandleArgsCheckValidInputThrowsException(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"Airline Name", "1234", "PDX", "10/22/2022", " ", "PM", "BOI", "10/22/2022", "11:00", "PM"};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+
+  @Test
+  void testHandleArgsMissingAirlineName(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+
+  @Test
+  void testHandleArgsWithSearch1(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    test.Search = true;
+    String [] args = new String[]{};
+    assertThrows(Exception.class, () -> test.handleArgs(args, 0));
+  }
+
+  @Test
+  void testHandleArgsWithSearch2(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    test.Search = true;
+    String [] args = new String[]{"Airline Name"};
+    try {
+      test.handleArgs(args, 0);
+    }catch(Exception e){
+      System.out.println(e.getMessage());
+    }
+    assertThat(test.AirlineName, equalTo("Airline Name"));
+    assertThat(test.Source, equalTo(null));
+    assertThat(test.Destination, equalTo(null));
+  }
+
+  @Test
+  void testHandleOptions1(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host"};
+
+    assertThrows(Exception.class, () -> test.handleOptions(args));
+  }
+
+  @Test
+  void testHandleOptions2(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host", "localhost"};
+
+    assertThrows(Exception.class, () -> test.handleOptions(args));
+  }
+
+  @Test
+  void testHandleOptions3(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host", "localhost", "-port"};
+
+    assertThrows(Exception.class, () -> test.handleOptions(args));
+  }
+
+  @Test
+  void testHandleOptions4(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host", "localhost", "-port", "8080"};
+    try {
+      test.handleOptions(args);
+    }catch(Exception e){
+      System.out.println(e.getMessage());
+    }
+
+    assertThat(test.HostName, equalTo("localhost"));
+    assertThat(test.PortString, equalTo("8080"));
+  }
+
+  @Test
+  void testHandleOptions5(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host", "localhost", "-port", "idk"};
+
+    assertThrows(Exception.class, () -> test.handleOptions(args));
+  }
+
+  @Test
+  void testHandleOptions6(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host", "localhost", "-port", "8080", "-README"};
+    int value;
+    try {
+      value = test.handleOptions(args);
+    }catch(Exception e){
+      System.out.println(e.getMessage());
+      return;
+    }
+    assertThat(value, equalTo(-1));
+  }
+
+  @Test
+  void testHandleOptions7(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host", "localhost", "-port", "8080", "-search"};
+    try {
+      test.handleOptions(args);
+    }catch(Exception e){
+      System.out.println(e.getMessage());
+    }
+
+    assertThat(test.HostName, equalTo("localhost"));
+    assertThat(test.PortString, equalTo("8080"));
+    assertThat(test.Search, equalTo(true));
+  }
+
+  @Test
+  void testHandleOptions8(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host", "localhost", "-port", "8080", "-print"};
+    try {
+      test.handleOptions(args);
+    }catch(Exception e){
+      System.out.println(e.getMessage());
+    }
+
+    assertThat(test.HostName, equalTo("localhost"));
+    assertThat(test.PortString, equalTo("8080"));
+    assertThat(test.Print, equalTo(true));
+  }
+
+  @Test
+  void testParseGood(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host", "localhost", "-port", "8080", "Airline Name", "1234", "PDX", "10/22/2022",
+            "10:00", "PM", "BOI", "10/22/2022", "11:00", "PM"};
+    try {
+      test.parse(args);
+    }catch(Exception e){
+      System.out.println(e.getMessage());
+    }
+  }
+
+  @Test
+  void testParseReadmeTrue(){
+    CommandLineArgHandler test = new CommandLineArgHandler();
+    String [] args = new String[]{"-host", "localhost", "-port", "8080", "-README", "Airline Name", "1234", "PDX", "10/22/2022",
+            "10:00", "PM", "BOI", "10/22/2022", "11:00", "PM"};
+    try {
+      test.parse(args);
+    }catch(Exception e){
+      System.out.println(e.getMessage());
+    }
+
+    assertThat(test.Readme, equalTo(true));
+  }
+
 
 
 

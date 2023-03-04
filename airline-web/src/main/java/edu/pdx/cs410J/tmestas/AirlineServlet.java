@@ -39,14 +39,14 @@ public class AirlineServlet extends HttpServlet {
       String source = getParameter(SOURCE_PARAMETER, request);           //will be null if not passed in
       String destination = getParameter(DESTINATION_PARAMETER, request); //will be null if not passed in
 
-      if (airlineName != null && source == null && destination == null) {
+      if (airlineName != null && (source == null || destination == null)) {
           writeAirline(airlineName, response);
       }
       else if(airlineName != null && source != null && destination != null){
 
           writeFlights(airlineName, source, destination, response);
 
-      }else {
+      }else{
           throw new IOException("Airline name is required");
       }
   }
