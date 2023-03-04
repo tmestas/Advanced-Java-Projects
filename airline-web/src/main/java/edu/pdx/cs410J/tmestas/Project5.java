@@ -110,16 +110,15 @@ public class Project5 {
                 error("While contacting server: " + e.getMessage());
             }
         }
-
-
     }
 
     /**
      * handle readme stuff
      */
     public static boolean doReadMe(){
-        try (InputStream readMe = Project5.class.getResourceAsStream("readme.txt")) //issue getting readme
+        try  //issue getting readme
         {
+            InputStream readMe = Project5.class.getResourceAsStream("readme.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(readMe));
             String line;
             while((line=reader.readLine())!=null){
