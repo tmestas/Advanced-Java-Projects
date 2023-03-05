@@ -51,4 +51,11 @@ class Project5IT extends InvokeMainTestCase {
             assertThat(cause.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
         }
     }
+
+    @Test
+    void readmeOptionPrintsReadme() {
+        MainMethodResult result = invokeMain(Project5.class, "-README");
+        assertThat(result.getTextWrittenToStandardOut(),
+          containsString("Assignment: Advanced Programming with Java - Project 5"));
+    }
 }
