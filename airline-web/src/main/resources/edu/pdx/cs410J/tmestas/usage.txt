@@ -1,0 +1,20 @@
+
+Usage:
+
+To add flight:
+java Project5 -host [hostname] -port [port] "Airline Name" flightNum source departDate departTime destination \
+arriveDate arriveTime
+
+To display all of an airlines flights:
+java Project5 -host [hostname] -port [port] "Airline Name"
+
+To display an airlines flights by airport:
+java Project5 -host [hostname] -port [port] "Airline Name" source destination
+
+Flight Number: Must be a parseable integer
+Source Airport Code: Must be a 3-letter code that corresponds to a stored airport
+Departure Date: Date the flight will depart in format dd/mm/yyyy
+Departure Time: Time the flight will depart in format hh:mm a
+Destination Airport Code: Must be a 3-letter code that corresponds to a stored airport
+Arrival Date: Date the flight will arrive in format dd/mm/yyyy
+Arrival Time: Time the flight will arrive in format hh:mm a
