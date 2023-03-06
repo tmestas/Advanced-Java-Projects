@@ -21,7 +21,7 @@ public class Project5Test {
     @Test
     void testDoReadMe(){
         Project5 test = new Project5();
-        boolean value = test.doReadMe();
-        assertThat(value, equalTo(false)); //will have to change to true when readme works
+        boolean value = test.printResourceFile("readme.txt");
+        assertThat(value, equalTo(true));
     }
 }
