@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-public class Customer extends AppCompatActivity {
+public class AirlineManager extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.customer_main);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("CUSTOMER");
+        setContentView(R.layout.airlinemanager_main);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("AIRLINE MANAGER");
     }
 }

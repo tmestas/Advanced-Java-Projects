@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/customer"
+        android:id="@+id/airlinemanager"
         android:layout_width="159dp"
         android:layout_height="51dp"
         android:layout_marginStart="145dp"
@@ -15,8 +15,8 @@
         android:layout_marginEnd="150dp"
         android:layout_marginBottom="200dp"
         android:insetLeft="0dp"
-        android:onClick="onCustomer"
-        android:text="Customer"
+        android:onClick="onAirline"
+        android:text="Airline Manager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.441"
@@ -34,8 +34,8 @@
         android:layout_marginEnd="136dp"
         android:layout_marginBottom="50dp"
         android:onClick="onReadMe"
-        android:text="Help"
-        app:layout_constraintBottom_toTopOf="@+id/customer"
+        android:text="Readme"
+        app:layout_constraintBottom_toTopOf="@+id/airlinemanager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
