@@ -9,9 +9,8 @@
     <Button
         android:id="@+id/airlinemanager"
         android:layout_width="159dp"
-        android:layout_height="51dp"
+        android:layout_height="60dp"
         android:layout_marginStart="145dp"
-        android:layout_marginTop="110dp"
         android:layout_marginEnd="150dp"
         android:layout_marginBottom="200dp"
         android:insetLeft="0dp"
@@ -27,16 +26,16 @@
     <Button
         android:id="@+id/readme"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="139dp"
-        android:layout_height="54dp"
+        android:layout_width="159dp"
+        android:layout_height="60dp"
         android:layout_marginStart="136dp"
         android:layout_marginTop="199dp"
         android:layout_marginEnd="136dp"
-        android:layout_marginBottom="50dp"
         android:onClick="onReadMe"
         android:text="Readme"
         app:layout_constraintBottom_toTopOf="@+id/airlinemanager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 </androidx.constraintlayout.widget.ConstraintLayout>
