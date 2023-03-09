@@ -2,5 +2,7 @@
     <string name="app_name">Airline</string>
     <string name="airline_manager">Airline Manager</string>
     <string name="readme">Readme</string>
-    <string name="add_airline">Add Airline</string>
+    <string name="add_flight">Add Flight</string>
+    <string name="display_airline">Display Airline</string>
+    <string name="search_airline">Search Airline</string>
 </resources>

@@ -1,6 +1,9 @@
 package edu.pdx.cs410J.tmestas;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -13,29 +16,24 @@ import java.util.Objects;
 
 public class AirlineManagerActivity extends AppCompatActivity {
 
-
-    private Button AddAirlineButton;
-    private String AirlineName;
-    private ArrayAdapter<String> Airlines;
-    private File File;
-    private ListView AirlineList;
-    private TextView EmptyAirlineList;
-    private TextView FlightManagerInstructions;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.airlinemanager_main);
         Objects.requireNonNull(getSupportActionBar()).setTitle("AIRLINE MANAGER");
+    }
+    public void onAddFlight(View view){
+        Intent addFlight = new Intent(this, AddFlightActivity.class);
+        startActivity(addFlight);
+    }
 
-        this.File = getFilesDir();
-        this.Airlines = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        this.AddAirlineButton = findViewById(R.id.addAirline);
-        this.AirlineList = findViewById(R.id.airlineList);
-        //this.EmptyAirlineList = findViewById();
-        //this.FlightManagerInstructions = findViewById();
-        //generateAirlineList()
-        this.AirlineList.setAdapter(Airlines);
+    public void onDisplayAirline(View view){
+        Intent displayAirline = new Intent(this, DisplayAirlineActivity.class);
+        startActivity(displayAirline);
+    }
 
+    public void onSearchAirline(View view){
+        Intent searchAirline = new Intent(this, SearchAirlineActivity.class);
+        startActivity(searchAirline);
     }
 }
