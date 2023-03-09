@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Airline</string>
+    <string name="airline_manager">Airline Manager</string>
+    <string name="readme">Readme</string>
 </resources>
