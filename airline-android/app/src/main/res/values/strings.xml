@@ -5,4 +5,14 @@
     <string name="add_flight">Add Flight</string>
     <string name="display_airline">Display Airline</string>
     <string name="search_airline">Search Airline</string>
+    <string name="airline_name">Airline Name</string>
+    <string name="flight_number">Flight Number</string>
+    <string name="source_airport">Source Airport Code</string>
+    <string name="destination_airport">Destination Airport Code</string>
+    <string name="arrival_date">Arrival Date: mm/dd/yyyy</string>
+    <string name="departure_date">Departure Date: mm/dd/yyyy</string>
+    <string name="arrival_time">Arrival Time: hh:mm a</string>
+    <string name="departure_time">Departure Time: hh:mm a</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
 </resources>
