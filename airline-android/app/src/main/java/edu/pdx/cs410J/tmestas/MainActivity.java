@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAirline(View view){
-        Intent customer = new Intent(this, AirlineManager.class);
+        Intent customer = new Intent(this, AirlineManagerActivity.class);
         startActivity(customer);
     }
 

@@ -16,7 +16,7 @@
             android:exported="false">
         </activity>
         <activity
-            android:name=".AirlineManager"
+            android:name=".AirlineManagerActivity"
             android:exported="false">
         </activity>
         <activity
