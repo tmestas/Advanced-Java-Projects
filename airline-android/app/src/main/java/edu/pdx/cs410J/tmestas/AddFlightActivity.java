@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 import edu.pdx.cs410J.AirportNames;
@@ -173,6 +174,9 @@ public class AddFlightActivity extends AppCompatActivity {
         }else if(!isValidAirportCode(toValidate[2])){
             this.Source.setError("Source airport invalid format");
             valid = false;
+        }else if(!doesAirportCodeExist(toValidate[2])){
+            this.Source.setError("Source is not stored");
+            valid = false;
         }else{
             this.Source.setError(null);
         }
@@ -180,7 +184,7 @@ public class AddFlightActivity extends AppCompatActivity {
         if(toValidate[3].isEmpty()){
             this.DepartureDate.setError("Departure date required");
             valid = false;
-        }else if(isValidDate(toValidate[3])){
+        }else if(!isValidDate(toValidate[3])){
             this.DepartureDate.setError("Departure date invalid format");
             valid = false;
         }else{
@@ -190,7 +194,7 @@ public class AddFlightActivity extends AppCompatActivity {
         if(toValidate[4].isEmpty()){
             this.DepartureTime.setError("Departure time required");
             valid = false;
-        }else if(isValidDate(toValidate[4])){
+        }else if(!isValidTime(toValidate[4])){
             this.DepartureTime.setError("Departure time invalid format");
             valid = false;
         }else{
@@ -203,6 +207,9 @@ public class AddFlightActivity extends AppCompatActivity {
         }else if(!isValidAirportCode(toValidate[5])){
             this.Destination.setError("Destination airport invalid format");
             valid = false;
+        }else if(!doesAirportCodeExist(toValidate[5])){
+            this.Destination.setError("Destination is not stored");
+            valid = false;
         }else{
             this.Destination.setError(null);
         }
@@ -210,7 +217,7 @@ public class AddFlightActivity extends AppCompatActivity {
         if(toValidate[6].isEmpty()){
             this.ArrivalDate.setError("Arrival date required");
             valid = false;
-        }else if(isValidDate(toValidate[6])){
+        }else if(!isValidDate(toValidate[6])){
             this.ArrivalDate.setError("Arrival date invalid format");
             valid = false;
         }else{
@@ -220,7 +227,7 @@ public class AddFlightActivity extends AppCompatActivity {
         if(toValidate[7].isEmpty()){
             this.ArrivalTime.setError("Arrival time required");
             valid = false;
-        }else if(isValidDate(toValidate[7])){
+        }else if(!isValidTime(toValidate[7])){
             this.ArrivalTime.setError("Arrival time invalid format");
             valid = false;
         }else{
@@ -229,10 +236,6 @@ public class AddFlightActivity extends AppCompatActivity {
 
         return valid;
     }
-
-
-
-
 
     public boolean checkAirlineNameCharacters(String airlineName){
         String[] invalidChars = new String[]{"<", ">", ":", "\"", "|", "?", "*", "\\\\", "//"};
@@ -252,10 +255,12 @@ public class AddFlightActivity extends AppCompatActivity {
     }
 
     public boolean isValidTime(String Time){
+
         try {
             SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
             format.setLenient(false);
-            format.parse(Time);
+            Date time = format.parse(Time);
+            //if(time == undefined)
             return true;
         } catch (ParseException e) {
             return false;
