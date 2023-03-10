@@ -146,7 +146,6 @@ public class AddFlightActivity extends AppCompatActivity {
         finish();
     }
 
-
     private boolean validate(String[] toValidate){
 
         boolean valid = true;
