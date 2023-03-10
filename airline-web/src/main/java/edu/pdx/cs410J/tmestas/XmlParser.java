@@ -60,10 +60,10 @@ public class XmlParser implements AirlineParser<Airline> {
         }
         catch(SAXException e){
             throw new SAXException("XML file format does not conform to dtd");
-        }
-        catch(IOException e){
+        }catch(IOException e){
             throw new IOException("XML file does not exist");
         }
+
 
         return doc;
     }

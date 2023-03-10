@@ -139,8 +139,16 @@ public class AddFlightActivity extends AppCompatActivity {
 
         }
 
+        this.AirlineName.setText("");
+        this.FlightNumber.setText("");
+        this.Source.setText("");
+        this.DepartureDate.setText("");
+        this.DepartureTime.setText("");
+        this.Destination.setText("");
+        this.ArrivalDate.setText("");
+        this.ArrivalTime.setText("");
 
-        finish();
+        //add toast thing
     }
 
     public void onCancel(View view){
@@ -230,7 +238,13 @@ public class AddFlightActivity extends AppCompatActivity {
         }else if(!isValidTime(toValidate[7])){
             this.ArrivalTime.setError("Arrival time invalid format");
             valid = false;
-        }else{
+        }else if(!isDepartureTimeNotAfterArrivalTime(toValidate[3] + " " + toValidate[4],
+                toValidate[6] + " " + toValidate[7])){
+            this.ArrivalDate.setError("Arrival date/time after departure date/time");
+            this.ArrivalTime.setError("Arrival date/time after departure date/time");
+            valid = false;
+        }
+        else{
             this.ArrivalTime.setError(null);
         }
 
@@ -296,6 +310,26 @@ public class AddFlightActivity extends AppCompatActivity {
 
     public boolean doesAirportCodeExist(String airportCode){
         if(AirportNames.getName(airportCode) != null) {return true;}
+        else{return false;}
+    }
+
+    public static boolean isDepartureTimeNotAfterArrivalTime(String depart, String arrive){
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        Date DepartureDate = new Date();
+        Date ArrivalDate = new Date();
+
+        try {
+            DepartureDate = formatter.parse(depart);
+        }catch(Exception e){
+            System.out.println("ERROR PARSING DEPARTURE DATE");
+        }
+        try {
+            ArrivalDate = formatter.parse(arrive);
+        }catch(Exception e){
+            System.out.println("ERROR PARSING ARRIVAL DATE");
+        }
+
+        if(DepartureDate.before(ArrivalDate)){return true;}
         else{return false;}
     }
 
