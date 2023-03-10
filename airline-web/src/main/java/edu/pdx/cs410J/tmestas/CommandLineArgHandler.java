@@ -382,4 +382,6 @@ public class CommandLineArgHandler {
         if(AirportNames.getName(airportCode) != null) {return true;}
         else{return false;}
     }
+
+
 }

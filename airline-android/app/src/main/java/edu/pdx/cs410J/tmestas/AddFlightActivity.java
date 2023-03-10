@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +15,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
+
+import edu.pdx.cs410J.AirportNames;
 
 
 public class AddFlightActivity extends AppCompatActivity {
@@ -52,7 +57,7 @@ public class AddFlightActivity extends AppCompatActivity {
         String path;
 
         String airlineName = this.AirlineName.getText().toString();
-        Integer flightNumber = Integer.parseInt(this.FlightNumber.getText().toString());
+        String flightNumAsString = this.FlightNumber.getText().toString();
         String sourceAirport = this.Source.getText().toString();
         String departureDate = this.DepartureDate.getText().toString();
         String departureTime = this.DepartureTime.getText().toString();
@@ -60,8 +65,15 @@ public class AddFlightActivity extends AppCompatActivity {
         String arrivalDate = this.ArrivalDate.getText().toString();
         String arrivalTime = this.ArrivalTime.getText().toString();
 
-        //check errors here
+        String [] toValidate = new String []{airlineName, flightNumAsString, sourceAirport,
+                departureDate, departureTime, destinationAirport, arrivalDate, arrivalTime};
 
+        if(!validate(toValidate)){
+            return;
+        }
+
+        //check errors here
+        Integer flightNumber = Integer.parseInt(this.FlightNumber.getText().toString());
         String departureDateTime = departureDate + " " + departureTime;
         String arrivalDateTime = arrivalDate + " " + arrivalTime;
 
@@ -126,11 +138,161 @@ public class AddFlightActivity extends AppCompatActivity {
 
         }
 
+
         finish();
     }
 
     public void onCancel(View view){
         finish();
+    }
+
+
+    private boolean validate(String[] toValidate){
+
+        boolean valid = true;
+
+        if(toValidate[0].isEmpty()){
+            this.AirlineName.setError("Airline name required");
+            valid = false;
+        }else if(!checkAirlineNameCharacters(toValidate[0])){
+            this.AirlineName.setError("Invalid characters found");
+            valid = false;
+        }else{
+            this.AirlineName.setError(null);
+        }
+
+        if(toValidate[1].isEmpty()){
+            this.FlightNumber.setError("Flight number required");
+            valid = false;
+        }else{
+            this.FlightNumber.setError(null);
+        }
+
+        if(toValidate[2].isEmpty()){
+            this.Source.setError("Source airport required");
+            valid = false;
+        }else if(!isValidAirportCode(toValidate[2])){
+            this.Source.setError("Source airport invalid format");
+            valid = false;
+        }else{
+            this.Source.setError(null);
+        }
+
+        if(toValidate[3].isEmpty()){
+            this.DepartureDate.setError("Departure date required");
+            valid = false;
+        }else if(isValidDate(toValidate[3])){
+            this.DepartureDate.setError("Departure date invalid format");
+            valid = false;
+        }else{
+            this.DepartureDate.setError(null);
+        }
+
+        if(toValidate[4].isEmpty()){
+            this.DepartureTime.setError("Departure time required");
+            valid = false;
+        }else if(isValidDate(toValidate[4])){
+            this.DepartureTime.setError("Departure time invalid format");
+            valid = false;
+        }else{
+            this.DepartureTime.setError(null);
+        }
+
+        if(toValidate[5].isEmpty()){
+            this.Destination.setError("Destination airport required");
+            valid = false;
+        }else if(!isValidAirportCode(toValidate[5])){
+            this.Destination.setError("Destination airport invalid format");
+            valid = false;
+        }else{
+            this.Destination.setError(null);
+        }
+
+        if(toValidate[6].isEmpty()){
+            this.ArrivalDate.setError("Arrival date required");
+            valid = false;
+        }else if(isValidDate(toValidate[6])){
+            this.ArrivalDate.setError("Arrival date invalid format");
+            valid = false;
+        }else{
+            this.ArrivalDate.setError(null);
+        }
+
+        if(toValidate[7].isEmpty()){
+            this.ArrivalTime.setError("Arrival time required");
+            valid = false;
+        }else if(isValidDate(toValidate[7])){
+            this.ArrivalTime.setError("Arrival time invalid format");
+            valid = false;
+        }else{
+            this.ArrivalTime.setError(null);
+        }
+
+        return valid;
+    }
+
+
+
+
+
+    public boolean checkAirlineNameCharacters(String airlineName){
+        String[] invalidChars = new String[]{"<", ">", ":", "\"", "|", "?", "*", "\\\\", "//"};
+        for (String i : invalidChars) {if(airlineName.contains(i)) {return false;}}
+        return true;
+    }
+
+    public boolean isValidDate(String Date){
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+            format.setLenient(false);
+            format.parse(Date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    public boolean isValidTime(String Time){
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+            format.setLenient(false);
+            format.parse(Time);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+
+    }
+
+    public boolean isValidAirportCode(String airportCode){
+        boolean hasNonLetter = false;
+        char [] array = airportCode.toCharArray();
+
+        for(char c: array){
+            if(!Character.isLetter(c)){
+                System.out.println("\nNon letter found in airport code");
+                hasNonLetter = true;
+            }
+        }
+
+        if(airportCode.length() > 3){
+            System.out.println("\nAirport code too long");
+        }
+        else if(airportCode.length() < 3){
+            System.out.println("\nAirport code too short");
+        }
+
+        if(hasNonLetter || airportCode.length() != 3){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public boolean doesAirportCodeExist(String airportCode){
+        if(AirportNames.getName(airportCode) != null) {return true;}
+        else{return false;}
     }
 
 }
