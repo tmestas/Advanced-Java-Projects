@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Airline</string>
     <string name="airline_manager">Airline Manager</string>
-    <string name="readme">Readme</string>
+    <string name="readme">Help</string>
     <string name="add_flight">Add Flight</string>
     <string name="display_airline">Display Airline</string>
     <string name="search_airline">Search Airline</string>
@@ -16,4 +16,10 @@
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
     <string name="airline_name2">Airline Name: </string>
+    <string name="readmeContent">Name: Tanner Mestas\nAssignment: Assignment #6\n\nAirline Manager -
+        Takes you to the page to manage airlines.\n\nAdd Flight - Allows you to add a flight to an
+        airline, \ncreates an airline if the one entered is not stored.\n\nDisplay Airline - Displays
+        an airline that the user \nspecifies.\n\nSearch Airline - Searches for flights in an airline
+        \nbetween the two specified airports.
+    </string>
 </resources>
